@@ -6,7 +6,7 @@
 title: Keis Note
 subtitle: Java developer's blog.
 description: Java technology blog.
-keywords: Java Note,开发笔记
+keywords: Java Note,驴陋路垄卤脢录脟
 author: Kee
 language: zh-CN
 timezone: Asia/Shanghai
@@ -85,12 +85,13 @@ search:
   format: html
   limit: 10000
   
+  
   # sitemap
 sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
-  #baidu验证
+  #baidu脩茅脰陇
 
     
 deploy:
