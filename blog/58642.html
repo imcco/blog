@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Java NIO Path and Files | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Java NIO Path and Files</h2>
+  <p class="post-date">2018-03-23</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0162.jpg" alt="image"></p>
+<p>Java NIO Path接口和Files类配合操作文件<br><a id="more"></a></p>
+<h2 id="Path接口"><a href="#Path接口" class="headerlink" title="Path接口"></a>Path接口</h2><hr>
+<p>1、Path表示的是一个目录名序列，其后还可以跟着一个文件名，路径中第一个部件是根部件时就是绝对路径，例如 / 或 C:\ ，而允许访问的根部件取决于文件系统；</p>
+<p>2、以根部件开始的路径是绝对路径，否则就是相对路径；</p>
+<p>3、静态的<strong>Paths.get</strong>方法接受一个或多个字符串，字符串之间<strong>自动使用</strong>默认文件系统的路径分隔符连接起来（Unix是 /，Windows是 \ ），这就解决了跨平台的问题，接着解析连接起来的结果，如果不是合法路径就抛出InvalidPathException异常，否则就返回一个Path对象；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假设是Unix的文件系统</span></span><br><span class="line">Path absolute = Paths.get(<span class="string">"/home"</span>, <span class="string">"cat"</span>); <span class="comment">//绝对路径 </span></span><br><span class="line">Path relative = Pahts.get(<span class="string">"ixenos"</span>, <span class="string">"config"</span>, <span class="string">"user.properties"</span>); <span class="comment">//相对路径</span></span><br></pre></td></tr></table></figure>
+<p>4、由String路径获取Path对象</p>
+<p><strong>get还可以获取一整条路径</strong>（即多个部件构成的单个字符串），例如从配置文件中读取路径：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String baseDir = properties.getProperty(<span class="string">"base.dir"</span>);</span><br><span class="line"> <span class="comment">//可能获得 /opt/ixenos 或者 C:\Program Files\ixenos</span></span><br><span class="line"> Path basePath = Paths.get(baseDir);</span><br></pre></td></tr></table></figure>
+<p>5、组合或解析路径</p>
+<p>　　1) 调用 <strong>p.resolve(q)</strong> 将按下面的规则返回一个Path：如果q是绝对路径，则返回q，否则<strong>追加路径</strong>返回 p/q 或者 p\q</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Path workRelative = Paths.get(<span class="string">"work"</span>);</span><br><span class="line">Path workPath = basePath.resolve(workRelative);</span><br><span class="line"> <span class="comment">//resolve也可以接受字符串形参</span></span><br><span class="line">Path workPath = basePath.resolve(<span class="string">"work"</span>);</span><br></pre></td></tr></table></figure>
+<p>　　2) 调用 <strong>p.resolveSibling(“q”)</strong> 将解析指定路径 p 的父路径 o ，并<strong>产生兄弟路径</strong> o/q</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Path tempPath = workPath.resolveSibling(<span class="string">"temp"</span>);</span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment">   如果workPath是 /opt/ixenos/work</span></span><br><span class="line"><span class="comment">    那么将创建 /opt/ixenos/temp  </span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>　　3) 调用 <strong>p.relativize(r)</strong> 将产生一个冗余路径q，对q进行解析将产生<strong>相对路径r，</strong>最终r不包含和p的交集路径</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    pathA为 /home/misty</span></span><br><span class="line"><span class="comment">    pathB为 /home/ixenos/config </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    现已pathA对pathB进行相对化操作，将产生冗余路径</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Path pathC = pathA.relativize(pathB); <span class="comment">//此时pathC为 ../ixenos/config</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    normalize方法将移除冗余部件</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Path pathD = pathC.normalize(); <span class="comment">//pathD为 /ixenos/config</span></span><br></pre></td></tr></table></figure>
+<p>　　4) <strong>toAbsolutePath</strong> 将产生给定路径的<strong>绝对路径</strong>，从根部件开始</p>
+<p>　　5) Path类还有一些有用的断开和组合路径的方法，比如 <strong>getParent</strong>、<strong>getFileName</strong>、<strong>getRoot</strong>//获得根目录</p>
+<p>　　6) Path有个<strong>toFile</strong>方法用来跟<strong>遗留类File类</strong>打交道，File类也有个toPath方法</p>
+<h2 id="Files工具类"><a href="#Files工具类" class="headerlink" title="Files工具类"></a>Files工具类</h2><hr>
+<h3 id="1、读写文件"><a href="#1、读写文件" class="headerlink" title="1、读写文件"></a>1、<strong>读写文件</strong></h3><p>方法签名:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> path **write**(Path path, <span class="keyword">byte</span>[] bytes, OpenOption... options)</span><br><span class="line">　<span class="function"><span class="keyword">static</span> path <span class="title">write</span><span class="params">(Path path, Iterable&lt;? extends CharSequence&gt; lines, OpenOption... options)</span></span></span><br></pre></td></tr></table></figure>
+<p>这里只列举下面用到的方法，更多方法请看API文档…</p>
+<p><strong>其中OpenOption是个nio接口，StandardOpenOption是其枚举实现类，各枚举实例功能请查看API文档</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    Files提供的简便方法适用于处理中等长度的文本文件</span></span><br><span class="line"><span class="comment">    如果要处理的文件长度较大，或者二进制文件，那么还是应该使用经典的IO流 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//将文件所有内容读入byte数组中</span></span><br><span class="line"><span class="keyword">byte</span>[] bytes = Files.readAllBytes(path); <span class="comment">//传入Path对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//之后可以根据字符集构建字符串</span></span><br><span class="line">String content = <span class="keyword">new</span> String(bytes, charset);</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以直接当作行序列读入</span></span><br><span class="line">List&lt;String&gt; lines = Files.readAllLines(path, charset);</span><br><span class="line"></span><br><span class="line"><span class="comment">//相反，也可以写一个字符串到文件中，默认是覆盖</span></span><br><span class="line">Files.write(path, content.getBytes(charset)); <span class="comment">//传入byte[]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//追加内容，根据参数决定追加等功能</span></span><br><span class="line">Files.write(path, content.getBytes(charset), StandardOpenOption.APPEND); <span class="comment">//传入枚举对象，打开追加开关</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//将一个行String的集合List写出到文件中</span></span><br><span class="line">Files.write(path, lines);</span><br></pre></td></tr></table></figure>
+<h3 id="2、复制、剪切、删除"><a href="#2、复制、剪切、删除" class="headerlink" title="2、复制、剪切、删除"></a><strong>2、复制、剪切、删除</strong></h3><p>方法签名:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　	<span class="function"><span class="keyword">static</span> path <span class="title">copy</span><span class="params">(Path source, Path target, CopyOption... options)</span></span></span><br><span class="line"><span class="function">　　<span class="keyword">static</span> path <span class="title">move</span><span class="params">(Path source, Path target, CopyOption... options)</span></span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(Path path)</span> <span class="comment">//如果path不存在文件将抛出异常，此时调用下面的比较好</span></span></span><br><span class="line"><span class="function">　　<span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">deleteIfExists</span><span class="params">(Path path)</span></span></span><br></pre></td></tr></table></figure>
+<p>　　<a href="">这里只列举下面用到的方法，更多方法请看API文档…</a></p>
+<p><strong>其中CopyOption是个nio接口，StandardCopyOption是其枚举实现类，各枚举实例功能请查看API文档</strong></p>
+<p>　　其中有个<strong>ATOMIC_MOVE可以填入用来保证原子性操作</strong>，要么移动成功完成，要么源文件保持在原位置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//复制</span></span><br><span class="line">Files.copy(fromPath, toPath);</span><br><span class="line"><span class="comment">//剪切</span></span><br><span class="line">Files.move(fromPath, toPath);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    以上如果toPath已存在，那么操作失败，</span></span><br><span class="line"><span class="comment">    如果要覆盖，需传入参数REPLACE_EXISTING</span></span><br><span class="line"><span class="comment">    还要复制文件属性，传入COPY_ATTRIBUTES</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Files.copy(fromPath, toPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);</span><br></pre></td></tr></table></figure>
+<h3 id="3、创建文件和目录"><a href="#3、创建文件和目录" class="headerlink" title="3、创建文件和目录"></a><strong>3、创建文件和目录</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建新目录，除了最后一个部件，其他必须是已存在的</span></span><br><span class="line">Files.createDirectory(path); </span><br><span class="line"><span class="comment">//创建路径中的中间目录，能创建不存在的中间部件</span></span><br><span class="line">Files.createDirectories(path);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   创建一个空文件，检查文件存在，如果已存在则抛出异常</span></span><br><span class="line"><span class="comment">   而检查文件存在是原子性的，因此在此过程中无法执行文件创建操作</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Files.createFile(path);</span><br><span class="line"><span class="comment">//添加前/后缀创建临时文件或临时目录</span></span><br><span class="line">Path newPath = Files.createTempFile(dir, prefix, suffix);</span><br><span class="line">Path newPath = Files.createTempDirectory(dir, prefix);</span><br></pre></td></tr></table></figure>
+<h3 id="4、获取文件信息"><a href="#4、获取文件信息" class="headerlink" title="4、获取文件信息"></a><strong>4、获取文件信息</strong></h3><p>略，具体看API文档，或者corejava page51</p>
+<h3 id="5、迭代目录中的文件"><a href="#5、迭代目录中的文件" class="headerlink" title="5、迭代目录中的文件"></a>5、迭代目录中的文件</h3><p>　　<strong>旧的File类</strong>有两个方法获取目录中所有文件构成的字符串数组，String[] list() 和String[] list(FileFilter filter)，但是<strong>当目录中包含大量文件时，这两方法性能会非常低。</strong></p>
+<p><strong>原因分析：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//File类list所有文件</span></span><br><span class="line">    <span class="keyword">public</span> String[] list() &#123;</span><br><span class="line">        SecurityManager security = System.getSecurityManager(); <span class="comment">//文件系统权限获取</span></span><br><span class="line">        <span class="keyword">if</span> (security != <span class="keyword">null</span>) &#123;</span><br><span class="line">            security.checkRead(path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isInvalid()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fs.list(<span class="keyword">this</span>); <span class="comment">//底层调用FileSystem的list</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//FileSystem抽象类的list</span></span><br><span class="line"> <span class="comment">//File类中定义fs是由DefaultFileSystem静态生成的</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem fs = DefaultFileSystem.getFileSystem();</span><br><span class="line"></span><br><span class="line"><span class="comment">//因此我们来看一下DefaultFileSystem类，发现是生成一个WinNtFileSystem对象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultFileSystem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Return the FileSystem object for Windows platform.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> FileSystem <span class="title">getFileSystem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WinNTFileSystem();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//而WinNtFileSystem类继承于FileSystem抽象类，这里我们主要观察它的list(File file)方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> String[] list(File f);</span><br><span class="line"><span class="comment">/*我们可以看到这是个native方法，说明list的操作是由操作系统的文件系统控制的，当目录中包含大量的文件时，这个方法的性能将会非常低。</span></span><br><span class="line"><span class="comment">由此为了替代，NIO的Files类设计了newDirectoryStream(Path dir)及其重载方法，将生成Iterable对象（可用foreach迭代）*/</span><span class="comment">//~</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="comment">//回调过滤</span></span><br><span class="line">    <span class="keyword">public</span> String[] list(FilenameFilter filter) &#123; <span class="comment">//采用接口回调</span></span><br><span class="line">        String names[] = list(); <span class="comment">//调用list所有</span></span><br><span class="line">        <span class="keyword">if</span> ((names == <span class="keyword">null</span>) || (filter == <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> names;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; v = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; names.length ; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (filter.accept(<span class="keyword">this</span>, names[i])) &#123;  <span class="comment">//回调FilenameFileter对象的accept方法</span></span><br><span class="line">                v.add(names[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> v.toArray(<span class="keyword">new</span> String[v.size()]);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="这时候高科技来了——Files获得可迭代的目录流，"><a href="#这时候高科技来了——Files获得可迭代的目录流，" class="headerlink" title="这时候高科技来了——Files获得可迭代的目录流，"></a>这时候高科技来了——Files获得可迭代的目录流，</h3><h4 id="传入一个目录Path，遍历子孙目录返回一个目录Path的Stream，注意这里所有涉及的Path都是目录而不是文件！"><a href="#传入一个目录Path，遍历子孙目录返回一个目录Path的Stream，注意这里所有涉及的Path都是目录而不是文件！" class="headerlink" title="传入一个目录Path，遍历子孙目录返回一个目录Path的Stream，注意这里所有涉及的Path都是目录而不是文件！"></a>传入一个目录Path，遍历子孙目录返回一个目录Path的Stream，注意这里所有涉及的Path都是目录而不是文件！</h4><p>因此，Files类设计了<strong>newDirectoryStream(Path dir)</strong>及其重载方法，将生成Iterable对象（可用foreach迭代）</p>
+<p>遍历目录得到一个可迭代的子孙文件集合</p>
+<table>
+<thead>
+<tr>
+<th><code>staticDirectoryStream&lt;Path&gt;</code></th>
+<th><code>newDirectoryStream(Path dir)</code>Opens a directory, returning a <a href=""><code>DirectoryStream</code></a> to iterate over all entries in the directory.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>staticDirectoryStream&lt;Path&gt;</code></td>
+<td><code>newDirectoryStream(Path dir, DirectoryStream.Filter&lt;? superPath&gt; filter)</code>Opens a directory, returning a <a href=""><code>DirectoryStream</code></a> to iterate over the entries in the directory.</td>
+</tr>
+<tr>
+<td><code>staticDirectoryStream&lt;Path&gt;</code></td>
+<td><code>newDirectoryStream(Path dir, String glob)</code></td>
+</tr>
+</tbody>
+</table>
+<p>　　返回一个 <strong>目录流 ，可以看成一个存放着全部Path的实现了Iterable的集合</strong>，</p>
+<p>　　　　因此可用迭代器或foreach迭代，只是使用迭代器的时候要注意不能invoke另一个Iterator：</p>
+<ul>
+<li><ul>
+<li><strong>While DirectoryStream extends Iterable, it is not a general-purpose Iterable as it supports only a single Iterator; invoking the iterator method to obtain a second or subsequent iterator throws IllegalStateException.</strong> </li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(DirectoryStream&lt;Path&gt; entries = Files.newDirectoryStream(dir))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(Path entry : entries)</span><br><span class="line">    &#123;</span><br><span class="line">         ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　可以传入glob参数，即使用<strong>glob模式</strong>来<strong>过滤文件</strong>（以取代<code>list(FileFilter filter)：newDirectoryStream(Path dir, String glob)</code> 注意是String类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(DirectoryStream&lt;Path&gt; entries = Files.newDirectoryStream(dir, <span class="string">"*.java"</span>)) <span class="comment">//</span></span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　<strong>glob模式</strong></p>
+<p>所谓的 glob 模式是指 shell 所使用的简化了的<strong>正则表达式</strong>。</p>
+<p>1.星号 <em> 匹配<strong>路径组成部分</strong>0个或多个字符；例如 </em>.java 匹配<strong>当前目录中</strong>的所有Java文件</p>
+<p>2.两星号 <strong> 匹配</strong>跨目录边界<strong>0个或多个字符；例如 </strong>.java 匹配在<strong>所有子目录中</strong>的Java文件</p>
+<p>3.问号（?）只匹配一个字符；例如 ????.java 匹配所有<strong>四个字符</strong>的Java文件，不包括扩展名；使用?是因为*是通配符不指定数量</p>
+<p>4.[…] 匹配<strong>一个</strong>字符集合，可以用连线 [0-9] 和取反符 [!0-9]；例如 Test[0-9A-F].java 匹配Testx.java，假设x是一个十六进制数字，[0-9A-F]是匹配单个字符为十六进制数字，比如B（十六进制不区分大小写）</p>
+<p>　　<em>如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 [0-9] 表示匹配所有 0 到 9 的数字）</em>。</p>
+<p>5.{…} 匹配由逗号隔开的<strong>多个可选项</strong>之中的一个；例如 *.{java,class} 匹配所有Java文件和类class文件</p>
+<p>6.\ 转义上述任意模式中的字符；例如 <em>** 匹配所有子目录中文件名包含</em>的文件，这里为 ** 转义，前面是匹配0个或多个字符</p>
+<p>下面是网友总结的Glob模式：</p>
+<table>
+<thead>
+<tr>
+<th>Glob模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*.txt</td>
+<td>匹配所有扩展名为.txt的文件</td>
+</tr>
+<tr>
+<td>*.{html,htm}</td>
+<td>匹配所有扩展名为.html或.htm的文件。{ }用于组模式，它使用逗号分隔</td>
+</tr>
+<tr>
+<td>?.txt</td>
+<td>匹配任何单个字符做文件名且扩展名为.txt的文件</td>
+</tr>
+<tr>
+<td><em>.</em></td>
+<td>匹配所有含扩展名的文件</td>
+</tr>
+<tr>
+<td>C:\Users*</td>
+<td>匹配所有在C盘Users目录下的文件。反斜线“\”用于对紧跟的字符进行转义</td>
+</tr>
+<tr>
+<td>/home/**</td>
+<td>UNIX平台上匹配所有/home目录及子目录下的文件。**用于匹配当前目录及其所有子目录</td>
+</tr>
+<tr>
+<td>[xyz].txt</td>
+<td>匹配所有单个字符作为文件名，且单个字符只含“x”或“y”或“z”三种之一，且扩展名为.txt的文件。方括号[]用于指定一个集合</td>
+</tr>
+<tr>
+<td>[a-c].txt</td>
+<td>匹配所有单个字符作为文件名，且单个字符只含“a”或“b”或“c”三种之一，且扩展名为.txt的文件。减号“-”用于指定一个范围，且只能用在方括号[]内</td>
+</tr>
+<tr>
+<td>[!a].txt</td>
+<td>匹配所有单个字符作为文件名，且单个字符不能包含字母“a”，且扩展名为.txt的文件。叹号“!”用于否定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="遍历得到某个目录的所有子孙文件集合再迭代不够爽？来，我们来直接遍历某个目录的所有子孙成员（包括目录和文件）"><a href="#遍历得到某个目录的所有子孙文件集合再迭代不够爽？来，我们来直接遍历某个目录的所有子孙成员（包括目录和文件）" class="headerlink" title="遍历得到某个目录的所有子孙文件集合再迭代不够爽？来，我们来直接遍历某个目录的所有子孙成员（包括目录和文件）"></a>遍历得到某个目录的所有子孙文件集合再迭代不够爽？来，我们来直接遍历某个目录的所有子孙成员（包括目录和文件）</h3><p>　　我们可以调用Files类的<strong>walkFileTree</strong>方法，并传入一个FileVisitor接口类型的对象（还有更多方法在API里等你发现……）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*传入一个FileVisitor子类的匿名对象*/</span></span><br><span class="line">Files.walkFileTree(dir, <span class="keyword">new</span> SimpleFileVisitor&lt;Path&gt;()</span><br><span class="line">    &#123;</span><br><span class="line">         <span class="comment">//walkFileTree回调此方法来遍历所有子孙</span></span><br><span class="line">         <span class="function"><span class="keyword">public</span> FileVisitResult <span class="title">visitFile</span><span class="params">(Path path, BasicFileAttributes attrs)</span> <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">         </span>&#123;</span><br><span class="line">              <span class="keyword">if</span>(attrs.isDirectory()) <span class="comment">//自定义的选择，属于业务代码，这和walkFileTree的宗旨(遍历所有子孙成员)无关</span></span><br><span class="line">                  System.out.println(path);</span><br><span class="line">              <span class="keyword">return</span> FileVisitResult.CONTINUE;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="function"><span class="keyword">public</span> FileVisitResult <span class="title">visitFileFailed</span><span class="params">(Path path, IOException exc)</span> <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">         </span>&#123;</span><br><span class="line">              <span class="keyword">return</span> FileVisitResult.CONTINUE;</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="咱们来总结一下，"><a href="#咱们来总结一下，" class="headerlink" title="咱们来总结一下，"></a>咱们来总结一下，</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Files.newDirectoryStream(Path dir) <span class="comment">//遍历后返回一个可迭代的子孙文件集合；</span></span><br><span class="line">Files.walkFileTree(Path dir, FileVisitor fv) <span class="comment">//是一个遍历子孙目录和文件的过程；</span></span><br></pre></td></tr></table></figure>
+<h2 id="ZIP文件系统"><a href="#ZIP文件系统" class="headerlink" title="ZIP文件系统"></a>ZIP文件系统</h2><hr>
+<p>由上文知道，Paths类会在<strong>默认的文件系统</strong>中查找路径，即在用户本地磁盘中的文件。</p>
+<p>其实，我们也可以有其他的文件系统，比如<strong>ZIP文件系统</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*假设zipname是某个ZIP文件的名字*/</span></span><br><span class="line">FileSystem fs = FileSystems.newFileSystem(Paths.get(zipname), <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<p> 上述代码将建立一个<strong>基于zipname的文件系统，它包含ZIP文档中的所有文件</strong>。</p>
+<p>　　1）如果知道<strong>文件名（String类型）</strong>，那么从这个ZIP文档中复制出这个文件就很容易：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Files.copy(fs.getPath(fileName), targetPath);</span><br></pre></td></tr></table></figure>
+<p>　　　　Q：fs.getPath是使用了ZIP文件系统来getPath，那么默认的文件系统能调用吗？</p>
+<p>　　　　A：能。FileSystem类中有一个静态的getDefault()方法，返回一个默认的文件系统对象，同样可以由文件名getPath。</p>
+<p>　　　　　　*具体getPath(String name)是遍历还是随机访问，有空再去看源码实现。<br>　　2）要列出ZIP文档中的所有文件，同样可以用walkFileTree遍历文件树</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FileSystem fs = FileSystems.newFileSystem(Paths.get(fileName), <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//walkFileTree需要传入一个要被遍历的目录Path，和一个FileVisitor对象</span></span><br><span class="line">Files.walkFileTree(fs.getPath(<span class="string">"/"</span>), </span><br><span class="line">        newSimpleFileVisitor&lt;Path&gt;()&#123;</span><br><span class="line">               <span class="function"><span class="keyword">public</span> FileVisitResult <span class="title">visitFile</span><span class="params">(Path file, BasicFileAttributes attrs)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">                     System.out.println(file);</span><br><span class="line">                     <span class="keyword">return</span> FileVisitResult.CONTINUE; </span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#NIO" >
+    <span class="tag-code">NIO</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/41980.html">
+        <span class="nav-arrow">← </span>
+        
+          WebUploader上传组件
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/25709.html">
+        
+          Java 文件上传及下载
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Path接口"><span class="toc-nav-text">Path接口</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Files工具类"><span class="toc-nav-text">Files工具类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1、读写文件"><span class="toc-nav-text">1、读写文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2、复制、剪切、删除"><span class="toc-nav-text">2、复制、剪切、删除</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3、创建文件和目录"><span class="toc-nav-text">3、创建文件和目录</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4、获取文件信息"><span class="toc-nav-text">4、获取文件信息</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5、迭代目录中的文件"><span class="toc-nav-text">5、迭代目录中的文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#这时候高科技来了——Files获得可迭代的目录流，"><span class="toc-nav-text">这时候高科技来了——Files获得可迭代的目录流，</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#传入一个目录Path，遍历子孙目录返回一个目录Path的Stream，注意这里所有涉及的Path都是目录而不是文件！"><span class="toc-nav-text">传入一个目录Path，遍历子孙目录返回一个目录Path的Stream，注意这里所有涉及的Path都是目录而不是文件！</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历得到某个目录的所有子孙文件集合再迭代不够爽？来，我们来直接遍历某个目录的所有子孙成员（包括目录和文件）"><span class="toc-nav-text">遍历得到某个目录的所有子孙文件集合再迭代不够爽？来，我们来直接遍历某个目录的所有子孙成员（包括目录和文件）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#咱们来总结一下，"><span class="toc-nav-text">咱们来总结一下，</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ZIP文件系统"><span class="toc-nav-text">ZIP文件系统</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/58642.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Java NIO Path and Files",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      hexo next主题集成gitment评论系统 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>hexo next主题集成gitment评论系统</h2>
+  <p class="post-date">2017-07-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0041.jpg" alt="image"></p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>本文介绍hexo next主题(5.1.2)集成giment评论系统的过程。所谓gitment就是把评论放到github的issues系统里，评论支持md，比较适合程序员.</p>
+<a id="more"></a>
+<h3 id="一-注册OAuth-Application"><a href="#一-注册OAuth-Application" class="headerlink" title="一.注册OAuth Application"></a>一.注册OAuth Application</h3><p>点击<a href="https://github.com/settings/applications/new注册，注意Authorization" target="_blank" rel="noopener">https://github.com/settings/applications/new注册，注意Authorization</a> callback URL填自己的网站url<a href="http://yangq.me/.记下Client" target="_blank" rel="noopener">http://yangq.me/.记下Client</a> ID和Client Secret.</p>
+<h3 id="二-修改themes-next-config-yml"><a href="#二-修改themes-next-config-yml" class="headerlink" title="二.修改themes/next/_config.yml"></a>二.修改themes/next/_config.yml</h3><h4 id="在config-yml中添加"><a href="#在config-yml中添加" class="headerlink" title="在config.yml中添加:"></a>在config.yml中添加:</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Gitment</span><br><span class="line"># Introduction: https://imsun.net/posts/gitment-introduction/</span><br><span class="line">gitment:</span><br><span class="line">  enable: true</span><br><span class="line">  githubID: yourid</span><br><span class="line">  repo: yourrepo</span><br><span class="line">  ClientID: yourid</span><br><span class="line">  ClientSecret: yoursecret</span><br><span class="line">  lazy: true</span><br></pre></td></tr></table></figure>
+<p>注意:格式要正确，该空格的一定要空格。所有的yourXXX都换成自己的.</p>
+<h4 id="在主题的en-yml增加"><a href="#在主题的en-yml增加" class="headerlink" title="在主题的en.yml增加:"></a>在主题的en.yml增加:</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitmentbutton: Show comments from Gitment</span><br></pre></td></tr></table></figure>
+<h4 id="zh-Hans-yml增加"><a href="#zh-Hans-yml增加" class="headerlink" title="zh-Hans.yml增加:"></a>zh-Hans.yml增加:</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitmentbutton: 显示 Gitment 评论</span><br></pre></td></tr></table></figure>
+<h3 id="三-修改主题layout-partials-comments-swig"><a href="#三-修改主题layout-partials-comments-swig" class="headerlink" title="三.修改主题layout/_partials/comments.swig"></a>三.修改主题layout/_partials/comments.swig</h3><p>找到这个文件里的这两行:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% elseif theme.valine.appidand theme.valine.appkey %&#125;      </span><br><span class="line">"vcomments"&gt;</span><br></pre></td></tr></table></figure>
+<p>上面是最后一个elseif分支，在下面加一个elseif分支:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% elseif theme.gitment.enable %&#125;</span><br><span class="line">      &#123;% if theme.gitment.lazy %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"ShowGitment()"</span> <span class="attr">id</span>=<span class="string">"gitment-display-button"</span>&gt;</span>&#123;&#123;  __('gitmentbutton') &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"gitment-container"</span> <span class="attr">style</span>=<span class="string">"display:none"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      &#123;% else %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"gitment-container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      &#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<p>加完之后下面的内容是原来的，保持不变:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% endif %&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四-增加gitment-swig"><a href="#四-增加gitment-swig" class="headerlink" title="四.增加gitment.swig"></a>四.增加gitment.swig</h3><h4 id="在主题下layout-third-party-comments-目录下中添加文件gitment-swig："><a href="#在主题下layout-third-party-comments-目录下中添加文件gitment-swig：" class="headerlink" title="在主题下layout/_third-party/comments/目录下中添加文件gitment.swig："></a>在主题下layout/_third-party/comments/目录下中添加文件gitment.swig：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.gitment.enable %&#125;</span><br><span class="line">   &#123;% set owner = theme.gitment.githubID %&#125;</span><br><span class="line">   &#123;% set repo = theme.gitment.repo %&#125;</span><br><span class="line">   &#123;% set cid = theme.gitment.ClientID %&#125;</span><br><span class="line">   &#123;% set cs = theme.gitment.ClientSecret %&#125;</span><br><span class="line">   <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://imsun.github.io/gitment/style/default.css"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://imsun.github.io/gitment/dist/gitment.browser.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   &#123;% if not theme.gitment.lazy %&#125;</span><br><span class="line">       <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">           <span class="keyword">var</span> gitment = <span class="keyword">new</span> Gitment(&#123;</span></span><br><span class="line"><span class="javascript">               id: <span class="built_in">window</span>.location.pathname, </span></span><br><span class="line"><span class="javascript">               owner: <span class="string">'&#123;&#123;owner&#125;&#125;'</span>,</span></span><br><span class="line"><span class="javascript">               repo: <span class="string">'&#123;&#123;repo&#125;&#125;'</span>,</span></span><br><span class="line"><span class="undefined">               oauth: &#123;</span></span><br><span class="line"><span class="javascript">                   client_id: <span class="string">'&#123;&#123;cid&#125;&#125;'</span>,</span></span><br><span class="line"><span class="javascript">                   client_secret: <span class="string">'&#123;&#123;cs&#125;&#125;'</span>,</span></span><br><span class="line"><span class="undefined">               &#125;&#125;);</span></span><br><span class="line"><span class="javascript">           gitment.render(<span class="string">'gitment-container'</span>);</span></span><br><span class="line"><span class="undefined">       </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   &#123;% else %&#125;</span><br><span class="line">       <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">           <span class="function"><span class="keyword">function</span> <span class="title">ShowGitment</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">               <span class="built_in">document</span>.getElementById(<span class="string">"gitment-display-button"</span>).style.display = <span class="string">"none"</span>;</span></span><br><span class="line"><span class="javascript">               <span class="built_in">document</span>.getElementById(<span class="string">"gitment-container"</span>).style.display = <span class="string">"block"</span>;</span></span><br><span class="line"><span class="javascript">               <span class="keyword">var</span> gitment = <span class="keyword">new</span> Gitment(&#123;</span></span><br><span class="line"><span class="javascript">                   id: <span class="built_in">document</span>.location.href, </span></span><br><span class="line"><span class="javascript">                   owner: <span class="string">'&#123;&#123;owner&#125;&#125;'</span>,</span></span><br><span class="line"><span class="javascript">                   repo: <span class="string">'&#123;&#123;repo&#125;&#125;'</span>,</span></span><br><span class="line"><span class="undefined">                   oauth: &#123;</span></span><br><span class="line"><span class="javascript">                       client_id: <span class="string">'&#123;&#123;cid&#125;&#125;'</span>,</span></span><br><span class="line"><span class="javascript">                       client_secret: <span class="string">'&#123;&#123;cs&#125;&#125;'</span>,</span></span><br><span class="line"><span class="undefined">                   &#125;&#125;);</span></span><br><span class="line"><span class="javascript">               gitment.render(<span class="string">'gitment-container'</span>);</span></span><br><span class="line"><span class="undefined">           &#125;</span></span><br><span class="line"><span class="undefined">       </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   &#123;% endif %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="在主题下layout-third-party-comments-index-swig文件中引入gitment-swig文件："><a href="#在主题下layout-third-party-comments-index-swig文件中引入gitment-swig文件：" class="headerlink" title="在主题下layout/_third-party/comments/index.swig文件中引入gitment.swig文件："></a>在主题下layout/_third-party/comments/index.swig文件中引入gitment.swig文件：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% include'gitment.swig' %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="五-添加gitment-styl"><a href="#五-添加gitment-styl" class="headerlink" title="五.添加gitment.styl"></a>五.添加gitment.styl</h3><p>在主题下source/css/_common/components/third-party/目录下添加gitment.styl文件，设置button的样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#gitment-display-button</span>&#123;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">15px</span>;</span><br><span class="line">     <span class="attribute">color</span>: <span class="number">#0a9caf</span>;</span><br><span class="line">     <span class="attribute">cursor</span>: pointer;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">     <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#0a9caf</span>;</span><br><span class="line">     <span class="attribute">border-radius</span>: <span class="number">4px</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-id">#gitment-display-button</span><span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">     <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">     <span class="attribute">background</span>: <span class="number">#0a9caf</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>然后在主题下source/css/_common/components/third-party/third-party.styl文件中引入相应的CSS样式即可:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span>"<span class="keyword">gitment</span>";</span><br></pre></td></tr></table></figure>
+<p>这样就ok了！</p>
+<h5 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h5><p>修改themes/next/_config.yml这个文件时，格式要正确。另外，repo是你要想创建issues的仓库，完全可以跟博文所放的仓库不一个。id就写自己的github用户名就可以，这个用户名跟repo必须匹配。<br>gitment可能不支持链接地址里有中文，所以安装gitment前一定要参考前文把链接持久化搞成全是英文的。<br>同一篇文章需要初始化comment两次的问题，是因为<a href="http://xxx.com/post/ab9bb85a.html和点击阅读全文进去的链接http://xxx.com/post/ab9bb85a.html#more对issues来说是不同的，所以创建两次。解决方法就是gitment.swig里id弄成window.location.pathname而不是document.location.href。" target="_blank" rel="noopener">http://xxx.com/post/ab9bb85a.html和点击阅读全文进去的链接http://xxx.com/post/ab9bb85a.html#more对issues来说是不同的，所以创建两次。解决方法就是gitment.swig里id弄成window.location.pathname而不是document.location.href。</a><br>初始化评论后，可以到github里自己放issues的仓库查看issues是否创建成功，有时候浏览器可能会有缓存依然提示你初始化评论。一般过个两分钟就显示正常了。<br>参考文档</p>
+<ol>
+<li><a href="http://www.jianshu.com/p/10134c474991" target="_blank" rel="noopener">主要参考文档</a></li>
+<li><a href="https://meesong.github.io/StaticBlog/2017/NexT+Gitment/" target="_blank" rel="noopener">一种相对简略的配置方式</a></li>
+<li><a href="https://github.com/imsun/gitment/issues" target="_blank" rel="noopener">作者issue</a></li>
+</ol>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#hexo next" >
+    <span class="tag-code">hexo next</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/12197.html">
+        <span class="nav-arrow">← </span>
+        
+          jQuery使用技巧
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/32362.html">
+        
+          hexo 常用命令
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#简介"><span class="toc-nav-text">简介</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一-注册OAuth-Application"><span class="toc-nav-text">一.注册OAuth Application</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二-修改themes-next-config-yml"><span class="toc-nav-text">二.修改themes/next/_config.yml</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#在config-yml中添加"><span class="toc-nav-text">在config.yml中添加:</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#在主题的en-yml增加"><span class="toc-nav-text">在主题的en.yml增加:</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#zh-Hans-yml增加"><span class="toc-nav-text">zh-Hans.yml增加:</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三-修改主题layout-partials-comments-swig"><span class="toc-nav-text">三.修改主题layout/_partials/comments.swig</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四-增加gitment-swig"><span class="toc-nav-text">四.增加gitment.swig</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#在主题下layout-third-party-comments-目录下中添加文件gitment-swig："><span class="toc-nav-text">在主题下layout/_third-party/comments/目录下中添加文件gitment.swig：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#在主题下layout-third-party-comments-index-swig文件中引入gitment-swig文件："><span class="toc-nav-text">在主题下layout/_third-party/comments/index.swig文件中引入gitment.swig文件：</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#五-添加gitment-styl"><span class="toc-nav-text">五.添加gitment.styl</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#易错点"><span class="toc-nav-text">易错点</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/47815.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "hexo next主题集成gitment评论系统",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

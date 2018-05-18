@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      后端程序员该做什么 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>后端程序员该做什么</h2>
+  <p class="post-date">2018-01-22</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0095.jpg" alt="image"></p>
+<p>以前做Web开发的时候，根本没有前端，后端之说。</p>
+<a id="more"></a>
+<p>原因很简单，那个时候服务器端的代码就是一切：<strong>接受浏览器的请求，实现业务逻辑，访问数据库，用JSP生成HTML，然后发送给浏览器。</strong></p>
+<p>即使后来Javascript在浏览器中添加了一些AJAX的效果，那也是锦上添花，绝对不敢造次。因为页面的HTML主要还是用所谓“<strong>套模板</strong>”的方式生成：美工生成HTML模板，程序员用JSP,Veloctiy,FreeMaker等技术把动态的内容添加上去，仅此而已。</p>
+<p>在最初的J2EE体系中，这个<strong>表示层</strong>可不仅仅是浏览器中运行的页面，还包括Java写的桌面端，只是Java在桌面端太不争气， 没有发展起来。</p>
+<p>每个程序员都是所谓<strong>“全栈”工程师</strong>，不仅要搞定HTML, JavaScript, CSS，还要实现业务逻辑，编写访问数据库的代码。等到部署的时候，就把所有的代码打成一个WAR包，往Tomcat指定的目录一扔，测试一下没问题，收工回家！</p>
+<p>不差钱的公司会把程序部署到Weblogic，Websphere这样的应用服务器中，还会用上高大上的EJB。</p>
+<p>虽然看起来生活“简单”又“惬意”，但实际上也需要实现那些多变的、不讲逻辑的业务需求，苦逼的本质并没有改变。</p>
+<h2 id="前后端的分离"><a href="#前后端的分离" class="headerlink" title="前后端的分离"></a>前后端的分离</h2><p>随着大家对浏览器页面的视觉和交互要求越来越高，“套模板”的方式渐渐无法满足要求，这个所谓的表示层慢慢地迁移到浏览器当中去了，一大批像Angular, ReactJS之类的框架崛起，前后端分离了！</p>
+<p>后端的工程师只负责提供接口和数据，专注于业务逻辑的实现，前端取到数据后在浏览器中展示，各司其职。</p>
+<p>像Java这样的语言很适合去实现复杂的业务逻辑，尤其是一些MIS系统，行业软件如税务、电力、烟草、金融，通信等等。  所以剥离表示层，只做后端挺合适的。 </p>
+<p>但是如果仅仅是实现业务逻辑，那后端也不会需要这么多技术了，搞定SSH/SSM就行了。 </p>
+<h2 id="后端技术"><a href="#后端技术" class="headerlink" title="后端技术"></a>后端技术</h2><p>互联网，尤其是移动互联网开始兴起以后，海量的用户呼啸而来，一个单机部署的小小War包肯定是撑不住了，必须得做分布式。 </p>
+<p>原来的单个Tomcat得变成Tomcat的集群，前边弄个Web服务器做请求的负载均衡，不仅如此，还得考虑状态问题，session的一致性。</p>
+<p>业务越来越复杂，我们不得不把某些业务放到一个机器（或集群）上，把另外一部分业务放到另外一个机器（或集群）上，虽然系统的计算能力，处理能力大大增强，但是这些系统之间的通信就变成了头疼的问题，消息队列（MQ)，RPC框架（如Dubbo）应运而生，为了提高通信效率，各种序列化的工具(如Protobuf)也争先空后地问世。</p>
+<p>单个数据库也撑不住了，那就做数据库的读写分离，如果还不行，就做分库和分表，把原有的数据库垂直地切一切，或者水平地切一切， 但不管怎么切，都会让应用程序的访问非常麻烦，因为数据要跨库做Join/排序，还需要事务，为了解决这个问题，又有各种各样“数据访问中间件”的工具和产品诞生。</p>
+<p>为了最大程度地提高性能，缓存肯定少不了，可以在本机做缓存(如Ehcache)，也可以做分布式缓存(如Redis)，如何搞数据分片，数据迁移，失效转移，这又是一个超级大的主题了。</p>
+<p>互联网用户喜欢上传图片和文件，还得搞一个分布式的文件系统（如FastDFS），要求高可用，高可靠。</p>
+<p>数据量大了，搜索的需求就自然而然地浮出水面，你得弄一个支持全文索引的搜索引擎(如Elasticsearch ,Solr)出来。</p>
+<p>林子大了，什么鸟都有，必须得考虑安全，数据的加密/解密，签名、证书，防止SQL注入，XSS/CSRF等各种攻击。</p>
+<h2 id="“大后端”"><a href="#“大后端”" class="headerlink" title="“大后端”"></a>“大后端”</h2><p>前面提到了这么多的系统，还都是分布式的，每次上线，运维的同学说：把这么多系统协调好，把老子都累死了。</p>
+<p>得把持续集成做好，能自动化地部署，自动化测试（其实前端也是如此），后来出现了一个革命化的技术docker， 能够让开发、测试、生成环境保持一致，系统原来只是在环境（如Ngnix, JVM,Tomcat,MySQL等）上部署代码，现在把代码和环境一并打包， 运维的工作一下子就简化了。</p>
+<p>公司自己购买服务器比较贵，维护也很麻烦，又难于弹性地增长，那就搞点虚拟的服务器吧，硬盘、内存都可以动态扩展（反正是虚拟的）， 访问量大的时候多用点，没啥访问量了就释放一点，按需分配，很方便，这就是云计算的一个场景。</p>
+<p>随着时间的推移，各个公司和系统收集的数据越来越多，都堆成一座大山了，难道就放在那里白白地浪费硬盘空间吗？</p>
+<p>有人就惊奇地发现，咦，我们利用这些数据搞点事情啊， 比如把数据好好分析一下，预测一下这个用户的购买/阅读/浏览习惯，给他推荐一点东西嘛。</p>
+<p>可是这么多数据，用传统的方式计算好几天甚至好几个月才能出个结果，到时候黄花菜都凉了，所以也得利用分布式的技术，想办法把计算分到各个计算机去，然后再把计算结果收回来， 时势造英雄，Hadoop及其生态系统就应运而生了。</p>
+<p>之前听说过一个大前端的概念，把移动端和网页端都归结为“前端”，我这里造个词“大后端”，把那些用户直接接触不到的、发生在服务器端的都归结进来。</p>
+<h2 id="怎么学？"><a href="#怎么学？" class="headerlink" title="怎么学？"></a>怎么学？</h2><p>现在无论是前端还是后端，技术领域多如牛毛，都严重地细分了，所以我认为真正的全栈工程师根本不存在，因为一个人精力有限，不可能搞定这么多技术领域，太难了。</p>
+<p>培训机构所说的“全栈”，我认为就是前后端还在拉拉扯扯，藕断丝连，没有彻底分离的时候的“全栈”工程师。</p>
+<p>那么问题来了， 后端这么多东西，我该怎么学？</p>
+<p>往深度挖掘，可以成为某个技术领域的专家，如搜索方面的专家、安全方面的专家，分布式文件的专家等等，不管是哪个领域，重点都不是学会使用某个工具和框架， 而是保证你可以自己的知识和技术去搞定这个领域的顶尖问题。</p>
+<p>往广度发展，各个技术领域都要了解，对于某种需求，能够选取合适的软件和技术架构来实现它，把需求转化成合适的技术组件，让这些组件以合适的方式连接、部署、运行，这也需要持续地学习和不断的经验积累。</p>
+<p>很多人入行以后，都是靠一门语言，几个框架谋生，在这个行业摸爬滚打几年以后，会产生一些疑惑： 作为热爱技术的码农，以后的路该怎么走？   </p>
+<p>我觉得有两个方向可供大家参考：  一个是“上天”，一个是“入地”。</p>
+<h2 id="上天"><a href="#上天" class="headerlink" title="上天"></a>上天</h2><p>“上天”的意思就是慢慢往上升了， 刚开始的时候就是在一些框架中做一个填空人员， 在别人的指导下实现小块的业务需求， 比如用Spring, Hibernate/MyBatis 去写税务软件的某一个模块。  </p>
+<p>后来职责扩大，自己开始负责一个或几个模块，带着别人做开发，看到的领域也越来越大， 开始向外扩展， 去学习系统的缓存是怎么设计的，数据库读写分离，主从复制是怎么做的， session是怎么管理的，搜索是怎么实现的 ，消息队列是怎么用的，怎么做到高可用性、高并发等等。  </p>
+<p>由点及面， 着眼系统整体和业务的全局，慢慢具备了设计系统架构的能力： 把需求转化成合适的技术组件，让这些组件以合适的方式连接、部署、运行。</p>
+<p>经过长时间的实践、历练和经验的积累，把很多东西都研究透了，知道了各种技术的优缺点，终于迎来了质变的一天：突然发现自己具备了技术选型的能力，对于某种需求，能够选取合适的软件和技术架构来实现它。 </p>
+<p>这时候即使软件业发生了一些变化，出现了很多新技术，例如DevOps,  容器， 微服务，前后端分离，Angular, React ，CQRS 等等，  你发现稍加研究就能参透这些技术的本质， 他们要解决什么问题，有哪些最佳实践， 能否在自己的项目/产品中采用。 恭喜， 你已经成功上天了！</p>
+<p>注意，我说的并不是架构师，技术总监， CTO这样的title ， 而是一种能力。 </p>
+<p>那些<strong>“上天”的人知识面讲究广度，对深度并没有极致要求</strong>， 你可能并不了解一个软件的内部细节实现， 但是一定知道这个软件的特点、能力、性能和适用范围。 </p>
+<h2 id="入地"><a href="#入地" class="headerlink" title="入地"></a>入地</h2><p>对于“入地”的人，恰恰相反，要求深度而不求广度， 要求是领域专家， 一个形象的比喻是要求一个一厘米宽的口子得有两公里深。</p>
+<p>“入地”的人专注于某一类技术，比如说有人特别喜欢安全领域，把各种攻击、防御方法研究透彻 ， 成为了一个安全专家。  或者有人就是喜欢搜索，把搜索引擎的原理搞了个明明白白， 成了搜索专家。 </p>
+<p>很明显，<strong>“入地”要求一个人真的要对这个领域超级感兴趣</strong>，要不然就经不起诱惑，耐不住寂寞，别人都在热议云计算，大数据，人工智能，你还能静下心来研究动态字节码生成吗？ 你还能研究Tomcat的原理吗？ </p>
+<p>“入地”的领域非常多，例如安全、搜索、应用程序框架、缓存、JVM、分布式、RPC框架等等。  或者更加底层的数据库开发，Web服务器开发， 编译器开发等。</p>
+<p>这些领域对软件的正确性、可靠性、安全性、性能要求极高，所以从事这些软件开发的人，肯定得真正地精通操作系统、网络、算法等基础知识， 这些人是真正的专家，受到大家的尊敬。 </p>
+<h2 id="哪个更好？"><a href="#哪个更好？" class="headerlink" title="哪个更好？"></a>哪个更好？</h2><p>上天和入地哪个更好，更高级？  其实没有贵贱之分，就看一个人的爱好了，每一条路都不容易，都需要努力的奋斗才行。 </p>
+<p>最怕的是高不成低不就，工作多年还是呆在中间，那就容易被IT的大浪拍死在沙滩上了！  </p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Think" >
+    <span class="tag-code">Think</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/16421.html">
+        <span class="nav-arrow">← </span>
+        
+          Http Server, 一个差生的逆袭
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/64922.html">
+        
+          JQuery中的DOM操作
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前后端的分离"><span class="toc-nav-text">前后端的分离</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#后端技术"><span class="toc-nav-text">后端技术</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#“大后端”"><span class="toc-nav-text">“大后端”</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#怎么学？"><span class="toc-nav-text">怎么学？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#上天"><span class="toc-nav-text">上天</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#入地"><span class="toc-nav-text">入地</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#哪个更好？"><span class="toc-nav-text">哪个更好？</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/1360.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "后端程序员该做什么",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

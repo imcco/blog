@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      不要自称为程序员 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>不要自称为程序员</h2>
+  <p class="post-date">2017-12-14</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0046.jpg" alt="image"></p>
+<p>每年都有无数年轻程序员，加入软件行业。</p>
+<p>他们在学校里学过编程，但是对这个行业的现实一无所知。<br><a id="more"></a><br>Patrick McKenzie 是美国一家小软件公司的老板，他写了一篇长文，介绍这个行业的一些实际情况。我看了以后很感慨，有些地方很受启发。我选择了一部分，翻译如下。</p>
+<h3 id="一、90-的编程工作来自内部软件"><a href="#一、90-的编程工作来自内部软件" class="headerlink" title="一、90%的编程工作来自内部软件"></a>一、90%的编程工作来自内部软件</h3><p>计算机专业的学生，可能有一种印象，觉得大部分程序员，都在编写公开出售的软件或者通用软件。</p>
+<p>这种看法是不对的。大部分程序员，实际上编写的是不公开的企业内部软件，比如追踪费用的软件、优化装运成本的软件、帮助记账的软件、设计新部件的软件、计算保单价格的软件、识别恶意订单的软件等等。各种各样的商业公司，开发内部软件，解决它们自己的问题。市场上对程序员的大部分需求来源于此，只有极少数程序员直接编写面向外部顾客的软件。</p>
+<p>内部软件的开发，通常非常乏味，令人厌倦。因为它们的技术复杂性低、技术决策非常保守、预算很少、缺乏长远考虑。但是，世界上大部分编程工作都是这种。</p>
+<h3 id="二、别人雇你的目的，是让你创造利润，不是让你编程"><a href="#二、别人雇你的目的，是让你创造利润，不是让你编程" class="headerlink" title="二、别人雇你的目的，是让你创造利润，不是让你编程"></a>二、别人雇你的目的，是让你创造利润，不是让你编程</h3><p>商业公司最关心的（或者说唯一在乎的）事情，就是增加收入、降低成本。因此，它们实际上需要的不是程序员，而是能够帮助它们增加收入、降低成本的人。</p>
+<p>开发优美的软件，解决技术难题，编写没有 bug 的代码，这些都不是商业公司的目的。它们雇佣你，是为了让你帮它们完成某个可以增加收入、降低成本的项目，而不是为了让你追求个人的软件成就。</p>
+<p>你对于公司的唯一价值，就在于能多大程度上为它们增加收入、降低成本。</p>
+<h3 id="三、不要自称为程序员"><a href="#三、不要自称为程序员" class="headerlink" title="三、不要自称为程序员"></a>三、不要自称为程序员</h3><p>很多公司的经理不懂计算机，在他们心目中，程序员就是一群高成本的劳动力，只会在一台复杂的机器上干一些难懂的事情。</p>
+<p>如果你自称为”程序员”，当公司需要压缩成本的时候，某些经理首先就会想到解雇你，因为你的工资高。有一家公司叫 Salesforce，口号是”没有软件”，意思就是如果经理们购买了他们的服务，就不再需要别的软件管理销售业务了，也就是说，不再需要自己雇佣程序员了。</p>
+<p>正确的做法是，你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个 Google Adsense 程序员的自我介绍，是这样写的：”Google 公司97%的收入，与我的代码有关。”</p>
+<h3 id="四、不要限定自己"><a href="#四、不要限定自己" class="headerlink" title="四、不要限定自己"></a>四、不要限定自己</h3><p>年轻学生经常会问，应该选择哪种语言或平台？Java 是不是比 .NET 容易找工作？</p>
+<p>过分强调某一种语言或平台，都是不必要的。如果你把自己限定为 Java 程序员或 .NET 程序员，你就已经输了，因为首先你不应该自称为程序员（理由见上一点），其次这种限定使得你自动被排除在世界上大多数编程工作之外。</p>
+<p>现实生活中，学会一种新语言，只需要几个星期，然后再过半年到一年，你就会变成老手。那时，根本没人在乎你以前用什么语言。</p>
+<p>天才程序员是很少的，可是需要天才程序员的工作机会却很多很多，大多数场合都是需求远远大于供给。这意味着，即使你不是天才程序员，只要你是一个优秀工程师，那些招聘公司也会立刻录用你，因为它们知道招聘到天才程序员的机会微乎其微。（重复一遍，所谓”优秀工程师”，就是你的履历上有一连串增加收入、降低成本的记录。）</p>
+<p>某些公司的人事部门，会根据某个关键词（比如 Java 或 .NET）过滤简历。虽然这样的公司根本不值得去，但是如果你真的想过这一关，也很容易：投入几个晚上和周末，在你当前的项目中设法用到这个关键词，然后再把它写进简历就行了。</p>
+<h3 id="五、如何提高求职时的谈判能力？"><a href="#五、如何提高求职时的谈判能力？" class="headerlink" title="五、如何提高求职时的谈判能力？"></a>五、如何提高求职时的谈判能力？</h3><p>（1）记住你不是在求职，不是在展示编程技巧，而是在推销某种商业问题（增加收入或降低成本）的解决方案。</p>
+<p>（2）面试时，要有自信，要平等的对话。你要的是一个互利的录用合同，不要每次对方提出要求，你都说Yes。</p>
+<p>（3）雇主可能会问”你的上一份工资是多少”，他们其实在说”给我一个理由，压低你的报酬”。你要想好如何适当地回答这个问题。</p>
+<p>（4）要还价。这里不仅仅指钱，还指其它你关心的方面。如果你无法要求更高的薪水，那就试着要求更多的假期。</p>
+<p>（5）在对方决定录用你以后，才开始讨论薪水。因为那时，他们已经在你身上，投入了大量的时间和金钱，产生了一定的成本，此时他们可能觉得一些小问题已经不值得再纠缠了，比如每年的工资增加几千元。</p>
+<h3 id="六、创业公司是否适合应届毕业生？"><a href="#六、创业公司是否适合应届毕业生？" class="headerlink" title="六、创业公司是否适合应届毕业生？"></a>六、创业公司是否适合应届毕业生？</h3><p>如果你一毕业就加入创业公司，最可能的结果是，接下来几年你都工作得非常辛苦，然后公司悲惨地失败了，你失业了，不得不又去另一家创业公司工作。</p>
+<p>如果你真的想去创业公司，应该首先找一家大公司干上两年，攒一点钱，积累一些经验，然后精心挑选一家创业公司，再去实现自己的梦想。</p>
+<p>在创业公司工作，一般情况下，你遇到的都是创业者。他们大多数人没有能力在两年后雇佣你；而在大公司工作，你遇到的都是其他大公司的人，他们中很多人将来有能力雇用你或者帮你介绍工作。</p>
+<p>七、沟通技能是最重要的职业技能<br>前面说过，工程师被雇佣，不是因为会编程，而是因为能够创造商业价值。所以，你得让人们相信你能创造价值，这是帮助你找到工作的最重要的能力。这种能力与你真的能创造多少价值，实际上联系不是很紧密。</p>
+<p>我认识的一些最优秀的程序员，往往拙于表达。因此，别人不是不想与他们一起工作，就是低估了他们的价值。相反地，如果你看上去很会编程，并且很善于表达，别人就会真的这样看待你。</p>
+<p>（完）</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Think" >
+    <span class="tag-code">Think</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/54695.html">
+        <span class="nav-arrow">← </span>
+        
+          java 获取音视频文件的大小、以及播放时长
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/51428.html">
+        
+          关于word合并、分割、转换问题
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一、90-的编程工作来自内部软件"><span class="toc-nav-text">一、90%的编程工作来自内部软件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二、别人雇你的目的，是让你创造利润，不是让你编程"><span class="toc-nav-text">二、别人雇你的目的，是让你创造利润，不是让你编程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三、不要自称为程序员"><span class="toc-nav-text">三、不要自称为程序员</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四、不要限定自己"><span class="toc-nav-text">四、不要限定自己</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#五、如何提高求职时的谈判能力？"><span class="toc-nav-text">五、如何提高求职时的谈判能力？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#六、创业公司是否适合应届毕业生？"><span class="toc-nav-text">六、创业公司是否适合应届毕业生？</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/34625.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "不要自称为程序员",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

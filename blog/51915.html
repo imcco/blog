@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      代码可读性的重要性 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>代码可读性的重要性</h2>
+  <p class="post-date">2018-02-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0144.jpg" alt="image"></p>
+<p>Java面试笔记<br><a id="more"></a></p>
+<h1 id="可读性的重要性"><a href="#可读性的重要性" class="headerlink" title="可读性的重要性"></a>可读性的重要性</h1><p>编程有很大一部分时间是在阅读代码，不仅要阅读自己的代码，而且要阅读别人的代码。因此，可读性良好的代码能够大大提高编程效率。</p>
+<p>可读性良好的代码往往会让代码架构更好，因为程序员更愿意去修改这部分代码，而且也更容易修改。</p>
+<p>只有在核心领域为了效率才可以放弃可读性，否则可读性是第一位。</p>
+<h1 id="用名字表达代码含义"><a href="#用名字表达代码含义" class="headerlink" title="用名字表达代码含义"></a>用名字表达代码含义</h1><p>一些比较有表达力的单词：</p>
+<table>
+<thead>
+<tr>
+<th>单词</th>
+<th>可替代单词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>send</td>
+<td>deliver、dispatch、announce、distribute、route</td>
+</tr>
+<tr>
+<td>find</td>
+<td>search、extract、locate、recover</td>
+</tr>
+<tr>
+<td>start</td>
+<td>launch、create、begin、open</td>
+</tr>
+<tr>
+<td>make</td>
+<td>create、set up、build、generate、compose、add、new</td>
+</tr>
+</tbody>
+</table>
+<p>使用 i、j、k 作为循环迭代器的名字过于简单，user_i、member_i 这种名字会更有表达力。因为循环层次越多，代码越难理解，有表达力的迭代器名字可读性会更高</p>
+<p>为名字添加形容词等信息能让名字更具有表达力，但是名字也会变长。名字长短的准则是：作用域越大，名字越长。因此只有在短作用域才能使用一些简单名字。</p>
+<h1 id="名字不能带来歧义"><a href="#名字不能带来歧义" class="headerlink" title="名字不能带来歧义"></a>名字不能带来歧义</h1><p>起完名字要思考一下别人会对这个名字有何解读，会不会误解了原本想表达的含义。</p>
+<p>用 min、max 表示数量范围；用 first、last 表示访问空间的包含范围，begin、end 表示访问空间的排除范围，即 end 不包含尾部。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/05907ab4-42c5-4b5e-9388-6617f6c97bea.jpg" alt=""></p>
+<p>布尔相关的命名加上 is、can、should、has 等前缀。</p>
+<h1 id="良好的代码风格"><a href="#良好的代码风格" class="headerlink" title="良好的代码风格"></a>良好的代码风格</h1><p>适当的空行和缩进。</p>
+<p>排列整齐的注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int a = 1;   // 注释</span><br><span class="line">int b = 11;  // 注释</span><br><span class="line">int c = 111; // 注释</span><br></pre></td></tr></table></figure>
+<p>语句顺序不能随意，比如与 html 表单相关联的变量的赋值应该和表单在 html 中的顺序一致；</p>
+<p>把相关的代码按块组织起来放在一起。</p>
+<h1 id="编写注释"><a href="#编写注释" class="headerlink" title="编写注释"></a>编写注释</h1><p>阅读代码首先会注意到注释，如果注释没太大作用，那么就会浪费代码阅读的时间。那些能直接看出含义的代码不需要写注释，特别是并不需要为每个方法都加上注释，比如那些简单的 getter 和 setter 方法，为这些方法写注释反而让代码可读性更差。</p>
+<p>不能因为有注释就随便起个名字，而是争取起个好名字而不写注释。</p>
+<p>可以用注释来记录采用当前解决办法的思考过程，从而让读者更容易理解代码。</p>
+<p>注释用来提醒一些特殊情况。</p>
+<p>用 TODO 等做标记：</p>
+<table>
+<thead>
+<tr>
+<th>标记</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TODO</td>
+<td>待做</td>
+</tr>
+<tr>
+<td>FIXME</td>
+<td>待修复</td>
+</tr>
+<tr>
+<td>HACH</td>
+<td>粗糙的解决方案</td>
+</tr>
+<tr>
+<td>XXX</td>
+<td>危险！这里有重要的问题</td>
+</tr>
+</tbody>
+</table>
+<h1 id="如何编写注释"><a href="#如何编写注释" class="headerlink" title="如何编写注释"></a>如何编写注释</h1><p>尽量简洁明了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// The first String is student&apos;s name</span><br><span class="line">// The Second Integer is student&apos;s score</span><br><span class="line">Map&lt;String, Integer&gt; scoreMap = new HashMap&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Student&apos; name -&gt; Student&apos;s score</span><br><span class="line">Map&lt;String, Integer&gt; scoreMap = new HashMap&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<p>添加测试用例来说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//...</span><br><span class="line">// Example: add(1, 2), return 3</span><br><span class="line">int add(int x, int y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在很复杂的函数调用中对每个参数标上名字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int a = 1;</span><br><span class="line">int b = 2;</span><br><span class="line">int num = add(\* x = *\ a, \* y = *\ b);</span><br></pre></td></tr></table></figure>
+<p>使用专业名词来缩短概念上的解释，比如用设计模式名来说明代码。</p>
+<h1 id="提高控制流的可读性"><a href="#提高控制流的可读性" class="headerlink" title="提高控制流的可读性"></a>提高控制流的可读性</h1><p>条件表达式中，左侧是变量，右侧是常数。比如下面第一个语句正确：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(len &lt; 10)</span><br><span class="line">if(10 &gt; len)</span><br></pre></td></tr></table></figure>
+<p>if / else 条件语句，逻辑的处理顺序为：① 正逻辑；② 关键逻辑；③ 简单逻辑。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(a == b) &#123;</span><br><span class="line">    // 正逻辑</span><br><span class="line">&#125; else&#123;</span><br><span class="line">    // 反逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>只有在逻辑简单的情况下使用 ? : 三目运算符来使代码更紧凑，否则应该拆分成 if / else；</p>
+<p>do / while 的条件放在后面，不够简单明了，并且会有一些迷惑的地方，最好使用 while 来代替。</p>
+<p>如果只有一个 goto 目标，那么 goto 尚且还能接受，但是过于复杂的 goto 会让代码可读性特别差，应该避免使用 goto。</p>
+<p>在嵌套的循环中，用一些 return 语句往往能减少嵌套的层数。</p>
+<h1 id="拆分长表达式"><a href="#拆分长表达式" class="headerlink" title="拆分长表达式"></a>拆分长表达式</h1><p>长表达式的可读性很差，可以引入一些解释变量从而拆分表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if line.split(&apos;:&apos;)[0].strip() == &quot;root&quot;:</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username = line.split(&apos;:&apos;)[0].strip()</span><br><span class="line">if username == &quot;root&quot;:</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>使用摩根定理简化一些逻辑表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(!a &amp;&amp; !b) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(a || b) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="变量与可读性"><a href="#变量与可读性" class="headerlink" title="变量与可读性"></a>变量与可读性</h1><p><strong>去除控制流变量</strong>。在循环中通过使用 break 或者 return 可以减少控制流变量的使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">boolean done = false;</span><br><span class="line">while(/* condition */ &amp;&amp; !done) &#123;</span><br><span class="line">    ...</span><br><span class="line">    if(...) &#123;</span><br><span class="line">        done = true;</span><br><span class="line">        continue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">while(/* condition */) &#123;</span><br><span class="line">    ...</span><br><span class="line">    if(...) &#123;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>减小变量作用域</strong>。作用域越小，越容易定位到变量所有使用的地方。</p>
+<p>JavaScript 可以用闭包减小作用域。以下代码中 submit_form 是函数变量，submitted 变量控制函数不会被提交两次。第一个实现中 submitted 是全局变量，第二个实现把 submitted 放到匿名函数中，从而限制了起作用域范围。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">submitted = false;</span><br><span class="line">var submit_form = function(form_name) &#123;</span><br><span class="line">    if(submitted) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    submitted = true;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var submit_form = (function() &#123;</span><br><span class="line">    var submitted = false;</span><br><span class="line">    return function(form_name) &#123;</span><br><span class="line">        if(submitted) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        submitted = true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;());  // () 使得外层匿名函数立即执行</span><br></pre></td></tr></table></figure>
+<p>JavaScript 中没有用 var 声明的变量都是全局变量，而全局变量很容易造成迷惑，因此应当总是用 var 来声明变量。</p>
+<p>变量定义的位置应当离它使用的位置最近。</p>
+<p><strong>实例解析</strong></p>
+<p>在一个网页中有以下文本输入字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type = &quot;text&quot; id = &quot;input1&quot; value = &quot;a&quot;&gt;</span><br><span class="line">&lt;input type = &quot;text&quot; id = &quot;input2&quot; value = &quot;b&quot;&gt;</span><br><span class="line">&lt;input type = &quot;text&quot; id = &quot;input3&quot; value = &quot;&quot;&gt;</span><br><span class="line">&lt;input type = &quot;text&quot; id = &quot;input4&quot; value = &quot;d&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>现在要接受一个字符串并把它放到第一个空的 input 字段中，初始实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var setFirstEmptyInput = function(new_alue) &#123;</span><br><span class="line">    var found = false;</span><br><span class="line">    var i = 1;</span><br><span class="line">    var elem = document.getElementById(&apos;input&apos; + i);</span><br><span class="line">    while(elem != null) &#123;</span><br><span class="line">        if(elem.value === &apos;&apos;) &#123;</span><br><span class="line">            found = true;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        i++;</span><br><span class="line">        elem = document.getElementById(&apos;input&apos; + i);</span><br><span class="line">    &#125;</span><br><span class="line">    if(found) elem.value = new_value;</span><br><span class="line">    return elem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上实现有以下问题：</p>
+<ul>
+<li>found 可以去除；</li>
+<li>elem 作用域过大；</li>
+<li>可以用 for 循环代替 while 循环；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var setFirstEmptyInput = function(new_value) &#123;</span><br><span class="line">    for(var i = 1; true; i++) &#123;</span><br><span class="line">        var elem = document.getElementById(&apos;input&apos; + i);</span><br><span class="line">        if(elem === null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        if(elem.value === &apos;&apos;) &#123;</span><br><span class="line">            elem.value = new_value;</span><br><span class="line">            return elem;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="抽取函数"><a href="#抽取函数" class="headerlink" title="抽取函数"></a>抽取函数</h1><p>工程学就是把大问题拆分成小问题再把这些问题的解决方案放回一起。</p>
+<p>首先应该明确一个函数的高层次目标，然后对于不是直接为了这个目标工作的代码，抽取出来放到独立的函数中。</p>
+<p>介绍性的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">int findClostElement(int[] arr) &#123;</span><br><span class="line">    int clostIdx;</span><br><span class="line">    int clostDist = Interger.MAX_VALUE;</span><br><span class="line">    for(int i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">        int x = ...;</span><br><span class="line">        int y = ...;</span><br><span class="line">        int z = ...;</span><br><span class="line">        int value = x * y * z;</span><br><span class="line">        int dist = Math.sqrt(Math.pow(value, 2), Math.pow(arr[i], 2));</span><br><span class="line">        if(dist &lt; clostDist) &#123;</span><br><span class="line">            clostIdx = i;</span><br><span class="line">            clostDist = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return clostIdx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码中循环部分主要计算距离，这部分不属于代码高层次目标，高层次目标是寻找最小距离的值，因此可以把这部分代替提取到独立的函数中。这样做也带来一个额外的好处有：可以单独进行测试、可以快速找到程序错误并修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public int findClostElement(int[] arr) &#123;</span><br><span class="line">    int clostIdx;</span><br><span class="line">    int clostDist = Interger.MAX_VALUE;</span><br><span class="line">    for(int i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">        int dist = computDist(arr, i);</span><br><span class="line">        if(dist &lt; clostDist) &#123;</span><br><span class="line">            clostIdx = i;</span><br><span class="line">            clostDist = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return clostIdx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并不是函数抽取的越多越好，如果抽取过多，在阅读代码的时候可能需要不断跳来跳去。只有在当前函数不需要去了解某一块代码细节而能够表达其内容时，把这块代码抽取成子函数才是好的。</p>
+<p>函数抽取也用于减小代码的冗余。</p>
+<h1 id="一次只做一件事"><a href="#一次只做一件事" class="headerlink" title="一次只做一件事"></a>一次只做一件事</h1><p>只做一件事的代码很容易让人知道其要做的事；</p>
+<p>基本流程：列出代码所做的所有任务；把每个任务拆分到不同的函数，或者不同的段落。</p>
+<h1 id="用自然语言表述代码"><a href="#用自然语言表述代码" class="headerlink" title="用自然语言表述代码"></a>用自然语言表述代码</h1><p>先用自然语言书写代码逻辑，也就是伪代码，然后再写代码，这样代码逻辑会更清晰。</p>
+<h1 id="减少代码量"><a href="#减少代码量" class="headerlink" title="减少代码量"></a>减少代码量</h1><p>不要过度设计，编码过程会有很多变化，过度设计的内容到最后往往是无用的。</p>
+<p>多用标准库实现。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Interview" >
+    <span class="tag-code">Interview</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/38943.html">
+        <span class="nav-arrow">← </span>
+        
+          Java基础
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/37198.html">
+        
+          MySQL数据库
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#可读性的重要性"><span class="toc-nav-text">可读性的重要性</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#用名字表达代码含义"><span class="toc-nav-text">用名字表达代码含义</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#名字不能带来歧义"><span class="toc-nav-text">名字不能带来歧义</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#良好的代码风格"><span class="toc-nav-text">良好的代码风格</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#编写注释"><span class="toc-nav-text">编写注释</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#如何编写注释"><span class="toc-nav-text">如何编写注释</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#提高控制流的可读性"><span class="toc-nav-text">提高控制流的可读性</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#拆分长表达式"><span class="toc-nav-text">拆分长表达式</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#变量与可读性"><span class="toc-nav-text">变量与可读性</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#抽取函数"><span class="toc-nav-text">抽取函数</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#一次只做一件事"><span class="toc-nav-text">一次只做一件事</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#用自然语言表述代码"><span class="toc-nav-text">用自然语言表述代码</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#减少代码量"><span class="toc-nav-text">减少代码量</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/51915.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "代码可读性的重要性",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

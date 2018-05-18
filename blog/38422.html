@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Java对象复制Clone技术 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Java对象复制Clone技术</h2>
+  <p class="post-date">2018-03-15</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0153.jpg" alt="image"></p>
+<p>在编码过程经常会碰到将一个对象传递给另一个对象，java中对于基本型变量采用的是值传递，而对于对象比如bean传递时采用的是引用传递也就是地址传递，而很多时候对于对象传递我们也希望能够象值传递一样，使得传递之前和之后有不同的内存地址，在这种情况下就可以clone一个新的对象来用.<br><a id="more"></a></p>
+<h3 id="什么时候使用克隆对象技术"><a href="#什么时候使用克隆对象技术" class="headerlink" title="什么时候使用克隆对象技术"></a>什么时候使用克隆对象技术</h3><p>如：有一个对象A，在某一时刻A中已经包含了一些有效值，A是用来保存从数据库得到很多数据的一个对象。此时可能会需要一个和A完全相同新对象B，B用来修改A里面的某一个属性的值，仅仅是用来负责显示一下，不需要使得A.也受到影响。并且此函数的返回类型是A类型的。并且此后对B任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需求的。实现clone（）方法是不错的选择。</p>
+<p>Java的所有类都默认继承java.lang.Object类，在java.lang.Object类中有一个方法clone()。该方法将返回Object对象的一个拷贝。要说明的有两点：</p>
+<ul>
+<li>一是拷贝对象返回的是一个新对象，而不是一个引用。</li>
+<li>二是拷贝对象与用  new 操作符返回的新对象的区别就是这个拷贝已经包含了一些原来对象的信息，而不是对象的初始信息。</li>
+</ul>
+<p>怎样应用clone()方法？</p>
+<h4 id="实现clone方法的步骤（）"><a href="#实现clone方法的步骤（）" class="headerlink" title="实现clone方法的步骤（）"></a>实现clone方法的步骤（）</h4><ol>
+<li><p>实现Cloneable接口</p>
+</li>
+<li><p>重载Object类中的clone()方法，重载时需定义为public</p>
+</li>
+<li><p>在重载方法中，调用<code>super.clone()</code></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CloneClass</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> aInt;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span></span>&#123;</span><br><span class="line">        CloneClass o = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            o = (CloneClass)<span class="keyword">super</span>.clone();</span><br><span class="line">        &#125;<span class="keyword">catch</span>(CloneNotSupportedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+<h3 id="浅克隆与深克隆（影子克隆）"><a href="#浅克隆与深克隆（影子克隆）" class="headerlink" title="浅克隆与深克隆（影子克隆）"></a>浅克隆与深克隆（影子克隆）</h3><p>​       克隆(默认就是浅克隆)就是复制一个对象的复本.若只需要复制对象的字段值（对于基本数据类型,如:int,long,float等，则复制值；对于复合数据类型仅复制该字段值，如数组变量则复制地址，对于对象变量则复制对象的reference。</p>
+<p>下面的例子包含三个类UnCloneA，CloneB，CloneMain。</p>
+<p>CloneB类包含了一个UnCloneA的实例和一个int类型变量，并且重载clone()方法。</p>
+<p>CloneMain类初始化CloneB 类的一个实例b1，然后调用clone()方法生成了一个b1的拷贝b2。最后考察一下b1和b2的输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> clone;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UnCloneA</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UnCloneA</span><span class="params">(<span class="keyword">int</span> ii)</span> </span>&#123; </span><br><span class="line">        i = ii; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doubleValue</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        i *= <span class="number">2</span>; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.toString(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CloneB</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> aInt;</span><br><span class="line">    <span class="keyword">public</span> UnCloneA unCA = <span class="keyword">new</span> UnCloneA(<span class="number">111</span>);</span><br><span class="line">    <span class="function">publicCloneB <span class="title">clone</span><span class="params">()</span></span>&#123;</span><br><span class="line">        CloneB o = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            o = (CloneB)<span class="keyword">super</span>.clone();</span><br><span class="line">        &#125;<span class="keyword">catch</span>(CloneNotSupportedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloneMain</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] a)</span></span>&#123;</span><br><span class="line">        CloneB b1 = <span class="keyword">new</span> CloneB();</span><br><span class="line">        b1.aInt = <span class="number">11</span>;</span><br><span class="line">        System.out.println(<span class="string">"before clone,b1.aInt = "</span>+ b1.aInt);</span><br><span class="line">        System.out.println(<span class="string">"before clone,b1.unCA = "</span>+ b1.unCA);</span><br><span class="line">        CloneB b2 = (CloneB)b1.clone();</span><br><span class="line">        b2.aInt = <span class="number">22</span>;</span><br><span class="line">        b2.unCA.doubleValue();</span><br><span class="line">        System.out.println(<span class="string">"================================="</span>);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b1.aInt = "</span>+ b1.aInt);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b1.unCA = "</span>+ b1.unCA);</span><br><span class="line">        System.out.println(<span class="string">"================================="</span>);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b2.aInt = "</span>+ b2.aInt);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b2.unCA = "</span>+ b2.unCA);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/ RUN RESULT:</span><br><span class="line">before clone,b1.aInt = <span class="number">11</span></span><br><span class="line">before clone,b1.unCA = <span class="number">111</span></span><br><span class="line">after clone,b1.aInt = <span class="number">11</span></span><br><span class="line">after clone,b1.unCA = <span class="number">222</span></span><br><span class="line">after clone,b2.aInt = <span class="number">22</span></span><br><span class="line">after clone,b2.unCA = <span class="number">222</span></span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>输出的结果说明int类型的变量aInt和UnCloneA的实例对象unCA的clone结果不一致，</p>
+<p>int类型是真正的被clone了，因为改变了b2中的aInt变量，对b1的aInt没有产生影响，</p>
+<p>也就是说，b2.aInt与b1.aInt已经占据了不同的内存空间，b2.aInt是b1.aInt的一个真正拷贝。</p>
+<p>相反，对b2.unCA的改变同时改变了b1.unCA，很明显，b2.unCA和b1.unCA是仅仅指向同一个对象的不同引用！（也就是对对象中的对象克隆失败）</p>
+<p>从中可以看出，调用Object类中clone()方法产生的效果是：先在内存中开辟一块和原始对象一样的空间，然后原样拷贝原始对象中的内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Channel <span class="title">copy</span><span class="params">(Integer cid,String solution, String mobileSolution, Integer siteId,</span></span></span><br><span class="line"><span class="function"><span class="params">			Map&lt;String, String&gt; pathMap)</span></span>&#123;</span><br><span class="line">		Channel c=findById(cid);<span class="comment">//旧</span></span><br><span class="line">		Channel channel=<span class="keyword">new</span> Channel();<span class="comment">//新</span></span><br><span class="line">		<span class="keyword">if</span>(c!=<span class="keyword">null</span>)&#123;</span><br><span class="line">			ChannelExt ext=<span class="keyword">new</span> ChannelExt();</span><br><span class="line">			ChannelTxt channelTxt=<span class="keyword">new</span> ChannelTxt();</span><br><span class="line">			channel=(Channel) c.clone();</span><br><span class="line">			ext=(ChannelExt) c.getChannelExt().clone();</span><br><span class="line">			<span class="keyword">if</span>(c.getChannelTxt()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">				channelTxt=(ChannelTxt) c.getChannelTxt().clone();</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+<p>对基本数据类型，这样的操作是没有问题的，但对非基本类型变量，我们知道它们保存的仅仅是对象的引用，这也导致clone后的非基本类型变量和原始对象中相应的变量指向的是同一个对象。也就没有达到克隆的效果。</p>
+<p>大多时候，这种clone的结果往往不是我们所希望的结果，这种clone也被称为”影子clone”。要想让b2.unCA指向与b2.unCA不同的对象，而且b2.unCA中还要包含b1.unCA中的信息作为初始信息，就要实现深度clone。</p>
+<h3 id="怎么进行深度clone？"><a href="#怎么进行深度clone？" class="headerlink" title="怎么进行深度clone？"></a>怎么进行深度clone？</h3><p>深克隆与浅克隆的区别在于对复合数据类型的复制。若对象中的某个字段为复合类型，在克隆对象的时候，需要为该字段重新创建一个对象。</p>
+<p>把上面的例子改成深度clone很简单，需要两个改变：一是让UnCloneA类也实现和CloneB类一样的clone功能（实现Cloneable接口，重载clone()方法）。二是在CloneB的clone()方法中加入一句<code>o.unCA = (UnCloneA)unCA.clone()</code></p>
+<p>程序如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UnCloneA</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UnCloneA</span><span class="params">(<span class="keyword">int</span> ii)</span> </span>&#123; i = ii; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doubleValue</span><span class="params">()</span> </span>&#123; i *= <span class="number">2</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.toString(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span></span>&#123;</span><br><span class="line">        UnCloneA o = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            o = (UnCloneA)<span class="keyword">super</span>.clone();</span><br><span class="line">        &#125;<span class="keyword">catch</span>(CloneNotSupportedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CloneB</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> aInt;</span><br><span class="line">    <span class="keyword">public</span> UnCloneA unCA = <span class="keyword">new</span> UnCloneA(<span class="number">111</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span></span>&#123;</span><br><span class="line">        CloneB o = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            o = (CloneB)<span class="keyword">super</span>.clone();</span><br><span class="line">        &#125;<span class="keyword">catch</span>(CloneNotSupportedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        o.unCA = (UnCloneA)unCA.clone();</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloneMain</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] a)</span></span>&#123;</span><br><span class="line">        CloneB b1 = <span class="keyword">new</span> CloneB();</span><br><span class="line">        b1.aInt = <span class="number">11</span>;</span><br><span class="line">        System.out.println(<span class="string">"before clone,b1.aInt = "</span>+ b1.aInt);</span><br><span class="line">        System.out.println(<span class="string">"before clone,b1.unCA = "</span>+ b1.unCA);</span><br><span class="line">        CloneB b2 = (CloneB)b1.clone();</span><br><span class="line">        b2.aInt = <span class="number">22</span>;</span><br><span class="line">        b2.unCA.doubleValue();</span><br><span class="line">        System.out.println(<span class="string">"========="</span>);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b1.aInt = "</span>+ b1.aInt);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b1.unCA = "</span>+ b1.unCA);</span><br><span class="line">        System.out.println(<span class="string">"========="</span>);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b2.aInt = "</span>+ b2.aInt);</span><br><span class="line">        System.out.println(<span class="string">"after clone,b2.unCA = "</span>+ b2.unCA);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/ RUN RESULT:</span><br><span class="line">before clone,b1.aInt = <span class="number">11</span></span><br><span class="line">before clone,b1.unCA = <span class="number">111</span></span><br><span class="line">after clone,b1.aInt = <span class="number">11</span></span><br><span class="line">after clone,b1.unCA = <span class="number">111</span></span><br><span class="line">after clone,b2.aInt = <span class="number">22</span></span><br><span class="line">after clone,b2.unCA = <span class="number">222</span></span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>可以看出，现在b2.unCA的改变对b1.unCA没有产生影响。此时b1.unCA与b2.unCA指向了两个不同的UnCloneA实例，而且在CloneB b2 = (CloneB)b1.clone();调用的那一刻b1和b2拥有相同的值，在这里，b1.i = b2.i = 11。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>不是所有的类都能实现深度clone的。例如，如果把上面的CloneB类中的UnCloneA类型变量改成StringBuffer类型，看一下JDK API中关于StringBuffer的说明，StringBuffer没有重载clone()方法，更为严重的是StringBuffer还是一个final类，这也是说我们也不能用继承的办法间接实现StringBuffer的clone。如果一个类中包含有StringBuffer类型对象或和StringBuffer相似类的对象，我们有两种选择：要么只能实现影子clone，要么就在类的clone()方法中加一句（假设是SringBuffer对象，而且变量名仍是unCA）：</p>
+<p> <code>o.unCA = new StringBuffer(unCA.toString()); //原来的是：o.unCA = (UnCloneA)unCA.clone();</code></p>
+<p>还要知道的是除了基本数据类型能自动实现深度clone以外，String对象是一个例外，它clone后的表现好象也实现了深度clone，虽然这只是一个假象，但却大大方便了我们的编程。<br>通过以上我们可以看出在某些情况下，我们可以利用clone方法来实现对象只见的复制，但对于比较复杂的对象（比如对象中包含其他对象，其他对象又包含别的对象…..）这样我们必须进行层层深度clone，每个对象需要实现cloneable接口。</p>
+<h3 id="Java集合的深克隆"><a href="#Java集合的深克隆" class="headerlink" title="Java集合的深克隆"></a>Java集合的深克隆</h3><p>下面例子有一个<code>Employee</code>集合，Employee是可变对象，成员变量<code>name</code>和<code>designation</code>。它们存储在<code>HashSet</code>中。使用<code>java.util.Collection</code>接口的<code>addAll()</code>方法创建集合拷贝。然后修改存储在原始集合每个<code>Employee</code>对象的<code>designation</code>值。理想情况下这个改变不会影响克隆集合，因为克隆集合和原始集合应该相互独立，但是克隆集合也被改变了。修正这个问题的方法是对存储在<code>Collection</code>类中的元素深克隆。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Collection; </span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger; </span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">* Java program to demonstrate copy constructor of Collection provides shallow </span></span><br><span class="line"><span class="comment">* copy and techniques to deep clone Collection by iterating over them. </span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> http://javarevisited.blogspot.com </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionCloningTest</span> </span>&#123; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(CollectionCloningclass); </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123; </span><br><span class="line">        <span class="comment">// deep cloning Collection in Java </span></span><br><span class="line">        Collection&lt;Employee&gt; org = <span class="keyword">new</span> HashSet&lt;&gt;(); </span><br><span class="line">        org.add(<span class="keyword">new</span> Employee(<span class="string">"Joe"</span>, <span class="string">"Manager"</span>)); </span><br><span class="line">        org.add(<span class="keyword">new</span> Employee(<span class="string">"Tim"</span>, <span class="string">"Developer"</span>)); </span><br><span class="line">        org.add(<span class="keyword">new</span> Employee(<span class="string">"Frank"</span>, <span class="string">"Developer"</span>)); </span><br><span class="line"> </span><br><span class="line">        <span class="comment">// creating copy of Collection using copy constructor </span></span><br><span class="line">        Collection&lt;Employee&gt; copy = <span class="keyword">new</span> HashSet&lt;&gt;(org);</span><br><span class="line"> </span><br><span class="line">        logger.debug(<span class="string">"Original Collection &#123;&#125;"</span>, org); </span><br><span class="line">        logger.debug(<span class="string">"Copy of Collection &#123;&#125;"</span>, copy );</span><br><span class="line">         </span><br><span class="line">        Iterator&lt;Employee&gt; itr = org.iterator(); </span><br><span class="line">        <span class="keyword">while</span>(itr.hasNext())&#123; </span><br><span class="line">            itr.next().setDesignation(<span class="string">"staff"</span>); </span><br><span class="line">        &#125; </span><br><span class="line"> </span><br><span class="line">        logger.debug(<span class="string">"Original Collection after modification &#123;&#125;"</span>, org); </span><br><span class="line">        logger.debug(<span class="string">"Copy of Collection without modification &#123;&#125;"</span>, copy ); </span><br><span class="line"> </span><br><span class="line">        <span class="comment">// deep Cloning List in Java </span></span><br><span class="line"> </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123; </span><br><span class="line">    <span class="keyword">private</span> String name; </span><br><span class="line">    <span class="keyword">private</span> String designation; </span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Employee</span><span class="params">(String name, String designation)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.name = name; </span><br><span class="line">        <span class="keyword">this</span>.designation = designation; </span><br><span class="line">    &#125; </span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDesignation</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> designation; </span><br><span class="line">    &#125; </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDesignation</span><span class="params">(String designation)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.designation = designation; </span><br><span class="line">    &#125; </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> name; </span><br><span class="line">    &#125; </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.name = name; </span><br><span class="line">    &#125; </span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> String.format(<span class="string">"%s: %s"</span>, name, designation ); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- Original Collection [Joe: Manager, Frank: Developer, Tim: Developer] </span><br><span class="line">- Copy of Collection [Joe: Manager, Frank: Developer, Tim: Developer] </span><br><span class="line">- Original Collection after modification [Joe: staff, Frank: staff, Tim: staff] </span><br><span class="line">- Copy of Collection without modification [Joe: staff, Frank: staff, Tim: staff]</span><br></pre></td></tr></table></figure>
+<p>可以看到改变原始<code>Collection</code>中<code>Employee</code>对象(改变designation为”<code>staff</code>“)在克隆集合中也有所反映，因为克隆是浅拷贝，指向堆中相同的<code>Employee</code>对象。为了修正这个问题，需要遍历集合，深克隆<code>Employee</code>对象，在这之前，要重写<code>Employee</code>对象的clone方法。</p>
+<ol>
+<li><p><code>Employee</code>实现<code>Cloneable</code>接口</p>
+</li>
+<li><p>为<code>Employee</code>类增加下面的<code>clone()</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Employee <span class="title">clone</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        Employee clone = <span class="keyword">null</span>; </span><br><span class="line">        <span class="keyword">try</span>&#123; </span><br><span class="line">            clone = (Employee) <span class="keyword">super</span>.clone(); </span><br><span class="line"> </span><br><span class="line">        &#125;<span class="keyword">catch</span>(CloneNotSupportedException e)&#123; </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e); <span class="comment">// won't happen </span></span><br><span class="line">        &#125;</span><br><span class="line">          </span><br><span class="line">        <span class="keyword">return</span> clone; </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不使用拷贝构造函数，使用下面的代码来深拷贝集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Employee&gt; copy = <span class="keyword">new</span> HashSet&lt;Employee&gt;(org.size()); </span><br><span class="line"> </span><br><span class="line">Iterator&lt;Employee&gt; iterator = org.iterator(); </span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext())&#123; </span><br><span class="line">    copy.add(iterator.next().clone()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行相同的代码更改原始集合，克隆集合不会也被更改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以看到克隆集合和原始集合相互独立，它们指向不同的对象。<br><a href="http://www.importnew.com/?attachment_id=10852" target="_blank" rel="noopener"><img src="http://incdn1.b0.upaiyun.com/2014/04/8de7420211451f17a303eda3a5cb6710.png" alt="Shallow vs Deep Clone Java"></a></p>
+<p>这就是<strong>Java中如何克隆集合</strong>的内容。现在我们知道拷贝构造函数或者<code>List</code>或<code>Set</code>等各种集合类的<code>addAll()</code>方法仅仅创建了<em>集合的浅拷贝</em>，而且原始集合和克隆集合指向相同的对象。为避免这个问题，应该深克隆集合，遍历集合克隆每个元素。尽管这要求集合中的对象必须支持深克隆操作。</p>
+<p>后面这些话是比较重要的：(易于理解)</p>
+<p>各个集合类提供的拷贝构造函数作为克隆<code>List</code>，<code>Set</code>，<code>ArrayList</code>，<code>HashSet</code>或者其他集合实现的方法。需要记住的是，Java集合的拷贝构造函数只提供浅拷贝而不是深拷贝，这意味着存储在原始List和克隆List中的对象是相同的，指向Java堆内存中相同的位置。</p>
+<h3 id="简单注意"><a href="#简单注意" class="headerlink" title="简单注意"></a>简单注意</h3><ol>
+<li>在克隆java对象的时候不会调用构造器</li>
+<li>java提供一种叫浅拷贝（shallow copy）的默认方式实现clone，创建好对象的副本后然后通过赋值拷贝内容，意味着如果你的类包含引用类型，那么原始对象和克隆都将指向相同的引用内容，这是很危险的，因为发生在可变的字段上任何改变将反应到他们所引用的共同内容上。为了避免这种情况，需要对引用的内容进行深度克隆。</li>
+<li>克隆方法用于创建对象的拷贝，为了使用clone方法，类必须实现<code>java.lang.Cloneable</code>接口<code>重写protected方法clone</code>，如果没有实现Clonebale接口会抛出<code>CloneNotSupportedException.</code></li>
+</ol>
+<h3 id="Hibernate异常Found-shared-references的解决办法"><a href="#Hibernate异常Found-shared-references的解决办法" class="headerlink" title="Hibernate异常Found shared references的解决办法"></a>Hibernate异常Found shared references的解决办法</h3><ul>
+<li><p>在项目中的续签模块中，由于在谈判成功后要新建一份合同，并要将原合同中的站点信息设置到新合同中去，在合同的Entity中有一个list&lt;站点&gt;来关联的，一份合同可以有多少站点！ </p>
+</li>
+<li><p>在新增合同的代码如下： </p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">RenewalItem item = renewalItemDao.findById(id);  </span><br><span class="line">PropertyContract pc = item.getPropertyContract();<span class="comment">//旧合同  </span></span><br><span class="line">PropertyContract newPc = <span class="keyword">new</span> PropertyContract();<span class="comment">//新合同  </span></span><br><span class="line">List&lt;BSProperty&gt; bsList = pc.getBsProperty();           </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">null</span>!=bsList &amp;&amp; !bsList.isEmpty())&#123;  </span><br><span class="line">newPc.setBsProperty(bsList);<span class="comment">//将旧合同中的关联站点设置到新合同中去。  </span></span><br><span class="line">&#125;  </span><br><span class="line">....  </span><br><span class="line">renewalItemDao.merge(item);</span><br></pre></td></tr></table></figure>
+<p>此时会报：<code>org.hibernate.HibernateException: Found shared references to a collection</code>，这样的异常信息，意思是指发现共享引用集合，经过上网GOOGLE,有一帖子说： </p>
+<p>解决方法：  </p>
+<ol>
+<li><strong>在拷贝后，新建一个集合，将原来的集合元素添加进去，并赋值给新拷贝的实体</strong> </li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">RenewalItem item = renewalItemDao.findById(id);  </span><br><span class="line">PropertyContract pc = item.getPropertyContract();<span class="comment">//旧合同  </span></span><br><span class="line">PropertyContract newPc = <span class="keyword">new</span> PropertyContract();<span class="comment">//新合同  </span></span><br><span class="line">List&lt;BSProperty&gt; bsList = pc.getBsProperty();           </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">null</span>!=bsList &amp;&amp; !bsList.isEmpty())&#123;  </span><br><span class="line">List&lt;BSProperty&gt; newBsList = <span class="keyword">new</span> ArrayList&lt;BSProperty&gt;(bsList.size());  </span><br><span class="line"><span class="keyword">for</span>(BSProperty bs : bsList)&#123;  </span><br><span class="line">  newBsList.add(bs);  </span><br><span class="line">&#125;  </span><br><span class="line">newPc.setBsProperty(newBsList);<span class="comment">//将旧合同中的关联站点设置到新合同中去。  </span></span><br><span class="line">&#125;  </span><br><span class="line">....  </span><br><span class="line">renewalItemDao.merge(item);</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/50510.html">
+        <span class="nav-arrow">← </span>
+        
+          代码生成Tools
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/6321.html">
+        
+          Github搜索技巧
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#什么时候使用克隆对象技术"><span class="toc-nav-text">什么时候使用克隆对象技术</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#实现clone方法的步骤（）"><span class="toc-nav-text">实现clone方法的步骤（）</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#浅克隆与深克隆（影子克隆）"><span class="toc-nav-text">浅克隆与深克隆（影子克隆）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#怎么进行深度clone？"><span class="toc-nav-text">怎么进行深度clone？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#注意"><span class="toc-nav-text">注意</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Java集合的深克隆"><span class="toc-nav-text">Java集合的深克隆</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#简单注意"><span class="toc-nav-text">简单注意</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Hibernate异常Found-shared-references的解决办法"><span class="toc-nav-text">Hibernate异常Found shared references的解决办法</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/38422.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Java对象复制Clone技术",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

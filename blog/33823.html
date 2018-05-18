@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      10 种最常见的 Javascript 错误 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>10 种最常见的 Javascript 错误</h2>
+  <p class="post-date">2018-02-09</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0119.jpg" alt="image"></p>
+<p>我们查看了数千个项目的数据库，发现了 JavaScript 中频度最高的 10 种错误。我们会告诉你什么原因导致了这些错误，以及如何防止这些错误发生。如果你能够避免落入这些 “陷阱”，你将会成为一个更好的开发者。<br><a id="more"></a></p>
+<blockquote>
+<p>原文：<a href="https://rollbar.com/blog/top-10-javascript-errors/" target="_blank" rel="noopener">https://rollbar.com/blog/top-10-javascript-errors/</a></p>
+</blockquote>
+<p>数据才是王道，我们收集并分析了出现频次排前 10 的 JavaScript 错误。 Rollbar 会收集每个项目的所有错误，并总结每个错误发生的次数。我们通过根据 “指纹”（rollbar 用到的一种算法，详见：<a href="https://rollbar.com/docs/grouping-algorithm/）对错误进行分组。基本上，如果第二个错误只是第一个错误的重复，我们会把两个错误分到同一组。这会给用户一个很好的概括，而不是像在日志文件中看到的那样直接一大堆让人感觉到十分压迫的" target="_blank" rel="noopener">https://rollbar.com/docs/grouping-algorithm/）对错误进行分组。基本上，如果第二个错误只是第一个错误的重复，我们会把两个错误分到同一组。这会给用户一个很好的概括，而不是像在日志文件中看到的那样直接一大堆让人感觉到十分压迫的</a> dump。</p>
+<p>我们专注于最有可能影响您和您的用户的错误。为此，我们通过研究各种不同公司的项目集来对于错误进行排列。如果我们只查看每个错误发生的总次数，那么客户量大的的项目产生的错误可能会压倒其他错误，导致实际收集到的是与大多数读者无关的错误数据集。</p>
+<h3 id="JavaScript-错误-Top-10："><a href="#JavaScript-错误-Top-10：" class="headerlink" title=" JavaScript 错误 Top 10："></a><strong> JavaScript 错误 Top 10：</strong></h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js001.jpg" alt="img"></p>
+<p>为了便于阅读，我们将每个错误描述都缩短了。接下来，让我们深入到每一个错误，来确定什么会导致它，以及如何避免创建它。</p>
+<h3 id="1-Uncaught-TypeError-Cannot-read-property"><a href="#1-Uncaught-TypeError-Cannot-read-property" class="headerlink" title="1. Uncaught TypeError: Cannot read property"></a><strong>1. Uncaught TypeError: Cannot read property</strong></h3><p>如果你是一个 JavaScript 开发人员，可能你看到这个错误的次数比你敢承认的要多（LOL…）。当你读取一个未定义的对象的属性或调用其方法时，这个错误会在 Chrome 中出现。 您可以很容易的在 Chrome 开发者控制台中进行测试（尝试）。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js002.jpg" alt="img"></p>
+<p>发生这种情况的原因很多，但常见的一种是在渲染 UI 组件时对于状态的初始化操作不当。</p>
+<p>我们来看一个在真实应用程序中发生的例子：我们选择 React，但该情况也同样适用于 Angular、Vue 或任何其他框架。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quiz</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  componentWillMount() &#123;</span><br><span class="line">    axios.get(<span class="string">'/thedata'</span>).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;<span class="attr">items</span>: res.data&#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.state.items.map(<span class="function"><span class="params">item</span> =&gt;</span></span><br><span class="line">          &lt;li key=&#123;item.id&#125;&gt;&#123;item.name&#125;&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">        )&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/u</span>l&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有两件重要的事情要实现：</p>
+<ol>
+<li>组件的状态（例如 this.state）从 undefined 开始。</li>
+<li>当异步获取数据时，不管它是在构造函数componentWillMount还是componentDidMount中获取的，组件在数据加载之前至少会呈现一次，当 Quiz 第一次呈现时，this.state.items 是未定义的。 这又意味着 ItemList 将 items 定义为 undefined，并且在控制台中出现错误 - “Uncaught TypeError: Cannot read property ‘map’ of undefined”。</li>
+</ol>
+<p>这很容易解决。最简单的方法：在构造函数中用合理的默认值来初始化 state。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quiz</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Added this:</span></span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">// Assign state itself, and a default value for items</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      items: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillMount() &#123;</span><br><span class="line">    axios.get(<span class="string">'/thedata'</span>).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;<span class="attr">items</span>: res.data&#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.state.items.map(<span class="function"><span class="params">item</span> =&gt;</span></span><br><span class="line">          &lt;li key=&#123;item.id&#125;&gt;&#123;item.name&#125;&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">        )&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/u</span>l&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在你的应用程序中的具体代码可能是不同的，但我们希望我们已经给你足够的线索，以解决或避免在你的应用程序中出现的这个问题。如果还没有，请继续阅读，因为我们将在下面覆盖更多相关错误的示例。</p>
+<h3 id="2-TypeError-‘undefined’-is-not-an-object"><a href="#2-TypeError-‘undefined’-is-not-an-object" class="headerlink" title="2. TypeError: ‘undefined’ is not an object"></a><strong>2. TypeError: ‘undefined’ is not an object</strong></h3><p>这是在 Safari 中读取属性或调用未定义对象上的方法时发生的错误。您可以在 Safari Developer Console 中轻松测试。这与 1 中提到的 Chrome 的错误基本相同，但 Safari 使用了不同的错误消息提示语。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js003.jpg" alt="img"></p>
+<h3 id="3-TypeError-null-is-not-an-object"><a href="#3-TypeError-null-is-not-an-object" class="headerlink" title="3. TypeError: null is not an object"></a><strong>3. TypeError: null is not an object</strong></h3><p>这是在 Safari 中读取属性或调用空对象上的方法时发生的错误。 您可以在 Safari Developer Console 中轻松测试。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js004.jpg" alt="img"></p>
+<p>有趣的是，在 JavaScript 中，null 和 undefined 是不一样的，这就是为什么我们看到两个不同的错误信息。undefined 通常是一个尚未分配的变量，而 null 表示该值为空。 要验证它们不相等，请尝试使用严格的相等运算符 ===：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js005.jpg" alt="img"></p>
+<p>在现实世界的例子中，这种错误可能发生的一种场景是：如果在加载元素之前尝试在 JavaScript 中使用元素。 因为 DOM API 对于空白的对象引用返回值为 null。</p>
+<p>任何执行和处理 DOM 元素的 JS 代码都应该在创建 DOM 元素之后执行。 JS 代码按照 HTML 中的规定从上到下进行解释。 所以，如果 DOM 元素之前有一个标签，脚本标签内的 JS 代码将在浏览器解析 HTML 页面时执行。 如果在加载脚本之前尚未创建 DOM 元素，则会出现此错误。</p>
+<p>在这个例子中，我们可以通过添加一个事件监听器来解决这个问题，这个监听器会在页面准备好的时候通知我们。 一旦 addEventListener被触发，init() 方法就可以使用 DOM 元素。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myButton = <span class="built_in">document</span>.getElementById(<span class="string">"myButton"</span>);</span><br><span class="line">    <span class="keyword">var</span> myTextfield = <span class="built_in">document</span>.getElementById(<span class="string">"myTextfield"</span>);</span><br><span class="line">    myButton.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> userName = myTextfield.value;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'readystatechange'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.readyState === <span class="string">"complete"</span>) &#123;</span><br><span class="line">      init();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;form&gt;</span></span><br><span class="line"><span class="regexp">  &lt;input type="text" id="myTextfield" placeholder="Type your name" /</span>&gt;</span><br><span class="line">  &lt;input type=<span class="string">"button"</span> id=<span class="string">"myButton"</span> value=<span class="string">"Go"</span> /&gt;</span><br><span class="line">&lt;<span class="regexp">/form&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-unknown-Script-error"><a href="#4-unknown-Script-error" class="headerlink" title="4. (unknown): Script error"></a><strong>4. (unknown): Script error</strong></h3><p>当未捕获的 JavaScript 错误（通过window.onerror处理程序引发的错误，而不是捕获在try-catch中）被浏览器的跨域策略限制时，会产生这类的脚本错误。 例如，如果您将您的 JavaScript 代码托管在 CDN 上，则任何未被捕获的错误将被报告为“脚本错误” 而不是包含有用的堆栈信息。这是一种浏览器安全措施，旨在防止跨域传递数据，否则将不允许进行通信。</p>
+<p>要获得真正的错误消息，请执行以下操作：</p>
+<ol>
+<li>发送 ‘Access-Control-Allow-Origin’ 头部</li>
+</ol>
+<p>将 Access-Control-Allow-Origin 标头设置为 * 表示可以从任何域正确访问资源。 如有必要，您可以将域替换为您的域：例如，Access-Control-Allow-Origin：<a href="http://www.example.com。" target="_blank" rel="noopener">www.example.com。</a> 但是，处理多个域会变得棘手，如果你使用 CDN，可能由此产生更多的缓存问题会让你感觉到这种努力并不值得。 在这里看到更多。</p>
+<p>这里有一些关于如何在各种环境中设置这个头文件的例子：</p>
+<p>Apache</p>
+<p>在 JavaScript 文件所在的文件夹中，使用以下内容创建一个 .htaccess 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Header add Access-Control-Allow-Origin &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>Nginx</p>
+<p>将 add_header 指令添加到提供 JavaScript 文件的位置块中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; location ~ ^/assets/ &#123;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     add_header Access-Control-Allow-Origin *;</span><br><span class="line">&gt; &#125;</span><br></pre></td></tr></table></figure>
+<p>HAProxy</p>
+<p>将以下内容添加到您为 JavaScript 文件提供资源服务的后端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; rspadd Access-Control-Allow-Origin: *</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在 &lt;script 中设置 crossorigin=”anonymous”</li>
+</ol>
+<p>在您的 HTML 代码中，对于您设置了Access-Control-Allow-Origin header 的每个脚本，在 script 标签上设置crossorigin =“anonymous”。在脚本标记中添加 crossorigin 属性之前，请确保验证上述 header 正确发送。 在 Firefox 中，如果存在crossorigin属性，但Access-Control-Allow-Origin头不存在，则脚本将不会执行。</p>
+<h3 id="5-TypeError-Object-doesn’t-support-property"><a href="#5-TypeError-Object-doesn’t-support-property" class="headerlink" title="5. TypeError: Object doesn’t support property"></a><strong>5. TypeError: Object doesn’t support property</strong></h3><p>这是您在调用未定义的方法时发生在 IE 中的错误。 您可以在 IE 开发者控制台中进行测试。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js006.jpg" alt="img"></p>
+<p>这相当于 Chrome 中的 “TypeError：”undefined“ is not a function” 错误。 是的，对于相同的逻辑错误，不同的浏览器可能具有不同的错误消息。</p>
+<p>对于使用 JavaScript 命名空间的 Web 应用程序，这是一个 IE l浏览器的常见的问题。 在这种情况下，99.9％ 的原因是 IE 无法将当前名称空间内的方法绑定到 this 关键字。 例如：如果你 JS 中有一个命名空间 Rollbar 以及方法 isAwesome 。 通常，如果您在 Rollbar 命名空间内，则可以使用以下语法调用isAwesome方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; this.isAwesome();</span><br></pre></td></tr></table></figure>
+<p>Chrome，Firefox 和 Opera 会欣然接受这个语法。 另一方面 IE，不会。 因此，使用 JS 命名空间时最安全的选择是始终以实际名称空间作为前缀。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; Rollbar.isAwesome();</span><br></pre></td></tr></table></figure>
+<h3 id="6-TypeError-‘undefined’-is-not-a-function"><a href="#6-TypeError-‘undefined’-is-not-a-function" class="headerlink" title="6. TypeError: ‘undefined’ is not a function"></a><strong>6. TypeError: ‘undefined’ is not a function</strong></h3><p>当您调用未定义的函数时，这是 Chrome 中产生的错误。 您可以在 Chrome 开发人员控制台和 Mozilla Firefox 开发人员控制台中进行测试。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js007.jpg" alt="img"></p>
+<p>随着 JavaScript 编码技术和设计模式在过去几年中变得越来越复杂，回调和关闭中的自引用范围也相应增加，这是这种/那种混淆的相当常见的来源。</p>
+<p>考虑这个代码片段：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.clearLocalStorage();</span><br><span class="line">  <span class="keyword">this</span>.timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.clearBoard();    <span class="comment">// what is "this"?</span></span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>执行上面的代码会导致以下错误：“Uncaught TypeError：undefined is not a function”。 你得到上述错误的原因是，当你调用setTimeout()时，实际上是调用window.setTimeout()。 因此，在窗口对象的上下文中定义了一个传递给setTimeout()的匿名函数，该函数没有clearBoard()方法。</p>
+<p>一个传统的，旧浏览器兼容的解决方案是简单地将您的 this 保存在一个变量，然后可以由闭包继承。 例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.clearLocalStorage();</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;   <span class="comment">// save reference to 'this', while it's still this!</span></span><br><span class="line">  <span class="keyword">this</span>.timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    self.clearBoard();  </span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>或者，在较新的浏览器中，可以使用bind()方法传递适当的引用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.clearLocalStorage();</span><br><span class="line">  <span class="keyword">this</span>.timer = setTimeout(<span class="keyword">this</span>.reset.bind(<span class="keyword">this</span>), <span class="number">0</span>);  <span class="comment">// bind to 'this'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.clearBoard();    <span class="comment">//back in the context of the right 'this'!</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="7-Uncaught-RangeError-Maximum-call-stack"><a href="#7-Uncaught-RangeError-Maximum-call-stack" class="headerlink" title="7. Uncaught RangeError: Maximum call stack"></a><strong>7. Uncaught RangeError: Maximum call stack</strong></h3><p>这是 Chrome 在一些情况下会发生的错误。 一个是当你调用一个不终止的递归函数。您可以在 Chrome 开发者控制台中进行测试。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js007.jpg" alt="img"></p>
+<p>此外，如果您将值传递给超出范围的函数，也可能会发生这种情况。 许多函数只接受其输入值的特定范围的数字。 例如：Number.toExponential(digits) 和 Number.toFixed(digits) 接受 0 到 20 的数字，Number.toPrecision(digits) 接受 1 到 21 的数字。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">4294967295</span>);  <span class="comment">//OK</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">-1</span>); <span class="comment">//range error</span></span><br><span class="line"><span class="keyword">var</span> num = <span class="number">2.555555</span>;</span><br><span class="line"><span class="built_in">document</span>.writeln(num.toExponential(<span class="number">4</span>));  <span class="comment">//OK</span></span><br><span class="line"><span class="built_in">document</span>.writeln(num.toExponential(<span class="number">-2</span>)); <span class="comment">//range error!</span></span><br><span class="line">num = <span class="number">2.9999</span>;</span><br><span class="line"><span class="built_in">document</span>.writeln(num.toFixed(<span class="number">2</span>));   <span class="comment">//OK</span></span><br><span class="line"><span class="built_in">document</span>.writeln(num.toFixed(<span class="number">25</span>));  <span class="comment">//range error!</span></span><br><span class="line">num = <span class="number">2.3456</span>;</span><br><span class="line"><span class="built_in">document</span>.writeln(num.toPrecision(<span class="number">1</span>));   <span class="comment">//OK</span></span><br><span class="line"><span class="built_in">document</span>.writeln(num.toPrecision(<span class="number">22</span>));  <span class="comment">//range error!</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-TypeError-Cannot-read-property-‘length’"><a href="#8-TypeError-Cannot-read-property-‘length’" class="headerlink" title="8. TypeError: Cannot read property ‘length’"></a><strong>8. TypeError: Cannot read property ‘length’</strong></h3><p>这是 Chrome 中发生的错误，因为读取未定义变量的长度属性。 您可以在 Chrome 开发者控制台中进行测试。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js008.jpg" alt="img"></p>
+<p>您通常会在数组中找到定义的长度，但是如果数组未初始化或者变量名称在另一个上下文中隐藏，则可能会遇到此错误。让我们用下面的例子来理解这个错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> testArray = [<span class="string">"Test"</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span>(<span class="params">testArray</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; testArray.length; i++) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(testArray[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">testFunction();</span><br></pre></td></tr></table></figure>
+<p>当你用参数声明一个函数时，这些参数变成了函数作用域内的本地参数。这意味着即使你函数外有名为 testArray 的变量，在一个函数中具有相同名字的参数也会被视为本地参数。</p>
+<p>您有两种方法可以解决您的问题：</p>
+<ol>
+<li>删除函数声明语句中的参数（事实上你想访问那些声明在函数之外的变量，所以你不需要函数的参数）：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> testArray = [<span class="string">"Test"</span>];</span><br><span class="line"><span class="comment">/* Precondition: defined testArray outside of a function */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span>(<span class="params"><span class="regexp">/* No params */</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; testArray.length; i++) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(testArray[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">testFunction();</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>用声明的数组调用该函数：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> testArray = [<span class="string">"Test"</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testFunction</span>(<span class="params">testArray</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; testArray.length; i++) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(testArray[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">testFunction(testArray);</span><br></pre></td></tr></table></figure>
+<h3 id="9-Uncaught-TypeError-Cannot-set-property"><a href="#9-Uncaught-TypeError-Cannot-set-property" class="headerlink" title="9. Uncaught TypeError: Cannot set property"></a><strong>9. Uncaught TypeError: Cannot set property</strong></h3><p>当我们尝试访问一个未定义的变量时，它总是返回 undefined，我们不能获取或设置任何未定义的属性。 在这种情况下，应用程序将抛出 “Uncaught TypeError: Cannot set property”。</p>
+<p>例如，在 Chrome 浏览器中：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js009.jpg" alt="img"></p>
+<p>如果测试对象不存在，错误将会抛出 “Uncaught TypeErrorUncaught TypeError: Cannot set property”。</p>
+<p><strong>10. ReferenceError: event is not defined</strong></p>
+<p>当您尝试访问未定义的变量或超出当前范围的变量时，会引发此错误。 您可以在 Chrome 浏览器中轻松测试。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/js/js010.jpg" alt="img"></p>
+<p>如果在使用事件处理系统时遇到此错误，请确保使用传入的事件对象作为参数。像 IE 这样的旧浏览器提供了一个全局变量事件，但并不是所有浏览器都支持。像 jQuery 这样的库试图规范化这种行为。尽管如此，最好使用传入事件处理函数的函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    event = event.which || event.keyCode;</span><br><span class="line">    <span class="keyword">if</span>(event.keyCode===<span class="number">13</span>)&#123;</span><br><span class="line">       alert(event.keyCode);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h3><p>我们希望你学到了新的东西，可以避免将来的错误，或者本指南帮助你解决了头痛的问题。</p>
+<p>尽管如此，即使有最佳实践，生产中也会出现意想不到的错误。能够查看影响用户的错误，并拥有快速解决问题的好工具，这一点非常重要。推荐 Rollbar。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/13897.html">
+        <span class="nav-arrow">← </span>
+        
+          设计模式（Design pattern）之一
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/27809.html">
+        
+          JS实现分页功能
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#JavaScript-错误-Top-10："><span class="toc-nav-text"> JavaScript 错误 Top 10：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-Uncaught-TypeError-Cannot-read-property"><span class="toc-nav-text">1. Uncaught TypeError: Cannot read property</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-TypeError-‘undefined’-is-not-an-object"><span class="toc-nav-text">2. TypeError: ‘undefined’ is not an object</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-TypeError-null-is-not-an-object"><span class="toc-nav-text">3. TypeError: null is not an object</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-unknown-Script-error"><span class="toc-nav-text">4. (unknown): Script error</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-TypeError-Object-doesn’t-support-property"><span class="toc-nav-text">5. TypeError: Object doesn’t support property</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-TypeError-‘undefined’-is-not-a-function"><span class="toc-nav-text">6. TypeError: ‘undefined’ is not a function</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-Uncaught-RangeError-Maximum-call-stack"><span class="toc-nav-text">7. Uncaught RangeError: Maximum call stack</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-TypeError-Cannot-read-property-‘length’"><span class="toc-nav-text">8. TypeError: Cannot read property ‘length’</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#9-Uncaught-TypeError-Cannot-set-property"><span class="toc-nav-text">9. Uncaught TypeError: Cannot set property</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#结论"><span class="toc-nav-text">结论</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/33823.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "10 种最常见的 Javascript 错误",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

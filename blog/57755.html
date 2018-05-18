@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      SVN的使用 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>SVN的使用</h2>
+  <p class="post-date">2017-12-18</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0006.jpg" alt="image"></p>
+<p>SVN是Subversion的简称，是一个开放源代码的版本控制系统，相较于RCS、CVS，它采用了分支管理系统，它的设计目标就是取代CVS。互联网上很多版本控制服务已从CVS迁移到Subversion。说得简单一点SVN就是用于多个人共同开发同一个项目，共用资源的目的。<br><a id="more"></a></p>
+<h3 id="为什么要使用配置管理"><a href="#为什么要使用配置管理" class="headerlink" title="为什么要使用配置管理"></a>为什么要使用配置管理</h3><p>及时了解团队中其他成员的进度。</p>
+<p>轻松比较不同版本间的细微差别；</p>
+<p>记录每个文件成长的每步细节，利于成果的复用(reuse);</p>
+<p>资料共享，避免以往靠邮件发送文件造成的版本混乱；</p>
+<p>人人为我，我为人人。所有成员维护的实际是同一个版本库，无需专人维护所有文件的最新版本；</p>
+<p>协同工作，大大提高团队工作效率，无论团队成员分布在天涯还是海角；</p>
+<h3 id="Subversion-TortoiseSVN的版本控制系统"><a href="#Subversion-TortoiseSVN的版本控制系统" class="headerlink" title="Subversion/TortoiseSVN的版本控制系统"></a>Subversion/TortoiseSVN的版本控制系统</h3><p>Subversion：是一个开源的版本控制系统，拥有CVS的大部分特征，并在CVS的基础上有更强的扩展，用来代替 CVS 系统。</p>
+<p>TortoiseSVN：SVN的客户端工具，和资源管理器完美集成，基于TortoiseCVS的代码开发，使用上与TortioseCVS极其相似;</p>
+<h3 id="配置库（-Repository-）"><a href="#配置库（-Repository-）" class="headerlink" title="配置库（ Repository ）"></a>配置库（ Repository ）</h3><p>SVN的核心是配置库，储存所有的数据，配置库按照文件树形式储存数据－包括文件和目录，任意数量的客户端可以连接到配置库，读写这些文件。通过写数据，别人可以看到这些信息；通过读数据，可以看到别人的修改。 </p>
+<p>最特别的是 Subversion 会记录配置库中的每一次更改，不仅针对文件也包括目录本身，包括增加、删除和重新组织文件和目录。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN001.jpg" alt="image"></p>
+<h3 id="工作副本（WorkSpace）"><a href="#工作副本（WorkSpace）" class="headerlink" title="工作副本（WorkSpace）"></a>工作副本（WorkSpace）</h3><p>与位于中央配置库相对应的是每个人的工作空间，它是每个程序员工作的地方，程序员从配置库拿到源代码，放在本地作为工作副本，在工作副本上进行查看、修改、编译、运行、测试等操作，并把新版本的代码从这里提交回配置库库中。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN002.jpg" alt="image"></p>
+<h3 id="SVN工作模式"><a href="#SVN工作模式" class="headerlink" title="SVN工作模式"></a>SVN工作模式</h3><h4 id="复制-修改-合并方案-Subversion默认的模式"><a href="#复制-修改-合并方案-Subversion默认的模式" class="headerlink" title="复制-修改-合并方案(Subversion默认的模式)"></a>复制-修改-合并方案(Subversion默认的模式)</h4><p>在这种模型里，每一个客户读取项目配置库建立一个私有工作副本——版本库中文件和目录的本地映射。用户并行工作，修改各自的工作副本，最终，各个私有的复制合并在一起，成为最终的版本，这种系统通常可以辅助合并操作，但是最终要靠人工去确定正误。</p>
+<h4 id="锁定-修改-解锁方案"><a href="#锁定-修改-解锁方案" class="headerlink" title="锁定-修改-解锁方案"></a>锁定-修改-解锁方案</h4><p>在这样的模型里，在一个时间段里配置库的一个文件只允许被一个人修改。 此模式不适合软件开发这种工作。</p>
+<h3 id="SVN安装"><a href="#SVN安装" class="headerlink" title="SVN安装"></a>SVN安装</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN003.jpg" alt="image"></p>
+<p>安装完毕后，在“资源管理器”里点击右键，会有如下菜单出现：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN004.jpg" alt="image"></p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN005.png" alt="image"></p>
+<h3 id="SVN使用流程"><a href="#SVN使用流程" class="headerlink" title="SVN使用流程"></a>SVN使用流程</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN006.png" alt="image"></p>
+<h3 id="SVN使用图标说明"><a href="#SVN使用图标说明" class="headerlink" title="SVN使用图标说明"></a>SVN使用图标说明</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN007.png" alt="image"></p>
+<h3 id="SVN-CheckOut检出"><a href="#SVN-CheckOut检出" class="headerlink" title="SVN CheckOut检出"></a>SVN CheckOut检出</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN008.png" alt="image"></p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN009.png" alt="image"></p>
+<h3 id="SVN-CheckOut检出注意事项"><a href="#SVN-CheckOut检出注意事项" class="headerlink" title="SVN CheckOut检出注意事项"></a>SVN CheckOut检出注意事项</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN010.jpg" alt="image"></p>
+<p>检出深度：</p>
+<ol>
+<li><p>全递归(默认选择)</p>
+<p>检出完整的目录树，包含所有的文件或子目录。</p>
+</li>
+<li><p>直接节点，包含目录 </p>
+<p>检出目录，包含其中的文件或子目录，但是不递归展开子目录。</p>
+</li>
+<li><p>仅文件子节点</p>
+<p>检出指定目录，包含所有文件，但是不检出任何子目录。</p>
+</li>
+<li><p>仅此项。 </p>
+<p>只检出目录。不包含其中的文件或子目录。</p>
+</li>
+</ol>
+<p>省略外部引用：如果项目含有外部项目的引用，而这些引用我们不希望同时检出，请选中忽略外部项目复选框。如果选中了这个复选框，更新的时候要使用命令”更新至版本Update to Revision…”</p>
+<h3 id="SVN-Update更新"><a href="#SVN-Update更新" class="headerlink" title="SVN Update更新"></a>SVN Update更新</h3><p>作用：更新工作副本使其成为版本库中的最新版本</p>
+<p>SVN将显示出更新的文件和更新的次数</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN011.jpg" alt="image"></p>
+<h3 id="SVN-Commit提交"><a href="#SVN-Commit提交" class="headerlink" title="SVN Commit提交"></a>SVN Commit提交</h3><p>对工作副本进行编辑后提交到SVN</p>
+<p>在右键菜单中点击SVN Commit</p>
+<p>提交前写好信息，点击确定</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN012.jpg" alt="image"></p>
+<h3 id="SVN-权限控制"><a href="#SVN-权限控制" class="headerlink" title="SVN 权限控制"></a>SVN 权限控制</h3><p>当进行提交文件操作的时候您将看到权限提示信息</p>
+<p>输入您的用户名和密码</p>
+<p>保存权限设置（见红圈） ，可以避免将来重复输入用户名和密码</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN013.jpg" alt="image"></p>
+<h3 id="SVN-如何删除认证数据"><a href="#SVN-如何删除认证数据" class="headerlink" title="SVN 如何删除认证数据"></a>SVN 如何删除认证数据</h3><blockquote>
+<p> 步骤：点击右键 —— 选择设置  ——  以保存数据  ——  清除认证数据</p>
+</blockquote>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN014.jpg" alt="image"></p>
+<h3 id="SVN-Show-log显示日志"><a href="#SVN-Show-log显示日志" class="headerlink" title="SVN  Show log显示日志"></a>SVN  Show log显示日志</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN015.jpg" alt="image"></p>
+<h3 id="SVN-日志信息填写规则"><a href="#SVN-日志信息填写规则" class="headerlink" title="SVN  日志信息填写规则"></a>SVN  日志信息填写规则</h3><p>好的日志信息和糟糕的日志信息</p>
+<p>日志信息主要记录的是每次的修改内容。建议把一些重要数据、关键操作写到日志信息中。</p>
+<p>注：修改人和提交时间由软件自动记录，无需人工写入日志信息</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN016.jpg" alt="image"></p>
+<h3 id="SVN-如何得到历史版本"><a href="#SVN-如何得到历史版本" class="headerlink" title="SVN  如何得到历史版本"></a>SVN  如何得到历史版本</h3><p>工作副本右键 - 显示日志 - 选择所需的版本号 - 保存版本至</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN017.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN018.jpg" alt="image"></p>
+<h3 id="SVN-Revert-还原"><a href="#SVN-Revert-还原" class="headerlink" title="SVN  Revert(还原)"></a>SVN  Revert(还原)</h3><p>作用：撤销本地所有未提交的修改</p>
+<blockquote>
+<p>注意：还没有执行Commit操作之前执行此命令才可以，否则无效</p>
+</blockquote>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN019.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN020.jpg" alt="image"></p>
+<h3 id="SVN-Add添加"><a href="#SVN-Add添加" class="headerlink" title="SVN  Add添加"></a>SVN  Add添加</h3><p>选中文件/文件夹（在新文件/文件夹所在父文件夹点击右键），</p>
+<p>在菜单中选择“添加Add”命令。不需要受SVN控制的文件请取消打钩。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN021.jpg" alt="image"></p>
+<h3 id="SVN-Add-to-Ignore-List-（忽略文件）"><a href="#SVN-Add-to-Ignore-List-（忽略文件）" class="headerlink" title="SVN  Add to Ignore List （忽略文件）"></a>SVN  Add to Ignore List （忽略文件）</h3><ul>
+<li><p>添加忽略文件</p>
+<p>右键一个单独的未进入版本控制文件TortoiseSVN (加入忽略列表)Add to Ignore List，会出现一个子菜单允许你仅选择该文件，或者所有具有相同后缀的文件。 </p>
+</li>
+<li><p>删除忽略文件：</p>
+<p>如果你想从忽略列表中移除一个或多个条目，右击这些条目，选择TortoiseSVN → 从忽略列表删除。</p>
+</li>
+</ul>
+<p>已进入版本控制的文件或目录不能够忽略  </p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN022.jpg" alt="image"></p>
+<h3 id="SVN-版本分支"><a href="#SVN-版本分支" class="headerlink" title="SVN  版本分支"></a>SVN  版本分支</h3><p>这个版本历史分析图能够显示分支/标签从什么地方开始创建，以及什么时候删除。</p>
+<p>版本分支图将显示以下内容: </p>
+<ol>
+<li>增加文件/文件夹</li>
+<li>已删除文件/文件夹</li>
+<li>分支最新版本</li>
+<li>一般的文件/文件夹 </li>
+</ol>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN023.jpg" alt="image"></p>
+<h3 id="SVN-如何创建分支"><a href="#SVN-如何创建分支" class="headerlink" title="SVN  如何创建分支"></a>SVN  如何创建分支</h3><p>两种方式：</p>
+<ol>
+<li>在版本库浏览器中创建分支</li>
+</ol>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN024.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN025.jpg" alt="image"></p>
+<ol start="2">
+<li>在工作副本创建分支</li>
+</ol>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN026.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN027.jpg" alt="image"></p>
+<p>创建分支成功</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN028.jpg" alt="image"></p>
+<h3 id="SVN-Switch切换"><a href="#SVN-Switch切换" class="headerlink" title="SVN  Switch切换"></a>SVN  Switch切换</h3><p> 文件创建分支后，可通过Switch选择在主干工作或者在分支工作;</p>
+<p>注意:</p>
+<ol>
+<li>切换操作起来就象更新，因为它没有丢弃我们在本地做的修改。</li>
+<li>在工作副本里，当我们进行切换的时候，任何没有提交过的修改都会被混合。</li>
+</ol>
+<p>解决方法：</p>
+<ol>
+<li>在切换前提交修改;</li>
+<li>把工作副本恢复到一个已经提交过的版本(比如最新版本)。 </li>
+</ol>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN029.jpg" alt="image"></p>
+<h3 id="SVN-合并"><a href="#SVN-合并" class="headerlink" title="SVN  合并"></a>SVN  合并</h3><p>假设我们在分支上进行修改：添加一条输出语句：</p>
+<p> System.out.println(“测试是否能将分支的修改合并到主干中!”) ;提交到配置库中，现在执行将分支合并到主干的操作</p>
+<p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN030.jpg" alt="image"></p>
+<h3 id="SVN-分支合并到主干"><a href="#SVN-分支合并到主干" class="headerlink" title="SVN  分支合并到主干"></a>SVN  分支合并到主干</h3><p>右键- 主干的文件- 选择合并</p>
+<p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN031.jpg" alt="image"><br> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN032.jpg" alt="image"><br> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN033.jpg" alt="image"><br> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN034.jpg" alt="image"></p>
+<h3 id="SVN-合并时出现冲突"><a href="#SVN-合并时出现冲突" class="headerlink" title="SVN  合并时出现冲突"></a>SVN  合并时出现冲突</h3><p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN035.jpg" alt="image"></p>
+<h3 id="SVN-编辑冲突"><a href="#SVN-编辑冲突" class="headerlink" title="SVN  编辑冲突"></a>SVN  编辑冲突</h3><p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN036.jpg" alt="image"></p>
+<h3 id="SVN-冲突已解决"><a href="#SVN-冲突已解决" class="headerlink" title="SVN  冲突已解决"></a>SVN  冲突已解决</h3><p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN037.jpg" alt="image"></p>
+<h3 id="SVN-合并成功"><a href="#SVN-合并成功" class="headerlink" title="SVN  合并成功"></a>SVN  合并成功</h3><p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN038.jpg" alt="image"></p>
+<h3 id="SVN-什么是冲突"><a href="#SVN-什么是冲突" class="headerlink" title="SVN  什么是冲突"></a>SVN  什么是冲突</h3><p>团队协同工作时，当多位团队成员同时修改同一个文件，造成本地文件与SVN系统中的文件版本不一致，而导致文件无法提交的情况</p>
+<h3 id="SVN-冲突产生原因"><a href="#SVN-冲突产生原因" class="headerlink" title="SVN  冲突产生原因"></a>SVN  冲突产生原因</h3><p>当团队协同工作的时候，多位团队成员同时操作一个文件。团队成员A操作完成后，将该文件提交到SVN上。此时，其他团队成员的本地文件与SVN上的文件版本不一致。当团队成员B操作完成并对文件进行提交操作时，就会产生冲突</p>
+<h3 id="SVN-冲突提示页面"><a href="#SVN-冲突提示页面" class="headerlink" title="SVN  冲突提示页面"></a>SVN  冲突提示页面</h3><h4 id="提交时产出冲突"><a href="#提交时产出冲突" class="headerlink" title="提交时产出冲突"></a>提交时产出冲突</h4><p> <img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN039.jpg" alt="image"></p>
+<h3 id="SVN-冲突解决方案"><a href="#SVN-冲突解决方案" class="headerlink" title="SVN  冲突解决方案"></a>SVN  冲突解决方案</h3><p>遇到冲突时，需要update该文件。我们将看到三个带问号的文件</p>
+<p>　filename.mine</p>
+<p>　filename.rOLDREV</p>
+<p>　filename.rNEWREV<br>　<br>　<img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN040.jpg" alt="image"><br>　<br>面对文件冲突，我们可以选择以下两种方式解决冲突</p>
+<p>使用工具解决冲突</p>
+<p>用revert放弃所做的修改</p>
+<h3 id="SVN-使用工具解决冲突"><a href="#SVN-使用工具解决冲突" class="headerlink" title="SVN  使用工具解决冲突"></a>SVN  使用工具解决冲突</h3><p>使用自带工具，如图所示</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN041.jpg" alt="image"></p>
+<p>对比两个版本的文件，解决冲突</p>
+<p>工具中会列出两个版本冲突的部分，并让我们选择使用哪个版本的内容</p>
+<h3 id="SVN-用revert放弃所做的修改"><a href="#SVN-用revert放弃所做的修改" class="headerlink" title="SVN  用revert放弃所做的修改"></a>SVN  用revert放弃所做的修改</h3><p>选择SVN还原（revert） 放弃自己所做的修改</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN042.jpg" alt="image"></p>
+<h3 id="SVN-解决冲突之后"><a href="#SVN-解决冲突之后" class="headerlink" title="SVN  解决冲突之后"></a>SVN  解决冲突之后</h3><p>通过上面所说的方法，解决冲突后要选择已解决的（resolved）</p>
+<p>解决后，带问号的三个文件将自动删除</p>
+<p>最后选择commit提交到SVN</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN043.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN044.jpg" alt="image"></p>
+<h3 id="SVN-关于冲突的建议"><a href="#SVN-关于冲突的建议" class="headerlink" title="SVN  关于冲突的建议"></a>SVN  关于冲突的建议</h3><p>修改文件之前，先进行一次update操作</p>
+<p>修改完成后，及时commit，不要在本地停留过长时间</p>
+<p>在多位团队成员协作时，尽量修改自己撰写的部分，尽量不要修改不属于自己撰写的部分</p>
+<p>出现冲突很正常，可以通过前面的方法解决，不要相互覆盖</p>
+<h3 id="SVN-其他SVN的功能"><a href="#SVN-其他SVN的功能" class="headerlink" title="SVN  其他SVN的功能"></a>SVN  其他SVN的功能</h3><ul>
+<li>Export（导出）</li>
+</ul>
+<p>导出你需要的文件，导出后不在受SVN控制；而checkout检出的文件仍受SVN控制；</p>
+<ul>
+<li>Import（导入）</li>
+</ul>
+<p>将需要的文件导入到版本库中；</p>
+<ul>
+<li>Relocated（重新定位）</li>
+</ul>
+<p>当服务器上的版本库目录已经改变，我们可以把工作复本重新定位；</p>
+<ul>
+<li>CleanUp（清理）</li>
+</ul>
+<p>递归的清理工作副本，删除锁定和保留的未完成操作，如果你得到工作副本已经锁定的错误，运行这个命令删除无用的锁定，并将工作副本恢复到可用的状态；</p>
+<h3 id="SVN-Subclipse的安装步骤（Eclipse集成）"><a href="#SVN-Subclipse的安装步骤（Eclipse集成）" class="headerlink" title="SVN  Subclipse的安装步骤（Eclipse集成）"></a>SVN  Subclipse的安装步骤（Eclipse集成）</h3><ol>
+<li><p>帮助 &gt; 软件更新 &gt;查找并安装 </p>
+</li>
+<li><p>选择“要安装的新功能部件” 选项并点击Next。</p>
+</li>
+<li><p>点击“新站点”并且创建一远程站点，</p>
+<p>名字:Subclipse</p>
+<p>URL:<a href="http://subclipse.tigris.org/update_1.2.x" target="_blank" rel="noopener">http://subclipse.tigris.org/update_1.2.x</a></p>
+</li>
+<li><p>在结果安装窗口中，把”Subeclipse in the Features”    选择到安装列表中，并且通过向导来开始安装插件。</p>
+</li>
+<li><p>完成这些之后，重新启动Eclipse。 </p>
+</li>
+</ol>
+<h3 id="SVN-在Eclipse下使用的图标"><a href="#SVN-在Eclipse下使用的图标" class="headerlink" title="SVN  在Eclipse下使用的图标"></a>SVN  在Eclipse下使用的图标</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN045.jpg" alt="image"></p>
+<h3 id="SVN-Eclipse下使用的主要功能"><a href="#SVN-Eclipse下使用的主要功能" class="headerlink" title="SVN  Eclipse下使用的主要功能"></a>SVN  Eclipse下使用的主要功能</h3><p>将版本库导入到SVN资源库</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN046.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN047.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN048.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN049.jpg" alt="image"></p>
+<p>将新建项目导入到版本库</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN050.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN051.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN052.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN053.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN054.jpg" alt="image"></p>
+<p>Eclipse中小组的使用</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN055.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN056.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN057.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN058.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN059.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN060.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN061.jpg" alt="image"><br><img src="http://ovi3ob9p4.bkt.clouddn.com/SVN/SVN062.jpg" alt="image"></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#SVN" >
+    <span class="tag-code">SVN</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/12381.html">
+        <span class="nav-arrow">← </span>
+        
+          荒原，我的国
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/54584.html">
+        
+          项目运维中常用SQL
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#为什么要使用配置管理"><span class="toc-nav-text">为什么要使用配置管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Subversion-TortoiseSVN的版本控制系统"><span class="toc-nav-text">Subversion/TortoiseSVN的版本控制系统</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#配置库（-Repository-）"><span class="toc-nav-text">配置库（ Repository ）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#工作副本（WorkSpace）"><span class="toc-nav-text">工作副本（WorkSpace）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN工作模式"><span class="toc-nav-text">SVN工作模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#复制-修改-合并方案-Subversion默认的模式"><span class="toc-nav-text">复制-修改-合并方案(Subversion默认的模式)</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#锁定-修改-解锁方案"><span class="toc-nav-text">锁定-修改-解锁方案</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN安装"><span class="toc-nav-text">SVN安装</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#目录结构"><span class="toc-nav-text">目录结构</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN使用流程"><span class="toc-nav-text">SVN使用流程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN使用图标说明"><span class="toc-nav-text">SVN使用图标说明</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-CheckOut检出"><span class="toc-nav-text">SVN CheckOut检出</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-CheckOut检出注意事项"><span class="toc-nav-text">SVN CheckOut检出注意事项</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Update更新"><span class="toc-nav-text">SVN Update更新</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Commit提交"><span class="toc-nav-text">SVN Commit提交</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-权限控制"><span class="toc-nav-text">SVN 权限控制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-如何删除认证数据"><span class="toc-nav-text">SVN 如何删除认证数据</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Show-log显示日志"><span class="toc-nav-text">SVN  Show log显示日志</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-日志信息填写规则"><span class="toc-nav-text">SVN  日志信息填写规则</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-如何得到历史版本"><span class="toc-nav-text">SVN  如何得到历史版本</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Revert-还原"><span class="toc-nav-text">SVN  Revert(还原)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Add添加"><span class="toc-nav-text">SVN  Add添加</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Add-to-Ignore-List-（忽略文件）"><span class="toc-nav-text">SVN  Add to Ignore List （忽略文件）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-版本分支"><span class="toc-nav-text">SVN  版本分支</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-如何创建分支"><span class="toc-nav-text">SVN  如何创建分支</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Switch切换"><span class="toc-nav-text">SVN  Switch切换</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-合并"><span class="toc-nav-text">SVN  合并</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-分支合并到主干"><span class="toc-nav-text">SVN  分支合并到主干</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-合并时出现冲突"><span class="toc-nav-text">SVN  合并时出现冲突</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-编辑冲突"><span class="toc-nav-text">SVN  编辑冲突</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-冲突已解决"><span class="toc-nav-text">SVN  冲突已解决</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-合并成功"><span class="toc-nav-text">SVN  合并成功</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-什么是冲突"><span class="toc-nav-text">SVN  什么是冲突</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-冲突产生原因"><span class="toc-nav-text">SVN  冲突产生原因</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-冲突提示页面"><span class="toc-nav-text">SVN  冲突提示页面</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#提交时产出冲突"><span class="toc-nav-text">提交时产出冲突</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-冲突解决方案"><span class="toc-nav-text">SVN  冲突解决方案</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-使用工具解决冲突"><span class="toc-nav-text">SVN  使用工具解决冲突</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-用revert放弃所做的修改"><span class="toc-nav-text">SVN  用revert放弃所做的修改</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-解决冲突之后"><span class="toc-nav-text">SVN  解决冲突之后</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-关于冲突的建议"><span class="toc-nav-text">SVN  关于冲突的建议</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-其他SVN的功能"><span class="toc-nav-text">SVN  其他SVN的功能</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Subclipse的安装步骤（Eclipse集成）"><span class="toc-nav-text">SVN  Subclipse的安装步骤（Eclipse集成）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-在Eclipse下使用的图标"><span class="toc-nav-text">SVN  在Eclipse下使用的图标</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SVN-Eclipse下使用的主要功能"><span class="toc-nav-text">SVN  Eclipse下使用的主要功能</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/57755.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "SVN的使用",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

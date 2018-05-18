@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Travis CI持续集成Github | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Travis CI持续集成Github</h2>
+  <p class="post-date">2018-01-09</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0083.jpg" alt="image"></p>
+<ol>
+<li>Travis CI 介绍<br>CI即持续集成系统。对个人而言，就是让你的代码在提交到远程(这里是GitHub)，立即自动编译，自动化测试、自动部署等。</li>
+</ol>
+<a id="more"></a>
+<p>不需要在担心更换电脑时，还要从新部署环境的问题，只要你能向远程推送文章，其他的事情就都可以交给Travis CI处理就ok了。</p>
+<ol start="2">
+<li>Travis CI 使用<br>默认前提是已经通过Github进行授权登录Travis网站，并关联了GitHub上的仓库和相关配置。</li>
+</ol>
+<p>增加以下文件：<br>gulpfile.js </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">    'use strict'</span>;</span><br><span class="line">    <span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>),</span><br><span class="line">        less = <span class="built_in">require</span>(<span class="string">'gulp-less'</span>),</span><br><span class="line">        rename = <span class="built_in">require</span>(<span class="string">'gulp-rename'</span>),</span><br><span class="line">        minifycss = <span class="built_in">require</span>(<span class="string">'gulp-minify-css'</span>),</span><br><span class="line">        autoprefixer = <span class="built_in">require</span>(<span class="string">'gulp-autoprefixer'</span>),</span><br><span class="line">        uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),</span><br><span class="line">        jshint = <span class="built_in">require</span>(<span class="string">'gulp-jshint'</span>),</span><br><span class="line">        stylish = <span class="built_in">require</span>(<span class="string">'jshint-stylish'</span>),</span><br><span class="line">        notify = <span class="built_in">require</span>(<span class="string">'gulp-notify'</span>),</span><br><span class="line">        plumber = <span class="built_in">require</span>(<span class="string">'gulp-plumber'</span>),</span><br><span class="line">        htmlclean = <span class="built_in">require</span>(<span class="string">'gulp-htmlclean'</span>),</span><br><span class="line">        htmlmin = <span class="built_in">require</span>(<span class="string">'gulp-htmlmin'</span>),</span><br><span class="line">        rev = <span class="built_in">require</span>(<span class="string">'gulp-rev-append'</span>),</span><br><span class="line">        sequence = <span class="built_in">require</span>(<span class="string">'gulp-sequence'</span>),</span><br><span class="line">        path = <span class="built_in">require</span>(<span class="string">'path'</span>),</span><br><span class="line">        paths = &#123;</span><br><span class="line">            root: <span class="string">'./'</span>,</span><br><span class="line">            source: <span class="string">'./themes/snippet/source/'</span> <span class="comment">//主题下原文件</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*====================================================</span></span><br><span class="line"><span class="comment">         开发主题</span></span><br><span class="line"><span class="comment">    ====================================================*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// CSS预处理</span></span><br><span class="line">    gulp.task(<span class="string">'less-task'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gulp.src(paths.source + <span class="string">'css/less/_style.less'</span>)</span><br><span class="line">        .pipe(plumber(&#123;</span><br><span class="line">            errorHandler: notify.onError(<span class="string">'Error: &lt;%= error.message %&gt;'</span>)</span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(rename(&#123;<span class="attr">basename</span>: <span class="string">"style"</span>&#125;))</span><br><span class="line">        .pipe(gulp.dest(paths.source + <span class="string">'css'</span>))</span><br><span class="line">        .pipe(notify(&#123;<span class="attr">message</span>: <span class="string">'less compile complete'</span>&#125;));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 校验JS语法和风格</span></span><br><span class="line">    gulp.task(<span class="string">'js-task'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gulp.src(paths.source + <span class="string">'js/*.js'</span>)</span><br><span class="line">        .pipe(jshint())</span><br><span class="line">        .pipe(jshint.reporter(stylish))</span><br><span class="line">        .pipe(gulp.dest(paths.source + <span class="string">'js/'</span>))</span><br><span class="line">        .pipe(notify(&#123;<span class="attr">message</span>: <span class="string">'js compile complete'</span>&#125;));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 监听任务-主题开发模式</span></span><br><span class="line">    gulp.task(<span class="string">'dev'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        gulp.watch(paths.source + <span class="string">'css/less/*.less'</span>, [<span class="string">'less-task'</span>]);</span><br><span class="line">        gulp.watch(paths.source + <span class="string">'js/*.js'</span>, [<span class="string">'js-task'</span>]);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*====================================================</span></span><br><span class="line"><span class="comment">        部署前代码处理</span></span><br><span class="line"><span class="comment">    ====================================================*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 压缩处理 css</span></span><br><span class="line">    gulp.task(<span class="string">'minify-css'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gulp.src(<span class="string">'./public/**/*.css'</span>)</span><br><span class="line">        .pipe(autoprefixer(&#123;</span><br><span class="line">            browsers: [<span class="string">'last 10 versions'</span>, <span class="string">'Firefox &gt;= 20'</span>, <span class="string">'Opera &gt;= 36'</span>, <span class="string">'ie &gt;= 9'</span>, <span class="string">'Android &gt;= 4.0'</span>, ],</span><br><span class="line">            cascade: <span class="literal">true</span>, <span class="comment">//是否美化格式</span></span><br><span class="line">            remove: <span class="literal">false</span> <span class="comment">//是否删除不必要的前缀</span></span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(minifycss())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./public'</span>))</span><br><span class="line">        .pipe(notify(&#123;<span class="attr">message</span>: <span class="string">'css minify complete'</span>&#125;));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 压缩处理 js</span></span><br><span class="line">    gulp.task(<span class="string">'minify-js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gulp.src(<span class="string">'./public/js/*.js'</span>)</span><br><span class="line">        .pipe(uglify())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./public/js'</span>))</span><br><span class="line">        .pipe(notify(&#123;<span class="attr">message</span>: <span class="string">'js minify complete'</span>&#125;));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 压缩处理 html</span></span><br><span class="line">    gulp.task(<span class="string">'minify-html'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gulp.src(<span class="string">'./public/**/*.html'</span>)</span><br><span class="line">        .pipe(htmlclean())</span><br><span class="line">        .pipe(htmlmin(&#123;</span><br><span class="line">             removeComments: <span class="literal">true</span>, <span class="comment">//清除HTML注释</span></span><br><span class="line">             collapseWhitespace: <span class="literal">true</span>, <span class="comment">//压缩HTML</span></span><br><span class="line">             minifyJS: <span class="literal">true</span>, <span class="comment">//压缩页面JS</span></span><br><span class="line">             minifyCSS: <span class="literal">true</span>, <span class="comment">//压缩页面CSS</span></span><br><span class="line">             minifyURLs: <span class="literal">true</span></span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./public'</span>));</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 添加版本号</span></span><br><span class="line">    gulp.task(<span class="string">'rev'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gulp.src(<span class="string">'./public/**/*.html'</span>)</span><br><span class="line">        .pipe(rev())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./public'</span>));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 同步执行task</span></span><br><span class="line">    gulp.task(<span class="string">'deploy'</span>,sequence([<span class="string">'minify-css'</span>,<span class="string">'minify-js'</span>],<span class="string">'rev'</span>,<span class="string">'minify-html'</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 部署前代码处理</span></span><br><span class="line">    gulp.task(<span class="string">'default'</span>,[<span class="string">'deploy'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">"[complete] please execute： hexo d"</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>travis.yml </p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">stable</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sudo:</span> <span class="literal">false</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">#cache</span></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line"><span class="attr">  directories:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">"node_modules"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">notifications:</span></span><br><span class="line"><span class="attr">  email:</span></span><br><span class="line"><span class="attr">    recipients:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">snippet@91h5.cc</span></span><br><span class="line"><span class="attr">    on_success:</span> <span class="string">never</span></span><br><span class="line"><span class="attr">    on_failure:</span> <span class="string">always</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># S: Build Lifecycle</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"><span class="comment">#  - gem install travis</span></span><br><span class="line"><span class="comment">#  - travis login --pro --github-token $&#123;GH_TOKEN&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">export</span> <span class="string">TZ='Asia/Shanghai'</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span> <span class="bullet">-g</span> <span class="string">gulp</span> </span><br><span class="line"><span class="bullet">  -</span> <span class="string">chmod</span> <span class="string">+x</span> <span class="string">_travis.sh</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">g</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">gulp</span> </span><br><span class="line"></span><br><span class="line"><span class="attr">after_success:</span></span><br><span class="line"> <span class="comment"># - LAST_BUILD_NUMBER=68</span></span><br><span class="line"> <span class="comment"># - for i in $(seq 1 $LAST_BUILD_NUMBER ); do  travis logs $i --delete --force ; done</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">./_travis.sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># E: Build LifeCycle</span></span><br><span class="line"></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line"><span class="attr">  only:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">dev</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line"><span class="attr"> global:</span></span><br><span class="line"><span class="attr">   - GH_REF:</span> <span class="string">github.com/shenliyang/shenliyang.github.io.git</span></span><br></pre></td></tr></table></figure>
+<p>travis.sh </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#--------------------------------------------</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># author：shenliyang</span></span><br><span class="line"><span class="comment"># website：https://github.com/shenliyang</span></span><br><span class="line"><span class="comment"># slogan：梦想还是要有的，万一实现了呢。</span></span><br><span class="line"><span class="comment">#--------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义时间</span></span><br><span class="line">time=`date +%Y-%m-%d\ %H:%M:%S`</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行成功</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">success</span></span>()&#123;</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"success"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行失败</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">failure</span></span>()&#123;</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"failure"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#默认执行</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">default</span></span>()&#123;</span><br><span class="line"></span><br><span class="line">  git <span class="built_in">clone</span> https://<span class="variable">$&#123;GH_REF&#125;</span> .deploy_git</span><br><span class="line">  <span class="built_in">cd</span> .deploy_git</span><br><span class="line"></span><br><span class="line">  git checkout master</span><br><span class="line">  <span class="built_in">cd</span> ../</span><br><span class="line"></span><br><span class="line">  mv .deploy_git/.git/ ./public/</span><br><span class="line">  <span class="built_in">cd</span> ./public</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt; README.md </span><br><span class="line">部署状态 | 集成结果 | 参考值</span><br><span class="line">---|---|---</span><br><span class="line">完成时间 | <span class="variable">$time</span> | yyyy-mm-dd hh:mm:ss</span><br><span class="line">部署环境 | <span class="variable">$TRAVIS_OS_NAME</span> + <span class="variable">$TRAVIS_NODE_VERSION</span> | window \| linux + stable</span><br><span class="line">部署类型 | <span class="variable">$TRAVIS_EVENT_TYPE</span> | push \| pull_request \| api \| cron</span><br><span class="line">启用Sudo | <span class="variable">$TRAVIS_SUDO</span> | <span class="literal">false</span> \| <span class="literal">true</span></span><br><span class="line">仓库地址 | <span class="variable">$TRAVIS_REPO_SLUG</span> | owner_name/repo_name</span><br><span class="line">提交分支 | <span class="variable">$TRAVIS_COMMIT</span> | <span class="built_in">hash</span> 16位</span><br><span class="line">提交信息 | <span class="variable">$TRAVIS_COMMIT_MESSAGE</span> |</span><br><span class="line">Job ID   | <span class="variable">$TRAVIS_JOB_ID</span> | </span><br><span class="line">Job NUM  | <span class="variable">$TRAVIS_JOB_NUMBER</span> | </span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">  git init</span><br><span class="line">  git config user.name <span class="string">"shenliyang"</span></span><br><span class="line">  git config user.email <span class="string">""</span></span><br><span class="line">  git add .</span><br><span class="line">  git commit -m <span class="string">"Build by Travis CI"</span></span><br><span class="line">  git push --force --quiet <span class="string">"https://<span class="variable">$&#123;GH_TOKEN&#125;</span>@<span class="variable">$&#123;GH_REF&#125;</span>"</span> master:master</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span> </span><br><span class="line">    <span class="string">"success"</span>)</span><br><span class="line">	     success</span><br><span class="line">       ;;</span><br><span class="line">    <span class="string">"failure"</span>)</span><br><span class="line">	     failure</span><br><span class="line">	     ;;</span><br><span class="line">	         *) </span><br><span class="line">       default	</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>配置travis.yml 文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span> <span class="comment">#使用Node语言环境</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">stable</span> <span class="comment">#安装稳定版Node</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sudo:</span> <span class="literal">false</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment">#cache 启用缓存，加快构建速度</span></span><br><span class="line"><span class="attr">cache:</span> </span><br><span class="line"><span class="attr">  directories:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">"node_modules"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">notifications:</span> <span class="comment">#启用通知</span></span><br><span class="line"><span class="attr">  email:</span></span><br><span class="line"><span class="attr">    recipients:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">snippet@91h5.cc</span> <span class="comment">#接收构建消息的邮件 不需要可设置为false</span></span><br><span class="line"><span class="attr">    on_success:</span> <span class="string">never</span> <span class="comment">#部署成功时，可设置alway never change</span></span><br><span class="line"><span class="attr">    on_failure:</span> <span class="string">always</span> <span class="comment">#部署失败时，同上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># S: Build Lifecycle</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span>  <span class="comment">#安装依赖</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">export</span> <span class="string">TZ='Asia/Shanghai'</span> <span class="comment">#设置时区</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span> <span class="bullet">-g</span> <span class="string">gulp</span>  <span class="comment">#安装Gulp</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">chmod</span> <span class="string">+x</span> <span class="string">_travis.sh</span>  <span class="comment">#授权脚本执行权限</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">g</span> <span class="comment">#清除缓存并生成静态文件</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">gulp</span> <span class="comment">#执行gulp任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_success:</span> <span class="comment">#实行成功时(以后扩展功能使用)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">./_travis.sh</span> <span class="comment">#执行部署脚本</span></span><br><span class="line"><span class="comment"># E: Build LifeCycle</span></span><br><span class="line"></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line"><span class="attr">  only:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">dev</span> <span class="comment">#需要监听部署的分支</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line"><span class="attr"> global:</span></span><br><span class="line"><span class="attr">   - GH_REF:</span> <span class="string">github.com/shenliyang/shenliyang.github.io.git</span> <span class="comment">#更改为自己git地址</span></span><br></pre></td></tr></table></figure>
+<p>提交代码到Github，实现自动部署<br>当 .travis.yml 配置文件修改完成后，将其提交到远程仓库的 hexo 分支下，此时如果之前的配置一切ok，我们应该能在 Travis CI 的博客项目主页页面中看到自动构建已经在开始执行了。上面会显示出构建过程中的日志信息及状态等。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#CI" >
+    <span class="tag-code">CI</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/54220.html">
+        <span class="nav-arrow">← </span>
+        
+          CAS单点登录（二）
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/11911.html">
+        
+          Spring Assert断言工具类使用
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="nav">none</ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/60076.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Travis CI持续集成Github",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

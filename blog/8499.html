@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      医院信息管理信息系统 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>医院信息管理信息系统</h2>
+  <p class="post-date">2018-02-04</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0111.jpg" alt="image"></p>
+<p>本手册以系统中的各功能模块为线索，以医院服务主要流程为导向，简单描述了医院信息管理系统中各主要模块的功能及操作方法，主要面向广大的软东医院信息管理系统的用户，目的在于协助其尽快掌握软件的基础使用与操作，同时也可以作为集中培训的基础教材。<br><a id="more"></a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><a href="">前言</a></h1><p>因本手册其旨在于给医院各岗位工作人员提供快速操作指导，内容不足之处，敬请原谅，若有疑难问题请致电公司客服中心，我们将竭诚为您服务！</p>
+<h1 id="系统简介"><a href="#系统简介" class="headerlink" title="系统简介"></a><a href="">系统简介</a></h1><p>“软东医院信息管理信息系统”是一套集成门诊挂号收费、住院收费、</p>
+<p>药品管理等工作站的医院网络管理系统，本系统适应于二级医院，它操作简单方便，性能稳定；支持按大类收费和明细收费；大类项目和明细项目都能自定义；支持多种发票格式和收据格式，并且每种发票格式都可以自由修改；药品管理部分参考了国外一些优秀医院网络系统的先进经验，具有完善的药品进销存管理包括药品调价报损退库等强到管理功能，处方从门诊收费到药房完全通过网络传输，完全实现无纸化，数据一次性发生，摆药发药全部自动完成，99% 以上的操作实现了零输入。本系统采用先进的服务器客户端结构，客户端运行的只是和用户交互的界面，安装方便，对硬件的要求也极低，只要能运行winXP 以上操作系统的计算机都能正常运行。</p>
+<h1 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a><a href="">系统配置</a></h1><table>
+<thead>
+<tr>
+<th>服 务 器</th>
+<th>硬件最低配置</th>
+<th>2.0G CPU/2G内存/250G双硬盘</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>硬件推荐配置</td>
+<td>2.8G CPU/4G内存/500G双硬盘  支持Raid-1</td>
+<td></td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td>Windows 2003 server</td>
+<td></td>
+</tr>
+<tr>
+<td>数据库平台</td>
+<td>MS SQLserver2008</td>
+<td></td>
+</tr>
+<tr>
+<td>工 作 站</td>
+<td>操作系统Windows 2003/XP</td>
+</tr>
+</tbody>
+</table>
+<h1 id="系统登录"><a href="#系统登录" class="headerlink" title="系统登录"></a><a href="">系统登录</a></h1><p>点击RdClientManage.exe<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image002.jpg" alt="img">进入系统后，会有登录界面出现。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image004.jpg" alt="img"></p>
+<p>输入用户名的助记码，按回车键，如果用户存在，系统将自动显示该用户所对应的科室，输入口令，单击登录或者按回车键。如果口令正确，将根据系统管理员设置给该操作员的权限来登录系统。若口令不正确，系统将提示错误信息。如果不想进入系统点击取消即可。</p>
+<h1 id="门诊部分"><a href="#门诊部分" class="headerlink" title="门诊部分"></a><a href="">门诊部分</a></h1><h2 id="1-1挂号管理"><a href="#1-1挂号管理" class="headerlink" title="1.1挂号管理"></a><a href="">1.1</a>挂号管理</h2><h3 id="1-1-1门急诊挂号"><a href="#1-1-1门急诊挂号" class="headerlink" title="1.1.1门急诊挂号"></a>1.1.1门急诊挂号</h3><p>  在左边导航栏中出现“挂号管理”的子系统图标，右边会列出挂号管理子系统的主要模块。如下!</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image006.jpg" alt="img"></p>
+<p>找到门急诊挂号模块图标点击进入。如下!</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image008.jpg" alt="img"></p>
+<p>根据要求填写相关信息，输入病人姓名等信息，可以使用回车键进行下一栏的输入（诊疗号不需要手动输入，系统会自动生成），填写完之后单击‘保存’，保存的病人信息会在挂号信息处显示。(保存完成后，系统会自动产生诊疗号和门诊号)如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image010.jpg" alt="img"></p>
+<p>如果要查看是否有预约患者的话，可以单击预约患者信息来查看。</p>
+<p>如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image012.jpg" alt="img"></p>
+<p>如果未领票或票已用完系统也会给出提示信息.<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image013.gif" alt="img"></p>
+<p>如果在保存之前不对该病人进行信息输入，可以单击‘取消’。保存之前，但是信息已经输入完整，可以对该病人信息进行‘删除’。操作完成后，单击‘退出’以退出该界面。</p>
+<h3 id="1-1-2-挂号退号"><a href="#1-1-2-挂号退号" class="headerlink" title="1.1.2 挂号退号"></a>1.1.2 挂号退号</h3><p>   在挂号管理窗口中选择挂号退号，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image015.jpg" alt="img"></p>
+<p>输入该病人所对应的发票号或门诊号，单击‘查询’，选中该病人信息，单击‘确定’即可对该病人进行退号。发票号或门诊号输入错误时，单击‘取消’，重新输入。</p>
+<h3 id="1-1-3-门诊病人信息修改"><a href="#1-1-3-门诊病人信息修改" class="headerlink" title="1.1.3 门诊病人信息修改"></a>1.1.3 门诊病人信息修改</h3><p>  在挂号管理窗口中选择门诊病人信息修改，进入如下界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image017.jpg" alt="img"></p>
+<p>输入病人挂号时的门诊号或诊疗号，单击‘查询’，就可以对查出来的病人的信息进行修改，修改完成后单击‘确定’，否则单击‘取消’，操作完成后单击‘退出’。</p>
+<p>1.1.5 操作员挂号报账单</p>
+<p>在挂号管理窗口中选择专家挂号，进入如下界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image019.jpg" alt="img"></p>
+<p>选择起始时间和结束时间以及需要的统计类型和打印方式、所要报账的操作员，单击确定。</p>
+<h3 id="1-2-1门诊管理"><a href="#1-2-1门诊管理" class="headerlink" title="1.2.1门诊管理"></a>1.2.1门诊管理</h3><p>  在左边导航栏中找到门诊医生站子系统图标点击进入门诊管理子系统，右边会列出门诊管理子系统的主要模块。找到门诊医生工作站模块图标点击进入。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image020.gif" alt="img"><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image022.jpg" alt="img"></p>
+<p>门诊医生工作站窗口打开：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image024.jpg" alt="img"></p>
+<p>如果病人是按专家挂号或者选择了相关医师，那么就选择左边的‘个人’按钮，如果病人按科室挂号，那么就选择左边的‘科室’按钮。</p>
+<p>如果挂过号的病人信息没有出现，那么就单击‘刷新列表’。</p>
+<p>若病人信息为白色，可以按鼠标右键，弹出菜单，点击‘呼叫病人’就可以将病人转化为待诊状态。</p>
+<p>也可以将处于待诊状态的病人通过按鼠标右键的方法将其转为续诊。</p>
+<p>若病人信息为橘黄色，则表明该病人处于待诊状态，可以就诊，双击病人信息，就会将病人的详细信息输出，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image026.jpg" alt="img"></p>
+<p>.医生可以根据病人的情况填写相关内容（门诊病历、检查治疗、药品处方）。在填写过程中，输入栏中出现<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image028.gif" alt="img">图标时，表示可以进行选择，也可以手动输入。如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image030.gif" alt="img"></p>
+<p>使用<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image032.gif" alt="img">从待选项移到已选项，也可以手动输入进行筛选，然后单击‘确定’。</p>
+<p>在输入‘检查治疗’‘药品处方’‘中草药处方’时，单击‘新增’就可以输入相关内容，选择处方内容时，可以输入药品名称汉语拼音的第一个字母按‘回车键’就可以出现相关信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image034.jpg" alt="img"></p>
+<p>完成后单击‘保存’， </p>
+<h3 id="1-2-2诊断证明"><a href="#1-2-2诊断证明" class="headerlink" title="1.2.2诊断证明"></a>1.2.2诊断证明</h3><p>在右边列出的门诊管理子系统的主要模块中找到诊断证明模块图标点击进入。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image036.jpg" alt="img"></p>
+<h3 id="1-2-3个人处方维护"><a href="#1-2-3个人处方维护" class="headerlink" title="1.2.3个人处方维护"></a>1.2.3个人处方维护</h3><p>在右边列出的门诊管理子系统的主要模块中找到个人处方模块图标点击进入：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image038.jpg" alt="img"></p>
+<p>个人处方维护所列出的组合名称只能为常用药品、常用检查、常用检验，在此维护的信息将在门诊医生工作站处调用。</p>
+<h3 id="1-2-4门诊医生接诊患者信息查询"><a href="#1-2-4门诊医生接诊患者信息查询" class="headerlink" title="1.2.4门诊医生接诊患者信息查询"></a>1.2.4门诊医生接诊患者信息查询</h3><p>在右边列出的门诊管理子系统的主要模块中找到门诊医生急诊患者信息查询模块图标点击进入。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image040.jpg" alt="img"></p>
+<p>输入要查询的条件，单击‘查询’即可找到要查询的科室、医师所对应的所有病人信息。</p>
+<h2 id="1-3-门诊收费站"><a href="#1-3-门诊收费站" class="headerlink" title="1.3 门诊收费站"></a><a href="">1.3 </a>门诊收费站</h2><h3 id="1-3-1门诊划价收费"><a href="#1-3-1门诊划价收费" class="headerlink" title="1.3.1门诊划价收费"></a>1.3.1门诊划价收费</h3><p>在左边导航栏中找到门诊管理子系统，右边会列出门诊收费站子系统的主要模块。找到门诊划价收费模块图标点击进入。输入就诊号或挂号号如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image042.jpg" alt="img"></p>
+<p>单击‘确定’，屏幕中会列出该病人所有要划价的费用，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image044.jpg" alt="img"></p>
+<p>单击‘保存’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image046.jpg" alt="img"></p>
+<p>最后单击确定即可。如果以上信息输入不正确，可以单击‘取消’，重新输入。</p>
+<h3 id="1-3-2-病人信息维护"><a href="#1-3-2-病人信息维护" class="headerlink" title="1.3.2 病人信息维护"></a>1.3.2 病人信息维护</h3><p>在右边的主要模块中找到病人信息维护模块图标点击进入，如图：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image048.jpg" alt="img"></strong></p>
+<p>根据需要输入相关信息（所有部门、检索条件、是否在院都是可选的），单击回车键或‘查询‘按钮，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image050.jpg" alt="img"></p>
+<p>选中要修改的病人，单击‘编辑’按钮，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image052.jpg" alt="img"></p>
+<p>修改完成后单击‘确定’即可。</p>
+<h3 id="1-3-3-门诊发票重打"><a href="#1-3-3-门诊发票重打" class="headerlink" title="1.3.3 门诊发票重打"></a>1.3.3 门诊发票重打</h3><p>在右边的主要模块中找到门诊发票重打模块图标点击进入，如图：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image054.jpg" alt="img"></strong></p>
+<p>单击要重新打印的发票或输入要打印的发票号，单击‘确定‘，如图;</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image056.jpg" alt="img">需要重打的话单击‘确定‘，不需要的话单击‘取消’。</p>
+<h3 id="1-3-4-门诊退费"><a href="#1-3-4-门诊退费" class="headerlink" title="1.3.4 门诊退费"></a>1.3.4 门诊退费</h3><p>在右边的主要模块中找到门诊退费模块图标点击进入，输入诊疗号或发票号，如图：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image058.jpg" alt="img"></strong></p>
+<p>双击该发票号对应的信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image060.jpg" alt="img"></p>
+<p>选择要退的费用，单击‘保存’</p>
+<p>如图：<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image062.jpg" alt="img"> 单击‘确定’即可退费，否则不退费。</p>
+<h3 id="1-3-5-门诊日结账（在启用日结配置的情况下才能使用）"><a href="#1-3-5-门诊日结账（在启用日结配置的情况下才能使用）" class="headerlink" title="1.3.5 门诊日结账（在启用日结配置的情况下才能使用）"></a>1.3.5 门诊日结账（在启用日结配置的情况下才能使用）</h3><p>在右边的主要模块中找到门诊操作员结账模块图标点击进入，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image064.jpg" alt="img"></p>
+<p>根据具体需要进行选择。</p>
+<h3 id="1-3-6-结账信息取消（该功能慎用）"><a href="#1-3-6-结账信息取消（该功能慎用）" class="headerlink" title="1.3.6 结账信息取消（该功能慎用）"></a>1.3.6 结账信息取消（该功能慎用）</h3><p>在右边的主要模块中找到结账信息取消模块图标点击进入，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image066.jpg" alt="img"></p>
+<p>输入要撤销结账的操作员代码，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image068.jpg" alt="img"></p>
+<p>如果要撤销记账的话，选中要撤销的账目，如果需要的话选中删除结账信息单选框，直接单击‘撤销结账数据’，如图：<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image070.jpg" alt="img"></p>
+<h1 id="住院部分"><a href="#住院部分" class="headerlink" title="住院部分"></a><a href="">住院部分</a></h1><p>根据系统管理员设置给该操作员的权限来登录系统。若口令不正确，系统将提示错误信息。如果不想进入系统点击取消即可。点击左边的住院管理系统，右边会出现相关模块</p>
+<h2 id="2-1入院"><a href="#2-1入院" class="headerlink" title="2.1入院"></a><a href="">2.1</a>入院</h2><h3 id="2-1-1-入院登记"><a href="#2-1-1-入院登记" class="headerlink" title="2.1.1 入院登记"></a>2.1.1 入院登记</h3><p>双击右边的入院登记模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image072.jpg" alt="img"></strong></p>
+<p>单击‘新增’按钮，输入要住院的病人信息（从‘姓名栏’开始可以用‘回车键’依次输入其他信息），单击保存，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image074.jpg" alt="img">然后单击‘确定’，出现如下对话框：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image076.jpg" alt="img">如果要打印病历首页的话，单击‘确定’，否则单击‘取消’。</p>
+<h3 id="2-1-2-新生儿入院登记"><a href="#2-1-2-新生儿入院登记" class="headerlink" title="2.1.2 新生儿入院登记"></a>2.1.2 新生儿入院登记</h3><p>双击右边的新生儿入院登记模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image078.jpg" alt="img"></strong></p>
+<p>单击‘新增’，输入相关信息（输入母亲的住院号，按‘回车键’进行其他项的选择），完成后单击 ‘保存’，出现如下对话框：<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image080.jpg" alt="img"></p>
+<p>再次输入母亲住院号，单击回车键，会出现对应孩子的信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image082.jpg" alt="img"></p>
+<p>双击该婴儿的信息，就可以对婴儿信息进行编辑。</p>
+<h3 id="2-1-3-入院登记许可项配置"><a href="#2-1-3-入院登记许可项配置" class="headerlink" title="2.1.3 入院登记许可项配置"></a>2.1.3 入院登记许可项配置</h3><p>双击右边的入院登记许可项配置模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image084.jpg" alt="img"></strong></p>
+<p>对需要的项打上勾，然后单击提交。</p>
+<h2 id="2-2住院医生站"><a href="#2-2住院医生站" class="headerlink" title="2.2住院医生站"></a><a href="">2.2</a>住院医生站</h2><h3 id="2-2-1-导航管理"><a href="#2-2-1-导航管理" class="headerlink" title="2.2.1 导航管理"></a>2.2.1 导航管理</h3><p>双击右边的导航管理模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image086.jpg" alt="img"></p>
+<p>选中某一病人，单击鼠标右键，会出现长期医嘱、临时医嘱、账目查询、电子病历、床头卡等选项，根据需要进行选择。</p>
+<p>例：建立长期医嘱：如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image088.jpg" alt="img"></p>
+<p>单击‘新增’，输入要增加的长期医嘱，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image090.jpg" alt="img"></p>
+<p>输入完成后，单击保存，如图：<img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image092.jpg" alt="img">，保存完成后，要进行‘确认’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image094.jpg" alt="img"></p>
+<p>之后再单击‘保存’，如图</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image096.jpg" alt="img"></p>
+<p>如果确定该遗嘱的话，单击确定即可，否则单击取消，对该医嘱进行‘追加’、‘修改’、‘作废’等操作。对该病人进行长期医嘱时，也可填写临时医嘱。</p>
+<h3 id="2-2-2-住院电子病历"><a href="#2-2-2-住院电子病历" class="headerlink" title="2.2.2 住院电子病历"></a>2.2.2 住院电子病历</h3><p>双击右边的住院电子病历模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image098.jpg" alt="img"></strong></p>
+<p>用鼠标选中左边的病人信息，右击鼠标，会出现收治患者、病案首页、书写病历、病历套打、会诊管理等选项，根据要求进行选择。</p>
+<p>例： ‘病案首页’：（如果登录医生不是该病人的主治医生，那么如果要为该病人书写病案首页时，就要先收治该病人）</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image100.jpg" alt="img"></p>
+<p>填写病人的基本情况、诊断情况、治疗情况，完成后单击‘保存’即可。</p>
+<h2 id="2-3住院收费"><a href="#2-3住院收费" class="headerlink" title="2.3住院收费"></a><a href="">2.3</a>住院收费</h2><h3 id="2-3-1-住院划价记账"><a href="#2-3-1-住院划价记账" class="headerlink" title="2.3.1 住院划价记账"></a>2.3.1 住院划价记账</h3><p>双击右边的住院划价记账模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image102.jpg" alt="img"></strong></p>
+<p>可以在对应的科室下面选择病人，也可以输入病人的住院号，按回车键调出病人的相关信息，输入执行科室和收费项目（收费项目可以输入项目的汉语拼音的第一个字母按回车键进行选择），然后单击保存。如果该病人余额不足，如果有“欠费权限的话”可以在‘允许欠费’栏输入金额或者在有担保人的情况下可以填写相关的担保金额。</p>
+<h3 id="2-3-2-允许欠费金额设置"><a href="#2-3-2-允许欠费金额设置" class="headerlink" title="2.3.2 允许欠费金额设置"></a>2.3.2 允许欠费金额设置</h3><p>双击右边的允许欠费金额设置模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image104.jpg" alt="img"></strong></p>
+<p>输入相关的检索条件，单击‘查询’，就可以调出该病人的信息（用以核对），如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image106.jpg" alt="img"></p>
+<p>然后在设定允许欠费金额文本框中输入允许欠费金额，单击‘设定’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image108.jpg" alt="img"></p>
+<p>表示设定成功。</p>
+<h3 id="2-3-8-增加担保人"><a href="#2-3-8-增加担保人" class="headerlink" title="2.3.8 增加担保人"></a>2.3.8 增加担保人</h3><p>双击右边的增加担保人模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image110.jpg" alt="img"></strong></p>
+<p>在左边的菜单栏根据科室选择病人或输入病人的住院号，按‘回车键’调出病人的相关信息，然后填写担保人、担保金额等内容。输入完成后，单击‘保存’即可。</p>
+<h3 id="2-3-3-预交款管理"><a href="#2-3-3-预交款管理" class="headerlink" title="2.3.3 预交款管理"></a>2.3.3 预交款管理</h3><p>双击右边的预交款管理模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image112.jpg" alt="img"></strong></p>
+<p>在左边的菜单栏根据科室选择病人或输入住院号，按回车键，调出病人的相关信息，然后输入缴款金额，单击‘收费’按钮即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image114.jpg" alt="img"></p>
+<p>该页面的下面还会出现该病人的明细账信息，如果要该病人要退费的话，可以选择相关的要退的费用，单击‘退费’按钮即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image116.jpg" alt="img"></p>
+<h3 id="2-3-4-预交款发票重打"><a href="#2-3-4-预交款发票重打" class="headerlink" title="2.3.4 预交款发票重打"></a>2.3.4 预交款发票重打</h3><p>双击右边的预交款发票重打模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image118.jpg" alt="img"></strong></p>
+<p>在左边的菜单中根据科室选择病人或输入住院号，按回车键，页面中会出现该病人所有的预交款信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image120.jpg" alt="img"></p>
+<p>选择要重打的发票，单击‘重打’按钮进行重打，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image122.jpg" alt="img"></p>
+<p>单击‘确定’即可重打，否则‘取消’。</p>
+<h3 id="2-3-5-住院收入按科室统计"><a href="#2-3-5-住院收入按科室统计" class="headerlink" title="2.3.5 住院收入按科室统计"></a>2.3.5 住院收入按科室统计</h3><p>双击右边的住院收入按科室统计模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image124.jpg" alt="img"></strong></p>
+<p>选择要统计的起止时间、科室等信息，单击‘确定’即可。</p>
+<h3 id="2-3-6-住院收入按医师统计"><a href="#2-3-6-住院收入按医师统计" class="headerlink" title="2.3.6 住院收入按医师统计"></a>2.3.6 住院收入按医师统计</h3><p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image126.jpg" alt="img"></strong></p>
+<p>选择要统计的起止时间、医师等信息，单击‘确定’即可。</p>
+<h3 id="2-3-7-病人费用类别修改"><a href="#2-3-7-病人费用类别修改" class="headerlink" title="2.3.7 病人费用类别修改"></a>2.3.7 病人费用类别修改</h3><p>双击右边的病人费用类别修改模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image128.jpg" alt="img"></strong></p>
+<p>输入住院号，按回车键调出病人基本信息，然后输入要修改的病人费用类别信息，单击‘转换’即可。</p>
+<h3 id="2-3-9-住院退费"><a href="#2-3-9-住院退费" class="headerlink" title="2.3.9 住院退费"></a>2.3.9 住院退费</h3><p>双击右边的住院退费模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image130.jpg" alt="img"></p>
+<p>在左边的菜单中根据科室选择病人或输入住院号，按回车键调出病人的相关信息和相关费用，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image132.jpg" alt="img"></p>
+<p>选中需要退的费用，然后单击‘保存’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image134.jpg" alt="img"></p>
+<p>需要退的话，单击‘确定’，否则单击‘取消’。</p>
+<p>退费成功后，可以单击‘显示退费’，即可以看到该病人的退费情况。如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image136.jpg" alt="img"></p>
+<h3 id="2-3-10-滚动退费"><a href="#2-3-10-滚动退费" class="headerlink" title="2.3.10 滚动退费"></a>2.3.10 滚动退费</h3><p>双击右边的滚动退费模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image138.jpg" alt="img"></strong></p>
+<p>在左边的菜单中根据科室选择病人或输入住院号，按回车键调出病人信息和相关的滚动费用，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image140.jpg" alt="img"></p>
+<p>选择要退的滚动费用，单击保存即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image142.jpg" alt="img"></p>
+<h3 id="2-3-11-病人账目查询"><a href="#2-3-11-病人账目查询" class="headerlink" title="2.3.11 病人账目查询"></a>2.3.11 病人账目查询</h3><p>双击右边的病人账目查询模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image144.jpg" alt="img"></strong></p>
+<p>输入病人的住院号，按回车键，调出病人的相关信息。如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image146.jpg" alt="img"></p>
+<p>可以通过按‘总账信息’，‘明细账信息’，‘未发药品信息’，‘未记账医嘱’按钮得出相关信息。</p>
+<h3 id="2-3-12-病人账目结算"><a href="#2-3-12-病人账目结算" class="headerlink" title="2.3.12 病人账目结算"></a>2.3.12 病人账目结算</h3><p>双击右边的病人账目结算模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image148.jpg" alt="img"></p>
+<p>输入病人的住院号，按回车键调出病人信息，（如果该病人有未发药品，系统会出现如下对话框：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image150.jpg" alt="img"></p>
+<p>发药动作完成后，就可以正常结算，单击‘确定’，会出现“确定现在办理患者结算手续吗”的对话框，单击‘确定’即可办理结算手续，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image152.jpg" alt="img"></p>
+<p>。</p>
+<h3 id="2-3-13-结算召回"><a href="#2-3-13-结算召回" class="headerlink" title="2.3.13 结算召回"></a>2.3.13 结算召回</h3><p>  双击右边的结算召回模块进入如图界面：</p>
+<p>  <img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image154.jpg" alt="img"></p>
+<p>在左边的菜单中根据科室选择结算的病人信息或输入要召回的病人的住院号，单击‘查询’，如果确定要召回该病人的话就单击‘确定’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image156.jpg" alt="img"></p>
+<h3 id="2-3-14-住院结账"><a href="#2-3-14-住院结账" class="headerlink" title="2.3.14 住院结账"></a>2.3.14 住院结账</h3><p>双击右边的住院结账模块进入如图界面：</p>
+<h3 id="2-3-15-催拖欠款"><a href="#2-3-15-催拖欠款" class="headerlink" title="2.3.15 催拖欠款"></a>2.3.15 催拖欠款</h3><p>  双击右边的催拖欠款模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image158.jpg" alt="img"></p>
+<p>以上即为所有欠款病人的信息。</p>
+<h3 id="2-3-16出院发票重打"><a href="#2-3-16出院发票重打" class="headerlink" title="2.3.16出院发票重打"></a>2.3.16出院发票重打</h3><p>双击右边的出发票重打模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image160.jpg" alt="img"></p>
+<p>左边的菜单会列出相关的出院病人信息，选择出院病人或输入住院号，按回车键调出出院的病人信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image162.jpg" alt="img"></p>
+<p>单击‘确定’即可完成发票重打。</p>
+<h3 id="2-3-17-出院收入按医师统计"><a href="#2-3-17-出院收入按医师统计" class="headerlink" title="2.3.17 出院收入按医师统计"></a>2.3.17 出院收入按医师统计</h3><p>  双击右边的出院收入按医师统计模块进入如图界面：</p>
+<p> <img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image164.jpg" alt="img"></p>
+<p>输入要统计的信息，按‘确定’即可。</p>
+<h3 id="2-3-18出院收入按科室统计"><a href="#2-3-18出院收入按科室统计" class="headerlink" title="2.3.18出院收入按科室统计"></a>2.3.18出院收入按科室统计</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image166.jpg" alt="img"></p>
+<p>输入要统计的信息，按‘确定’即可。</p>
+<h3 id="2-3-19出院病人账目查询"><a href="#2-3-19出院病人账目查询" class="headerlink" title="2.3.19出院病人账目查询"></a>2.3.19出院病人账目查询</h3><p>双击右边的出院病人账目查询模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image168.jpg" alt="img"></strong></p>
+<p>输入要查询的病人的住院号，按‘回车键’调出病人的相关信息，通过按‘总账信息’，‘明细账信息’查出对应的账目信息。</p>
+<h2 id="2-4护士站"><a href="#2-4护士站" class="headerlink" title="2.4护士站"></a><a href="">2.4</a>护士站</h2><h3 id="2-4-1-导航管理"><a href="#2-4-1-导航管理" class="headerlink" title="2.4.1 导航管理"></a>2.4.1 导航管理</h3><p><strong>  </strong>双击右边的导航管理模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image170.jpg" alt="img"></strong></p>
+<p>选择要执行医嘱的病人信息，按鼠标左键，会出现长期医嘱、临时医嘱、床位调整、账目查询、出院结算等选项卡。以长期医嘱为例，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image172.jpg" alt="img"></p>
+<p>如果该护士对该病人执行了以上操作，就可以单击‘查对’，如果病人余额不足，就可以选择部分查对，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image174.jpg" alt="img"></p>
+<h3 id="2-4-2-长期医嘱单"><a href="#2-4-2-长期医嘱单" class="headerlink" title="2.4.2 长期医嘱单"></a>2.4.2 长期医嘱单</h3><p>双击右边的长期医嘱单模块进入如图界面：</p>
+<p><strong><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image176.jpg" alt="img"></strong></p>
+<p>输入已经执行的长期医嘱的病人的住院号，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image178.jpg" alt="img"></p>
+<p>单击确定，就可以看到该病人的长期医嘱单。</p>
+<h3 id="2-4-3-临时医嘱单"><a href="#2-4-3-临时医嘱单" class="headerlink" title="2.4.3 临时医嘱单"></a>2.4.3 临时医嘱单</h3><p>临时医嘱单的操作同长期医嘱单。</p>
+<h3 id="2-4-4-转床管理"><a href="#2-4-4-转床管理" class="headerlink" title="2.4.4 转床管理"></a>2.4.4 转床管理</h3><p>双击右边的转床管理模块进入如图界面；</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image180.jpg" alt="img"></p>
+<p>输入要转床的病人的住院号按回车键就会调出病人的原床位号，然后输入病人要转入的现床位号，单击保存即可。</p>
+<h3 id="2-4-5-包床设置"><a href="#2-4-5-包床设置" class="headerlink" title="2.4.5 包床设置"></a>2.4.5 包床设置</h3><p>双击右边的包床设置模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image182.jpg" alt="img"></p>
+<p>输入住院号，调出相关信息，按‘包床’键即可</p>
+<h3 id="2-4-6-临时加床"><a href="#2-4-6-临时加床" class="headerlink" title="2.4.6 临时加床"></a>2.4.6 临时加床</h3><p>双击临时加床模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image184.jpg" alt="img"></p>
+<p>选择科室名，对该科室按照提示进行临时加床。</p>
+<h3 id="2-4-7-临时撤床"><a href="#2-4-7-临时撤床" class="headerlink" title="2.4.7 临时撤床"></a>2.4.7 临时撤床</h3><p>双击右边的临时撤床模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image186.jpg" alt="img"></p>
+<p>选择科室名，对该科室按照提示进行临时撤床。</p>
+<h3 id="2-4-8-转科管理"><a href="#2-4-8-转科管理" class="headerlink" title="2.4.8 转科管理"></a>2.4.8 转科管理</h3><p>双击右边的转科管理模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image188.jpg" alt="img"></p>
+<h3 id="2-4-9-在院病人一日清单"><a href="#2-4-9-在院病人一日清单" class="headerlink" title="2.4.9 在院病人一日清单"></a>2.4.9 在院病人一日清单</h3><p>双击右边的在院病人一日清单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image190.jpg" alt="img"></p>
+<p>选择要统计的方式（按住院号还是按科室），修改要统计的起止时间，按‘确定’键即可。</p>
+<h3 id="2-5-10-出院病人一日清单"><a href="#2-5-10-出院病人一日清单" class="headerlink" title="2.5.10 出院病人一日清单"></a>2.5.10 出院病人一日清单</h3><p>双击右边的出院病人一日清单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image192.jpg" alt="img"></p>
+<p>出院病人一日清单操作同在院病人一日清单</p>
+<h3 id="2-5-11-请领药单（汇总）"><a href="#2-5-11-请领药单（汇总）" class="headerlink" title="2.5.11 请领药单（汇总）"></a>2.5.11 请领药单（汇总）</h3><p>双击右边的请领药单（汇总）模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image194.jpg" alt="img"></p>
+<p>如果是住院药房的话选择住院药房，起始时间为上次打印或预览的时间，终止时间为当前时间，根据需要进行选择（重打（注：要输入申请号）、预览、打印），单击‘确定’即可。</p>
+<h3 id="2-5-12-请领药单（明细）"><a href="#2-5-12-请领药单（明细）" class="headerlink" title="2.5.12 请领药单（明细）"></a>2.5.12 请领药单（明细）</h3><p>双击右边的请领药单（明细）模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image196.jpg" alt="img"></p>
+<p>选择医嘱类型和药品类别，其他操作同请领药单（汇总）</p>
+<h3 id="2-5-13-静滴单（输液卡）"><a href="#2-5-13-静滴单（输液卡）" class="headerlink" title="2.5.13 静滴单（输液卡）"></a>2.5.13 静滴单（输液卡）</h3><p>双击右边的静滴单（输液卡）模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image198.jpg" alt="img"></p>
+<p>输入住院号，选择要打印或预览的静滴单的起止时间，单击确定即可，如果要按科室查询的话，就选择‘是否按科室查询’单选框，单击确定即可。</p>
+<h3 id="2-5-14-请领药单（口服和非口服）"><a href="#2-5-14-请领药单（口服和非口服）" class="headerlink" title="2.5.14 请领药单（口服和非口服）"></a>2.5.14 请领药单（口服和非口服）</h3><p>双击右边的请领药单（口服和非口服）模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image200.jpg" alt="img"></p>
+<p>操作同请领药单（汇总）。</p>
+<h3 id="2-5-15-口服药单"><a href="#2-5-15-口服药单" class="headerlink" title="2.5.15 口服药单"></a>2.5.15 口服药单</h3><p>双击右边的口服药单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image202.jpg" alt="img"></p>
+<p>基本操作同静滴单</p>
+<h3 id="2-5-16-注射单"><a href="#2-5-16-注射单" class="headerlink" title="2.5.16 注射单"></a>2.5.16 注射单</h3><p>双击右边的注射单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image204.jpg" alt="img"></p>
+<p>操作同口服药单。</p>
+<h3 id="2-5-17-处置单（医技）"><a href="#2-5-17-处置单（医技）" class="headerlink" title="2.5.17 处置单（医技）"></a>2.5.17 处置单（医技）</h3><p>双击右边的处置单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image206.jpg" alt="img"></p>
+<p>操作同上。</p>
+<h3 id="2-5-18-治疗处方单"><a href="#2-5-18-治疗处方单" class="headerlink" title="2.5.18 治疗处方单"></a>2.5.18 治疗处方单</h3><p>双击右边的治疗处方单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image208.jpg" alt="img"></p>
+<h3 id="2-5-19-皮试结果查询"><a href="#2-5-19-皮试结果查询" class="headerlink" title="2.5.19 皮试结果查询"></a>2.5.19 皮试结果查询</h3><p>双击右边的皮试结果查询模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image210.jpg" alt="img"></p>
+<p>输入住院号就会出现做过皮试的病人的皮试结果信息查询。</p>
+<h3 id="2-5-20-护理记录单"><a href="#2-5-20-护理记录单" class="headerlink" title="2.5.20 护理记录单"></a>2.5.20 护理记录单</h3><p>双击右边的护理记录单模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image212.jpg" alt="img"></p>
+<p>记录护士在护理过程中病人的基本信息。</p>
+<h2 id="2-5出院"><a href="#2-5出院" class="headerlink" title="2.5出院"></a><a href="">2.5</a>出院</h2><h3 id="2-5-1-出院"><a href="#2-5-1-出院" class="headerlink" title="2.5.1 出院"></a>2.5.1 出院</h3><p>  双击右边的出院模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image214.jpg" alt="img"></p>
+<p>左边菜单会出现相关的可以出院的病人或输入住院号，按回车键，单击‘确定’如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image216.jpg" alt="img"></p>
+<p>要办理出院的话，直接单击‘确定’即可。否则单击‘取消’。</p>
+<h3 id="2-5-2-出院病人召回管理"><a href="#2-5-2-出院病人召回管理" class="headerlink" title="2.5.2 出院病人召回管理"></a>2.5.2 出院病人召回管理</h3><p>双击右边的出院病人召回管理模块进入如图界面：<em>**</em></p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image218.jpg" alt="img"></p>
+<p>输入要召回的病人的住院号，按‘回车键’调出病人的信息，单击‘确定’即可。</p>
+<h1 id="药库药房部分"><a href="#药库药房部分" class="headerlink" title="药库药房部分"></a><a href="">药库药房部分</a></h1><h2 id="3-1-药库管理"><a href="#3-1-药库管理" class="headerlink" title="3.1 药库管理"></a><a href="">3.1 </a>药库管理</h2><p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image220.jpg" alt="img"></p>
+<h3 id="3-1-1-药品初始录入"><a href="#3-1-1-药品初始录入" class="headerlink" title="3.1.1. 药品初始录入"></a>3.1.1. 药品初始录入</h3><p>双击右边的药品初始录入模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image222.jpg" alt="img"></p>
+<p>选择药房名称、库房名称等信息（输入药品名称的时可以输入药品名称的汉语拼音的首字母，按回车键，选择相关药品）。输入完成后，单击‘保存’即可。</p>
+<h3 id="3-1-2药品入库"><a href="#3-1-2药品入库" class="headerlink" title="3.1.2药品入库"></a>3.1.2药品入库</h3><p>双击右边的药品入库模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image224.jpg" alt="img"></p>
+<p>点击‘新增’，输入入库的药品信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image226.jpg" alt="img"></p>
+<p>单击‘保存’即可。</p>
+<h3 id="3-1-3-药品库存调整"><a href="#3-1-3-药品库存调整" class="headerlink" title="3.1.3 药品库存调整"></a>3.1.3 药品库存调整</h3><p>双击右边的药品库存调整模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image228.jpg" alt="img"></p>
+<p>输入调整部门，点击‘显示’，屏幕中会列出该药房的所有药品信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image230.jpg" alt="img"></p>
+<p>也可以在按拼音码检索中输入药品的汉语拼音的首字母，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image232.jpg" alt="img"></p>
+<p>选中要调整的药品，，输入实际库存和调整原因，单击‘确定’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image234.jpg" alt="img"></p>
+<p>点击‘调整’即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image236.jpg" alt="img"></p>
+<h3 id="3-1-4-药品调拨管理"><a href="#3-1-4-药品调拨管理" class="headerlink" title="3.1.4 药品调拨管理"></a>3.1.4 药品调拨管理</h3><p>双击右边的药品调拨管理模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image238.jpg" alt="img"></p>
+<p>单击‘新增’，输入要调拨的库房名称和药品，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image240.jpg" alt="img"></p>
+<p>单击‘保存’即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image242.jpg" alt="img"></p>
+<p>也可以对已经调拨的药品进行编辑，单击‘编辑’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image244.jpg" alt="img"></p>
+<p>选择要编辑的药品，进行‘编辑’即可。</p>
+<p>保存完成后，要对药品信息要进行审核，单击‘审核’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image246.jpg" alt="img"></p>
+<p>选中要审核的药品信息，双击即可。</p>
+<h3 id="3-1-5-药品盘点"><a href="#3-1-5-药品盘点" class="headerlink" title="3.1.5 药品盘点"></a>3.1.5 药品盘点</h3><p>双击右边的药品盘点模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image248.jpg" alt="img"></p>
+<p>单击‘新增盘点表’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image250.jpg" alt="img"></p>
+<p>如果要显示这些药品对应的库存，可以单击‘导入库存’，盘点完成后，单击‘保存’，数据无误后，单击‘审核’、‘保存’，药品盘点任务完成。</p>
+<h3 id="3-1-6药品库存上下限维护"><a href="#3-1-6药品库存上下限维护" class="headerlink" title="3.1.6药品库存上下限维护"></a>3.1.6药品库存上下限维护</h3><p>双击右边的药品库存上下限维护模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image252.jpg" alt="img"></p>
+<p>输入库存下限和库存上限，单击‘保存’即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image254.jpg" alt="img"></p>
+<h3 id="3-1-7药品调价"><a href="#3-1-7药品调价" class="headerlink" title="3.1.7药品调价"></a>3.1.7药品调价</h3><p>双击右边的药品调价模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image256.jpg" alt="img"></p>
+<p>单击‘新增’，输入相关信息（文件号、调价原因必写），输入药品的新购入价如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image258.jpg" alt="img"></p>
+<p>单击保存即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image260.jpg" alt="img"></p>
+<p>保存之后，要对修改过的信息进行审核，点击‘审核’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image262.jpg" alt="img"></p>
+<p>选择部门，单击‘查询’，选择要审核的调价号，单击‘确定’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image264.jpg" alt="img"></p>
+<p>选中要审核的药品信息，单击‘确定’即可。</p>
+<h3 id="3-1-8药品报损管理"><a href="#3-1-8药品报损管理" class="headerlink" title="3.1.8药品报损管理"></a>3.1.8药品报损管理</h3><p>双击右边的药品报损管理模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image266.jpg" alt="img"></p>
+<p>单击‘新增’，选择损益类别，输入报损的药品数量，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image268.jpg" alt="img"></p>
+<p>单击‘保存’即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image270.jpg" alt="img"></p>
+<p>保存完成后，要对输入的信息进行审核，单击‘审核’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image272.jpg" alt="img"></p>
+<p>双击要审核报损信息或者选择该审核报损信息单击‘确定’，再次单击‘保存’即可审计成功，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image274.jpg" alt="img"></p>
+<p>单击‘确定’；</p>
+<h3 id="3-1-9药品购物计划"><a href="#3-1-9药品购物计划" class="headerlink" title="3.1.9药品购物计划"></a>3.1.9药品购物计划</h3><p>双击右边的药品购物计划模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image276.jpg" alt="img"></p>
+<p>单击‘新增’，输入相关信息，即可出现该库房的药品记录信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image278.jpg" alt="img"></p>
+<p>如果只想显示小于库存下限的药品信息，可以在药品信息（仅显示小于库存下限的药品）前面方框点击即可。也可以利用辅助查找（输入药品汉语拼音的第一个字母）来查找有关药品信息。</p>
+<p>选中某一药品，右击，会出现‘定位查找’，‘添加到购物计划明细’对话框。</p>
+<p>定位查找，如图：点击‘ok’进行查找。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image280.jpg" alt="img"></p>
+<p>也可以利用单价进行查找。</p>
+<p>添加到购物计划明细，输入采购数量和购入价等相关信息，单击‘保存’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image282.jpg" alt="img"></p>
+<p>确定信息无误后，单击‘审核’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image284.jpg" alt="img"></p>
+<p>选中要审核的药品，单击‘保存’即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image286.jpg" alt="img"></p>
+<p>完成购物计划后，点击‘保存’即可。会出现相关的审核单；</p>
+<h3 id="3-1-10药品退货管理"><a href="#3-1-10药品退货管理" class="headerlink" title="3.1.10药品退货管理"></a>3.1.10药品退货管理</h3><p>双击右边的药品退货管理模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image288.jpg" alt="img"></p>
+<p>单击‘新增’，输入相关信息和要退的药品信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image290.jpg" alt="img"></p>
+<p>单击‘保存’即可。保存完成后，也要对该信息进行审核。</p>
+<h3 id="3-1-11-药库药品出入库汇总"><a href="#3-1-11-药库药品出入库汇总" class="headerlink" title="3.1.11 药库药品出入库汇总"></a>3.1.11 药库药品出入库汇总</h3><p>双击右边的药库药品出入库汇总模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image292.jpg" alt="img"></p>
+<p>选择要统计的药库名称、历史数据、汇总数据的时间，单击‘汇总’即可。</p>
+<h3 id="3-1-12-药房药品出入库汇总"><a href="#3-1-12-药房药品出入库汇总" class="headerlink" title="3.1.12 药房药品出入库汇总"></a>3.1.12 药房药品出入库汇总</h3><p>双击右边的药房药品出入库汇总模块进入如图界面：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image294.jpg" alt="img"></p>
+<p>选择要统计的药库名称、历史数据、汇总数据的时间，单击‘汇总’即可。</p>
+<h2 id="3-2药房"><a href="#3-2药房" class="headerlink" title="3.2药房"></a><a href="">3.2</a>药房</h2><p>药房操作员根据自己的代码进入药房管理系统，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image296.jpg" alt="img"></p>
+<h3 id="3-2-1药房发药"><a href="#3-2-1药房发药" class="headerlink" title="3.2.1药房发药"></a>3.2.1药房发药</h3><p>双击右边的药房发药模块，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image298.jpg" alt="img"></p>
+<p>确定是门诊发药还是住院发药，选择药方名称，系统会调出相关的未发药的病人信息，如果病人过多的话，也可以通过输入诊疗号按回车键调出该病人的未发药的信息。如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image300.jpg" alt="img"></p>
+<p>发完药后，点击‘确定’即可，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image302.jpg" alt="img"></p>
+<p>点击‘确定’之后，会打印相应的发药单；</p>
+<h3 id="3-2-2药房退药"><a href="#3-2-2药房退药" class="headerlink" title="3.2.2药房退药"></a>3.2.2药房退药</h3><p>双击右边的药房发药模块，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image304.jpg" alt="img"></p>
+<p>选择退药的部门，单击‘查询’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image306.jpg" alt="img"></p>
+<p>选择要退药的病人信息，单击‘确定’，然后双击该病人信息，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image308.jpg" alt="img"></p>
+<p>选择要退的药品，单击‘确定’，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image310.jpg" alt="img"></p>
+<p>单击是，即可完成退药，否则单击‘否’。</p>
+<h3 id="3-2-3-药品有效期管理"><a href="#3-2-3-药品有效期管理" class="headerlink" title="3.2.3 药品有效期管理"></a>3.2.3 药品有效期管理</h3><p>双击右边的药品有效期管理模块，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image312.jpg" alt="img"></p>
+<p>根据提示，输入要查询的药品的有效期，单击‘查询’即可。</p>
+<h3 id="3-2-4药房药品维护"><a href="#3-2-4药房药品维护" class="headerlink" title="3.2. 4药房药品维护"></a>3.2. 4药房药品维护</h3><p>双击右边的药房药品维护模块，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image314.jpg" alt="img"></p>
+<p>输入库存上下限，单击‘保存’即可。</p>
+<h3 id="3-2-5药品医保类型维护"><a href="#3-2-5药品医保类型维护" class="headerlink" title="3.2.5药品医保类型维护"></a>3.2.5药品医保类型维护</h3><p>双击右边的药品医保类型维护模块，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image316.jpg" alt="img"></p>
+<p>输入要将修改的药品的汉语拼音的首字母或药品编号、药品名称等相关信息，调出该药品的信息，选择‘修改’按钮，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image318.jpg" alt="img"></p>
+<p>选择该药品的医保类型，最后‘保存’即可。</p>
+<h3 id="3-2-6药品划价"><a href="#3-2-6药品划价" class="headerlink" title="3.2. 6药品划价"></a>3.2. 6药品划价</h3><p>双击右边的药品划价模块，如图所示：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image320.jpg" alt="img"></p>
+<p>左边列出了已挂号未划价的病人信息，对该病人信息进行双击，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image322.jpg" alt="img"></p>
+<p>输入处方的药品名称，如图：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image324.jpg" alt="img"></p>
+<p>单击保存即可：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/yxmgr/clip_image326.jpg" alt="img"></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#case" >
+    <span class="tag-code">case</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/63607.html">
+        <span class="nav-arrow">← </span>
+        
+          技术变化那么快，如何做到不被淘汰
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/54252.html">
+        
+          软件工程文档汇编
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#系统简介"><span class="toc-nav-text">系统简介</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#系统配置"><span class="toc-nav-text">系统配置</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#系统登录"><span class="toc-nav-text">系统登录</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#门诊部分"><span class="toc-nav-text">门诊部分</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-1挂号管理"><span class="toc-nav-text">1.1挂号管理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-1-1门急诊挂号"><span class="toc-nav-text">1.1.1门急诊挂号</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-1-2-挂号退号"><span class="toc-nav-text">1.1.2 挂号退号</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-1-3-门诊病人信息修改"><span class="toc-nav-text">1.1.3 门诊病人信息修改</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-2-1门诊管理"><span class="toc-nav-text">1.2.1门诊管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-2-2诊断证明"><span class="toc-nav-text">1.2.2诊断证明</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-2-3个人处方维护"><span class="toc-nav-text">1.2.3个人处方维护</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-2-4门诊医生接诊患者信息查询"><span class="toc-nav-text">1.2.4门诊医生接诊患者信息查询</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-3-门诊收费站"><span class="toc-nav-text">1.3 门诊收费站</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-1门诊划价收费"><span class="toc-nav-text">1.3.1门诊划价收费</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-2-病人信息维护"><span class="toc-nav-text">1.3.2 病人信息维护</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-3-门诊发票重打"><span class="toc-nav-text">1.3.3 门诊发票重打</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-4-门诊退费"><span class="toc-nav-text">1.3.4 门诊退费</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-5-门诊日结账（在启用日结配置的情况下才能使用）"><span class="toc-nav-text">1.3.5 门诊日结账（在启用日结配置的情况下才能使用）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-6-结账信息取消（该功能慎用）"><span class="toc-nav-text">1.3.6 结账信息取消（该功能慎用）</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#住院部分"><span class="toc-nav-text">住院部分</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1入院"><span class="toc-nav-text">2.1入院</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-1-1-入院登记"><span class="toc-nav-text">2.1.1 入院登记</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-1-2-新生儿入院登记"><span class="toc-nav-text">2.1.2 新生儿入院登记</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-1-3-入院登记许可项配置"><span class="toc-nav-text">2.1.3 入院登记许可项配置</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2住院医生站"><span class="toc-nav-text">2.2住院医生站</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-1-导航管理"><span class="toc-nav-text">2.2.1 导航管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-2-住院电子病历"><span class="toc-nav-text">2.2.2 住院电子病历</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-3住院收费"><span class="toc-nav-text">2.3住院收费</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-1-住院划价记账"><span class="toc-nav-text">2.3.1 住院划价记账</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-2-允许欠费金额设置"><span class="toc-nav-text">2.3.2 允许欠费金额设置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-8-增加担保人"><span class="toc-nav-text">2.3.8 增加担保人</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-3-预交款管理"><span class="toc-nav-text">2.3.3 预交款管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-4-预交款发票重打"><span class="toc-nav-text">2.3.4 预交款发票重打</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-5-住院收入按科室统计"><span class="toc-nav-text">2.3.5 住院收入按科室统计</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-6-住院收入按医师统计"><span class="toc-nav-text">2.3.6 住院收入按医师统计</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-7-病人费用类别修改"><span class="toc-nav-text">2.3.7 病人费用类别修改</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-9-住院退费"><span class="toc-nav-text">2.3.9 住院退费</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-10-滚动退费"><span class="toc-nav-text">2.3.10 滚动退费</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-11-病人账目查询"><span class="toc-nav-text">2.3.11 病人账目查询</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-12-病人账目结算"><span class="toc-nav-text">2.3.12 病人账目结算</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-13-结算召回"><span class="toc-nav-text">2.3.13 结算召回</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-14-住院结账"><span class="toc-nav-text">2.3.14 住院结账</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-15-催拖欠款"><span class="toc-nav-text">2.3.15 催拖欠款</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-16出院发票重打"><span class="toc-nav-text">2.3.16出院发票重打</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-17-出院收入按医师统计"><span class="toc-nav-text">2.3.17 出院收入按医师统计</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-18出院收入按科室统计"><span class="toc-nav-text">2.3.18出院收入按科室统计</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-19出院病人账目查询"><span class="toc-nav-text">2.3.19出院病人账目查询</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-4护士站"><span class="toc-nav-text">2.4护士站</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-1-导航管理"><span class="toc-nav-text">2.4.1 导航管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-2-长期医嘱单"><span class="toc-nav-text">2.4.2 长期医嘱单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-3-临时医嘱单"><span class="toc-nav-text">2.4.3 临时医嘱单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-4-转床管理"><span class="toc-nav-text">2.4.4 转床管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-5-包床设置"><span class="toc-nav-text">2.4.5 包床设置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-6-临时加床"><span class="toc-nav-text">2.4.6 临时加床</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-7-临时撤床"><span class="toc-nav-text">2.4.7 临时撤床</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-8-转科管理"><span class="toc-nav-text">2.4.8 转科管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-9-在院病人一日清单"><span class="toc-nav-text">2.4.9 在院病人一日清单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-10-出院病人一日清单"><span class="toc-nav-text">2.5.10 出院病人一日清单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-11-请领药单（汇总）"><span class="toc-nav-text">2.5.11 请领药单（汇总）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-12-请领药单（明细）"><span class="toc-nav-text">2.5.12 请领药单（明细）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-13-静滴单（输液卡）"><span class="toc-nav-text">2.5.13 静滴单（输液卡）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-14-请领药单（口服和非口服）"><span class="toc-nav-text">2.5.14 请领药单（口服和非口服）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-15-口服药单"><span class="toc-nav-text">2.5.15 口服药单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-16-注射单"><span class="toc-nav-text">2.5.16 注射单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-17-处置单（医技）"><span class="toc-nav-text">2.5.17 处置单（医技）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-18-治疗处方单"><span class="toc-nav-text">2.5.18 治疗处方单</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-19-皮试结果查询"><span class="toc-nav-text">2.5.19 皮试结果查询</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-20-护理记录单"><span class="toc-nav-text">2.5.20 护理记录单</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-5出院"><span class="toc-nav-text">2.5出院</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-1-出院"><span class="toc-nav-text">2.5.1 出院</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-2-出院病人召回管理"><span class="toc-nav-text">2.5.2 出院病人召回管理</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#药库药房部分"><span class="toc-nav-text">药库药房部分</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1-药库管理"><span class="toc-nav-text">3.1 药库管理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-1-药品初始录入"><span class="toc-nav-text">3.1.1. 药品初始录入</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-2药品入库"><span class="toc-nav-text">3.1.2药品入库</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-3-药品库存调整"><span class="toc-nav-text">3.1.3 药品库存调整</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-4-药品调拨管理"><span class="toc-nav-text">3.1.4 药品调拨管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-5-药品盘点"><span class="toc-nav-text">3.1.5 药品盘点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-6药品库存上下限维护"><span class="toc-nav-text">3.1.6药品库存上下限维护</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-7药品调价"><span class="toc-nav-text">3.1.7药品调价</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-8药品报损管理"><span class="toc-nav-text">3.1.8药品报损管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-9药品购物计划"><span class="toc-nav-text">3.1.9药品购物计划</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-10药品退货管理"><span class="toc-nav-text">3.1.10药品退货管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-11-药库药品出入库汇总"><span class="toc-nav-text">3.1.11 药库药品出入库汇总</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-12-药房药品出入库汇总"><span class="toc-nav-text">3.1.12 药房药品出入库汇总</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-2药房"><span class="toc-nav-text">3.2药房</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-1药房发药"><span class="toc-nav-text">3.2.1药房发药</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-2药房退药"><span class="toc-nav-text">3.2.2药房退药</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-3-药品有效期管理"><span class="toc-nav-text">3.2.3 药品有效期管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-4药房药品维护"><span class="toc-nav-text">3.2. 4药房药品维护</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-5药品医保类型维护"><span class="toc-nav-text">3.2.5药品医保类型维护</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-6药品划价"><span class="toc-nav-text">3.2. 6药品划价</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/8499.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "医院信息管理信息系统",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

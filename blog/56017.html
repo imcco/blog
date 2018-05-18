@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      设计模式（Design pattern）导学 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>设计模式（Design pattern）导学</h2>
+  <p class="post-date">2018-02-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0116.jpg" alt="image"></p>
+<p>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案。这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。<br><a id="more"></a></p>
+<ul>
+<li><strong>基础知识</strong></li>
+</ul>
+<p>  <strong>设计模式概述</strong></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7417668" target="_blank" rel="noopener">从招式与内功谈起——设计模式概述（一）</a>：设计模式从何而来？</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420863" target="_blank" rel="noopener">从招式与内功谈起——设计模式概述（二）</a>：设计模式是什么？</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420866" target="_blank" rel="noopener">从招式与内功谈起——设计模式概述（三）</a>：设计模式有什么用？附：个人观点</p>
+<p>  <strong>面向对象设计原则</strong></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7536532" target="_blank" rel="noopener">面向对象设计原则概述</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7536542" target="_blank" rel="noopener">面向对象设计原则之单一职责原则</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7537584" target="_blank" rel="noopener">面向对象设计原则之开闭原则</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7540445" target="_blank" rel="noopener">面向对象设计原则之里氏代换原则</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7562783" target="_blank" rel="noopener">面向对象设计原则之依赖倒转原则</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7562842" target="_blank" rel="noopener">面向对象设计原则之接口隔离原则</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7563441" target="_blank" rel="noopener">面向对象设计原则之合成复用原则</a></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7563445" target="_blank" rel="noopener">面向对象设计原则之迪米特法则</a></p>
+<p>  <strong>六个创建型模式</strong></p>
+<p>  简单工厂模式-Simple Factory Pattern【学习难度：★★☆☆☆，使用频率：★★★☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9300337" target="_blank" rel="noopener">工厂三兄弟之简单工厂模式（一）</a>：图表库的设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9300549" target="_blank" rel="noopener">工厂三兄弟之简单工厂模式（二）</a>：简单工厂模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9300657" target="_blank" rel="noopener">工厂三兄弟之简单工厂模式（三）</a>：图表库的简单工厂模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9300731" target="_blank" rel="noopener">工厂三兄弟之简单工厂模式（四）</a>：图表库解决方案的改进，简单工厂模式的简化，简单工厂模式总结</p>
+<p>  工厂方法模式-Factory Method Pattern【学习难度：★★☆☆☆，使用频率：★★★★★】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9306457" target="_blank" rel="noopener">工厂三兄弟之工厂方法模式（一）</a>：日志记录器的设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9306745" target="_blank" rel="noopener">工厂三兄弟之工厂方法模式（二）</a>：工厂方法模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9307137" target="_blank" rel="noopener">工厂三兄弟之工厂方法模式（三）</a>：日志记录器的工厂方法模式解决方案，反射与配置文件</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9307561" target="_blank" rel="noopener">工厂三兄弟之工厂方法模式（四）</a>：重载的工厂方法，工厂方法的隐藏，工厂方法模式总结</p>
+<p>  抽象工厂模式-Abstract  Factory Pattern【学习难度：★★★★☆，使用频率：★★★★★】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9319181" target="_blank" rel="noopener">工厂三兄弟之抽象工厂模式（一）</a>：界面皮肤库的初始设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9319323" target="_blank" rel="noopener">工厂三兄弟之抽象工厂模式（二）</a>：产品等级结构与产品族</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9319423" target="_blank" rel="noopener">工厂三兄弟之抽象工厂模式（三）</a>：抽象工厂模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9319481" target="_blank" rel="noopener">工厂三兄弟之抽象工厂模式（四）</a>：界面皮肤库的抽象工厂模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9319571" target="_blank" rel="noopener">工厂三兄弟之抽象工厂模式（五）</a>：“开闭原则”的倾斜性，抽象工厂模式总结</p>
+<p>  单例模式-Singleton Pattern【学习难度：★☆☆☆☆，使用频率：★★★★☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420883" target="_blank" rel="noopener">确保对象的唯一性——单例模式 （一）</a>：单例模式的动机，单例模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420885" target="_blank" rel="noopener">确保对象的唯一性——单例模式 （二）</a>：负载均衡器的设计与实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420886" target="_blank" rel="noopener">确保对象的唯一性——单例模式 （三）</a>：饿汉式单例与懒汉式单例的讨论</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420888" target="_blank" rel="noopener">确保对象的唯一性——单例模式 （四）</a>：一种更好的单例实现方法（静态内部类）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420889" target="_blank" rel="noopener">确保对象的唯一性——单例模式 （五）</a>：单例模式总结</p>
+<p>  原型模式-Prototype Pattern【学习难度：★★★☆☆，使用频率：★★★☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7424559" target="_blank" rel="noopener">对象的克隆——原型模式（一）</a>：大同小异的工作周报，原型模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7424594" target="_blank" rel="noopener">对象的克隆——原型模式（二）</a>：工作周报的原型模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7424620" target="_blank" rel="noopener">对象的克隆——原型模式（三）</a>：带附件的周报【浅克隆，深克隆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7424623" target="_blank" rel="noopener">对象的克隆——原型模式（四）</a>：原型管理器的引入和实现，原型模式总结</p>
+<p>  建造者模式-Builder Pattern【学习难度：★★★★☆，使用频率：★★☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7426015" target="_blank" rel="noopener">复杂对象的组装与创建——建造者模式（一）</a>：游戏角色设计，建造者模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7426323" target="_blank" rel="noopener">复杂对象的组装与创建——建造者模式（二）</a>：游戏角色设计的建造者模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7426855" target="_blank" rel="noopener">复杂对象的组装与创建——建造者模式（三）</a>：关于Director的进一步讨论，建造者模式总结</p>
+<p>  <strong>七个结构型模式</strong></p>
+<p>  适配器模式-Adapter Pattern【学习难度：★★☆☆☆，使用频率：★★★★☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8624325" target="_blank" rel="noopener">不兼容结构的协调——适配器模式（一）</a>：没有源码的算法库，适配器模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8624412" target="_blank" rel="noopener">不兼容结构的协调——适配器模式（二）</a>：没有源码的算法库的适配器模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8624428" target="_blank" rel="noopener">不兼容结构的协调——适配器模式（三）</a>：类适配器，双向适配器</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8624633" target="_blank" rel="noopener">不兼容结构的协调——适配器模式（四）</a>：缺省适配器，适配器模式总结</p>
+<p>  <strong>桥接模式-Bridge Pattern【学习难度：</strong>★★★☆☆<strong>，使用频率：**</strong>★★★☆☆<strong>**】</strong></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7464183" target="_blank" rel="noopener">处理多维度变化——桥接模式（一）</a>：跨平台图像浏览系统</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7464195" target="_blank" rel="noopener">处理多维度变化——桥接模式（二）</a>：桥接模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7464204" target="_blank" rel="noopener">处理多维度变化——桥接模式（三）</a>：跨平台图像浏览系统的桥接模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7464208" target="_blank" rel="noopener">处理多维度变化——桥接模式（四）</a>：适配器模式与桥接模式的联用，桥接模式总结</p>
+<hr>
+<p>  组合模式-Composite Pattern【学习难度：★★★☆☆，使用频率：★★★★☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7956898" target="_blank" rel="noopener">树形结构的处理——组合模式（一）</a>：设计杀毒软件的框架结构</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7956908" target="_blank" rel="noopener">树形结构的处理——组合模式（二）</a>：组合模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7956931" target="_blank" rel="noopener">树形结构的处理——组合模式（三）</a>：杀毒软件的框架结构的组合模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7956937" target="_blank" rel="noopener">树形结构的处理——组合模式（四）</a>：透明组合模式与安全组合模式</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7956962" target="_blank" rel="noopener">树形结构的处理——组合模式（五）</a>：公司组织结构，组合模式总结</p>
+<hr>
+<p>  装饰模式-Decorator Pattern【学习难度：★★★☆☆，使用频率：★★★☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7424685" target="_blank" rel="noopener">扩展系统功能——装饰模式（一）</a>：图形界面构件库的设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7425849" target="_blank" rel="noopener">扩展系统功能——装饰模式（二）</a>：装饰模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7425861" target="_blank" rel="noopener">扩展系统功能——装饰模式（三）</a>：图形界面构件库的装饰模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7425873" target="_blank" rel="noopener">扩展系统功能——装饰模式（四）</a>：透明装饰模式与半透明装饰模式，装饰模式注意事项，装饰模式总结</p>
+<hr>
+<p>  外观模式-Facade Pattern【学习难度：★☆☆☆☆，使用频率：★★★★★】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8258121" target="_blank" rel="noopener">深入浅出外观模式（一）</a>：外观模式概述，外观模式结构与实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8259705" target="_blank" rel="noopener">深入浅出外观模式（二）</a>：外观模式应用实例（文件加密模块）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8259789" target="_blank" rel="noopener">深入浅出外观模式（三）</a>：抽象外观类，外观模式效果与适用场景</p>
+<hr>
+<p>  享元模式-Flyweight Pattern【学习难度：★★★★☆，使用频率：★☆☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7667781" target="_blank" rel="noopener">实现对象的复用——享元模式（一）</a>：围棋棋子的设计，享元模式概述（上）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7667810" target="_blank" rel="noopener">实现对象的复用——享元模式（二）</a>：享元模式概述（下）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7667839" target="_blank" rel="noopener">实现对象的复用——享元模式（三）</a>：围棋棋子的享元模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7667860" target="_blank" rel="noopener">实现对象的复用——享元模式（四）</a>：带外部状态的围棋棋子解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7667901" target="_blank" rel="noopener">实现对象的复用——享元模式（五）</a>：单纯享元模式和复合享元模式，关于享元模式的几点补充，享元模式总结</p>
+<hr>
+<p>  代理模式-Proxy Pattern【学习难度：★★★☆☆，使用频率：★★★★☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8227953" target="_blank" rel="noopener">代理模式（一）</a>：代理模式概述，代理模式结构与实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8228042" target="_blank" rel="noopener">代理模式（二）</a>：代理模式应用实例（收费商务信息查询系统）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8228132" target="_blank" rel="noopener">代理模式（三）</a>：远程代理，虚拟代理，缓冲代理</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8228156" target="_blank" rel="noopener">代理模式（四）</a>：代理模式效果与适用场景</p>
+<p>  <strong>十一个行为型模式</strong></p>
+<p>  职责链模式-Chain of Responsibility Pattern【学习难度：★★★☆☆，使用频率：★★☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420891" target="_blank" rel="noopener">请求的链式处理——职责链模式（一）</a>：采购单的分级审批</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420893" target="_blank" rel="noopener">请求的链式处理——职责链模式（二）</a>：职责链模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420898" target="_blank" rel="noopener">请求的链式处理——职责链模式（三）</a>：采购单分级审批的职责链模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7420902" target="_blank" rel="noopener">请求的链式处理——职责链模式（四）</a>：纯与不纯的职责链模式，职责链模式总结</p>
+<hr>
+<p>  命令模式-Command Pattern【学习难度：★★★<strong>☆☆**</strong>，使用频率：<strong><strong>★★★★☆</strong></strong>】**</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8796736" target="_blank" rel="noopener">请求发送者与接收者解耦——命令模式（一）</a>：自定义功能键，命令模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8806049" target="_blank" rel="noopener">请求发送者与接收者解耦——命令模式（二）</a>：自定义功能键的命令模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8806239" target="_blank" rel="noopener">请求发送者与接收者解耦——命令模式（三）</a>：命令队列的实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8806509" target="_blank" rel="noopener">请求发送者与接收者解耦——命令模式（四）</a>：撤销操作的简单实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8806643" target="_blank" rel="noopener">请求发送者与接收者解耦——命令模式（五）</a>：请求日志</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8806677" target="_blank" rel="noopener">请求发送者与接收者解耦——命令模式（六）</a>：宏命令，命令模式总结</p>
+<p>  解释器模式-Interpreter Pattern【学习难度：★★★★★，使用频率：★☆☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7713567" target="_blank" rel="noopener">自定义语言的实现——解释器模式（一）</a>：机器人控制程序</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7713578" target="_blank" rel="noopener">自定义语言的实现——解释器模式（二）</a>：文法规则和抽象语法树</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7713589" target="_blank" rel="noopener">自定义语言的实现——解释器模式（三）</a>：解释器模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7713593" target="_blank" rel="noopener">自定义语言的实现——解释器模式（四）</a>：机器人控制程序的解释器模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7713602" target="_blank" rel="noopener">自定义语言的实现——解释器模式（五）</a>：再谈Context的作用</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7713615" target="_blank" rel="noopener">自定义语言的实现——解释器模式（六）</a>：解释器模式总结</p>
+<hr>
+<p>  迭代器模式-Iterator Pattern【学习难度：★★★☆☆，使用频率：★★★★★】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9992005" target="_blank" rel="noopener">遍历聚合对象中的元素——迭代器模式（一）</a>：销售管理系统中数据的遍历</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9992243" target="_blank" rel="noopener">遍历聚合对象中的元素——迭代器模式（二）</a>：迭代器模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9992679" target="_blank" rel="noopener">遍历聚合对象中的元素——迭代器模式（三）</a>：销售管理系统中数据的遍历的迭代器模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9992731" target="_blank" rel="noopener">遍历聚合对象中的元素——迭代器模式（四）</a>：使用内部类实现迭代器</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9992799" target="_blank" rel="noopener">遍历聚合对象中的元素——迭代器模式（五）</a>：JDK内置迭代器的使用</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/9992931" target="_blank" rel="noopener">遍历聚合对象中的元素——迭代器模式（六）</a>：迭代器模式总结</p>
+<p>  中介者模式-Mediator Pattern【学习难度：★★★☆☆，使用频率：★★☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8482952" target="_blank" rel="noopener">协调多个对象之间的交互——中介者模式（一）</a>：客户信息管理窗口的初始设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8483005" target="_blank" rel="noopener">协调多个对象之间的交互——中介者模式（二）</a>：中介者模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8483031" target="_blank" rel="noopener">协调多个对象之间的交互——中介者模式（三）</a>：客户信息管理窗口的中介者模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8483081" target="_blank" rel="noopener">协调多个对象之间的交互——中介者模式（四）</a>：中介者与同事类的扩展</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8483151" target="_blank" rel="noopener">协调多个对象之间的交互——中介者模式（五）</a>：中介者模式总结</p>
+<p>  备忘录模式-Memento Pattern【学习难度：★★☆☆☆，使用频率：★★☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7526740" target="_blank" rel="noopener">撤销功能的实现——备忘录模式（一）</a>：可悔棋的中国象棋</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7526747" target="_blank" rel="noopener">撤销功能的实现——备忘录模式（二）</a>：备忘录模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7526755" target="_blank" rel="noopener">撤销功能的实现——备忘录模式（三）</a>：中国象棋的备忘录模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7526756" target="_blank" rel="noopener">撤销功能的实现——备忘录模式（四）</a>：实现多次撤销</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7526759" target="_blank" rel="noopener">撤销功能的实现——备忘录模式（五）</a>：再谈备忘录的封装，备忘录模式总结</p>
+<hr>
+<p>  观察者模式-Observer Pattern【学习难度：★★★☆☆，使用频率：★★★★★】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7720232" target="_blank" rel="noopener">对象间的联动——观察者模式（一）</a>：多人联机对战游戏的设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7720382" target="_blank" rel="noopener">对象间的联动——观察者模式（二）</a>：观察者模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7720490" target="_blank" rel="noopener">对象间的联动——观察者模式（三）</a>：多人联机对战游戏的观察者模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7720507" target="_blank" rel="noopener">对象间的联动——观察者模式（四）</a>：JDK对观察者模式的支持</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7720522" target="_blank" rel="noopener">对象间的联动——观察者模式（五）</a>：观察者模式与Java事件处理</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7720537" target="_blank" rel="noopener">对象间的联动——观察者模式（六）</a>：观察者模式与MVC，观察者模式总结</p>
+<p>  状态模式-State Pattern【学习难度：★★★☆☆，使用频率：★★★☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8522982" target="_blank" rel="noopener">处理对象的多种状态及其相互转换——状态模式（一）</a>：银行系统中的账户类设计</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8523062" target="_blank" rel="noopener">处理对象的多种状态及其相互转换——状态模式（二）</a>：状态模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8523083" target="_blank" rel="noopener">处理对象的多种状态及其相互转换——状态模式（三）</a>：账户类的状态模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8523105" target="_blank" rel="noopener">处理对象的多种状态及其相互转换——状态模式（四）</a>：共享状态的实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8523130" target="_blank" rel="noopener">处理对象的多种状态及其相互转换——状态模式（五）</a>：使用环境类实现状态转换</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8523162" target="_blank" rel="noopener">处理对象的多种状态及其相互转换——状态模式（六）</a>：状态模式总结</p>
+<p>  策略模式-Strategy Pattern【学习难度：★☆☆☆☆，使用频率：★★★★☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7818983" target="_blank" rel="noopener">算法的封装与切换——策略模式（一）</a>：电影票打折方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7819136" target="_blank" rel="noopener">算法的封装与切换——策略模式（二）</a>：策略模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7819216" target="_blank" rel="noopener">算法的封装与切换——策略模式（三）</a>：电影票打折方案的策略模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7819266" target="_blank" rel="noopener">算法的封装与切换——策略模式（四）</a>：策略模式的两个典型应用，策略模式总结</p>
+<p>  模板方法模式-Template Method Pattern【学习难度：★★☆☆☆，使用频率：★★★☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8299794" target="_blank" rel="noopener">模板方法模式深度解析（一）</a>：模板方法模式概述，模板方法模式结构与实现</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8299863" target="_blank" rel="noopener">模板方法模式深度解析（二）</a>：模板方法模式应用实例（银行利息计算模块）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8299927" target="_blank" rel="noopener">模板方法模式深度解析（三）</a>：钩子方法的使用，模板方法模式效果与适用场景</p>
+<p>  访问者模式-Visitor Pattern【学习难度：★★★★☆，使用频率：★☆☆☆☆】</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7433523" target="_blank" rel="noopener">操作复杂对象结构——访问者模式（一）</a>：OA系统中员工数据汇总</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7433567" target="_blank" rel="noopener">操作复杂对象结构——访问者模式（二）</a>：访问者模式概述</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7433576" target="_blank" rel="noopener">操作复杂对象结构——访问者模式（三）</a>：OA系统中员工数据汇总的访问者模式解决方案</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7433591" target="_blank" rel="noopener">操作复杂对象结构——访问者模式（四）</a>：访问者模式与组合模式联用，访问者模式总结</p>
+<hr>
+<p>  <strong>设计模式趣味学习（复习）</strong></p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7707380" target="_blank" rel="noopener">设计模式与足球（一）</a>：创建型模式</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7707497" target="_blank" rel="noopener">设计模式与足球（二）</a>：结构型模式</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7707605" target="_blank" rel="noopener">设计模式与足球（三）</a>：行为型模式（上）</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/7708208" target="_blank" rel="noopener">设计模式与足球（四）</a>：行为型模式（下）</p>
+<hr>
+<p>  设计模式综合应用实例</p>
+<p>  多人联机射击游戏</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8262987" target="_blank" rel="noopener">多人联机射击游戏中的设计模式应用（一）</a>：抽象工厂模式，建造者模式，工厂方法模式，迭代器模式，命令模式</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8263025" target="_blank" rel="noopener">多人联机射击游戏中的设计模式应用（二）</a>：观察者模式，单例模式，状态模式，适配器模式</p>
+<p>  数据库同步系统</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8671196" target="_blank" rel="noopener">设计模式综合实例分析之数据库同步系统（一）</a>：数据库同步系统概述，建造者模式，简单工厂模式</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8671578" target="_blank" rel="noopener">设计模式综合实例分析之数据库同步系统（二）</a>：享元模式，单例模式，观察者模式，模板方法模式</p>
+<p>  <a href="http://blog.csdn.net/lovelion/article/details/8671653" target="_blank" rel="noopener">设计模式综合实例分析之数据库同步系统（三）</a>：策略模式，组合模式，命令模式，职责链模式</p>
+<p>  <strong>【作者：刘伟  </strong><a href="http://blog.csdn.net/lovelion" target="_blank" rel="noopener"><strong>http://blog.csdn.net/lovelion</strong></a><strong>】</strong></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/36961.html">
+        <span class="nav-arrow">← </span>
+        
+          产品设计-产品架构和业务逻辑
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/5503.html">
+        
+          设计模式（Design pattern）简介
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="nav">none</ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/56017.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "设计模式（Design pattern）导学",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

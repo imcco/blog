@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      熵：宇宙的终极规则 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>熵：宇宙的终极规则</h2>
+  <p class="post-date">2018-02-20</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0122.jpg" alt="image"></p>
+<p>有人曾经问我：“成年后，有没有书籍改变过你的世界观？”</p>
+<p>我想了想，还真有这样的书。那时，我已经工作好几年了，偶然在图书馆翻到一本旧书《熵：一种新的世界观》（上海译文出版社，1987）。</p>
+<p>那本书是科普著作，介绍物理学概念“熵”。中学毕业后，我再没有碰过物理学，但是没想到读完以后，我看待世界的眼光都变了。<br><a id="more"></a><br>作者：阮一峰</p>
+<ol>
+<li>“熵”这个概念非常简单，很容易理解，但又异常强大，可以解释很多事情。这篇文章，我就来谈谈，为什么你应该懂得熵是什么，它可能也会改变你的世界观。</li>
+</ol>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042402.png" alt="img"></p>
+<ol start="2">
+<li>为了理解熵，必须讲一点物理学。</li>
+</ol>
+<p>19世纪，物理学家开始认识到，世界的动力是能量，并且提出<a href="https://zh.wikipedia.org/wiki/%E8%83%BD%E9%87%8F%E5%AE%88%E6%81%92%E5%AE%9A%E5%BE%8B" target="_blank" rel="noopener">“能量守恒定律”</a>，即能量的总和是不变的。但是，有一个现象让他们很困惑。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042403.jpg" alt="img"></p>
+<p>（上图的单摆，在两侧的最高点，势能最大，动能为零；在中间的低点，动能最大，势能为零，能量始终守恒。）</p>
+<p>物理学家发现，能量无法百分百地转换。比如，蒸汽机使用的是热能，将其转换为推动机器的机械能。这个过程中，总是有一些热能损耗掉，无法完全转变为机械能。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042404.png" alt="img"></p>
+<p>一开始，物理学家以为是技术水平不高导致的，但后来发现，技术再进步，也无法将能量损耗降到零。<strong>他们就将那些在能量转换过程中浪费掉的、无法再利用的能量称为熵。</strong></p>
+<p>后来，这个概念被总结成了<a href="https://zh.wikipedia.org/wiki/%E7%83%AD%E5%8A%9B%E5%AD%A6%E7%AC%AC%E4%BA%8C%E5%AE%9A%E5%BE%8B" target="_blank" rel="noopener">“热力学第二定律”</a>：能量转换总是会产生熵，如果是封闭系统，所有能量最终都会变成熵。</p>
+<ol start="3">
+<li>熵既然是能量，为什么无法利用？它又是怎么产生的？为什么所有能量最后都会变成熵？这些问题我想了很久。</li>
+</ol>
+<p>物理学家有很多种解释，有一种我觉得最容易懂：能量转换的时候，大部分能量会转换成预先设定的状态，比如热能变成机械能、电能变成光能。但是，就像细胞突变那样，还有一部分能量会生成新的状态。这部分能量就是熵，由于状态不同，所以很难利用，除非外部注入新的能量，专门处理熵。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042405.jpg" alt="img"></p>
+<p>（上图，能量转换过程中，创造出许多新状态。）</p>
+<p><strong>总之，能量转换会创造出新的状态，熵就是进入这些状态的能量。</strong></p>
+<ol start="4">
+<li>现在请大家思考：状态多意味着什么？</li>
+</ol>
+<p>状态多，就是可能性多，表示比较混乱；状态少，就是可能性少，相对来说就比较有秩序。因此，上面结论的另一种表达是：<strong>能量转换会让系统的混乱度增加，熵就是系统的混乱度。</strong></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042406.png" alt="img"></p>
+<p>（上图中，熵低则混乱度低，熵高则混乱度高。）</p>
+<p>转换的能量越大，创造出来的新状态就会越多。高能量系统不如低能量系统稳定，不仅因为前者更容易发生能量转换，还因为在转化过程中会创造出更多的状态（即更多的熵）。而且，凡是运动的系统都会有能量转换，热力学第二定律就是在说，所有封闭系统最终都会趋向混乱度最大的状态，除非外部注入能量。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042407.png" alt="img"></p>
+<p>（上图中，冰块是分子的有序排列，吸收能量后，变成液体水，分子排列变得无序。）</p>
+<ol start="5">
+<li>熵让我理解了一件事，<strong>如果不施加外力影响，事物永远向着更混乱的状态发展。</strong>比如，房间如果没人打扫，只会越来越乱，不可能越来越干净。</li>
+</ol>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042408.jpg" alt="img"></p>
+<p>（上图中，如果不花费能量打扫，房间总是越来越乱。）</p>
+<p>为什么“世间好物不坚牢，彩云易散琉璃脆”？就是因为事物维持美好的状态是需要能量的，如果没有能量输入，美好的状态就会结束。</p>
+<p>这就是我世界观的变化。我从此认识到，人类社会并非一定会变得更进步、更文明。相反地，人类如同宇宙的其他事物一样，常态和最终命运一定是变得更混乱和无序。过去五千年，人类文明的进步只是因为人类学会利用外部能量（牲畜、火种、水力等等）。越来越多的能量注入，使得人类社会向着文明有序的方向发展。</p>
+<p>从小，我受到的教育是“明天会更好”。现在我明白了，这句话是有条件的。正常情况下，明天其实会更糟，因为熵在累积，只有不断注入新的能量处理熵，明天才会更好。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042409.jpg" alt="img"></p>
+<p>（上图中，经过130多亿年的膨胀，宇宙变得越来越无序了。）</p>
+<ol start="6">
+<li>工业革命以后，人类社会的进步速度加快了，变得更加先进有序，消耗的能量也指数级地增长：水力不够了用煤炭，煤炭不够了用石油，石油不够了用核能。</li>
+</ol>
+<p>能量消耗越大，就会产生越多的熵。因此，人类社会始终处于一种矛盾状态：整个社会变得更加有序和严密的同时，无序和混乱也在暗处不断滋长。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042410.jpg" alt="img"></p>
+<p>我们只是依靠更大的能量输入，在压制熵的累积。不断增加的熵，正在各种方面爆发出来：垃圾污染、地球变暖、土地沙化、PM2.5、物种灭绝……甚至心理疾病、孤独感和疏离感的暴增，我认为都是熵的增加对人类精神造成的结果。</p>
+<p>我们需要能量，让世界变得有秩序，但这样是有代价的。<strong>物理学告诉我们，没有办法消除熵和混乱，我们只是让某些局部变得更有秩序，把混乱转移到另一些领域。</strong></p>
+<ol start="7">
+<li>人类社会正在加速发展。表面上，我们正在经历一个减熵过程，一切变得越来越有秩序，自动化带来了便捷。但是，能量消耗也在同步放大，为了解决越来越多的熵，我们不得不寻找更多的能量，这又导致熵的进一步增加，从而陷入恶性循环。</li>
+</ol>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042411.jpg" alt="img"></p>
+<p>迄今为止，人类一直能够找到足够的能量，解决熵带来的混乱。但是，这种解决方式正变得捉襟见肘。如果我们继续像现在这样加速发展，那么终有一天会出现能量缺口，地球上的能量不足以解决熵，那时一切就会发生逆转，仿佛细小的裂缝演变成巨大的雪崩，秩序开始崩塌，世界走向混乱。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017042412.jpg" alt="img"></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Think" >
+    <span class="tag-code">Think</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/27809.html">
+        <span class="nav-arrow">← </span>
+        
+          JS实现分页功能
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/31929.html">
+        
+          东亚教育浪费了太多生命
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="nav">none</ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/39900.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "熵：宇宙的终极规则",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

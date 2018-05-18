@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      JavaScript中的Bind，Call和Apply | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>JavaScript中的Bind，Call和Apply</h2>
+  <p class="post-date">2018-01-29</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0105.jpg" alt="image"></p>
+<p>js 中的 <em>上下文 Context</em>，可以说是一个，你即使不知道，没听过，也不影响你继续写 js 代码的一个概念。但是，它又确确实实是无所不在的一个东西，是的，无所不在。<br><a id="more"></a></p>
+<h3 id="上下文解释"><a href="#上下文解释" class="headerlink" title="上下文解释"></a>上下文解释</h3><p>所谓上下文，它是用来存储系统的一些初始化信息，例如在jboss中通过配置文件指定了数据源，那么在jboss启动的时候就把这个文件的相关信息上下文中，于是在我们使用这个数据源的时候，就需要先获得系统的上下文，然后再通过一定的方式将数据源取出来。至于在系统启动时，是如何将这些初始化信息加载到上下文中，而上下文在程序中具体又是以什么形式体现的，应该随着系统的不同而不同。</p>
+<p>　　上下文即ServletContext,是一个全局的储存信息的空间，服务器启动，其就存在，服务器关闭，其才释放。所有用户共用一个ServletContext。所以，为了节省空间，提高效率，ServletContext中，要放必须的、重要的、所有用户需要共享的线程又是安全的一些信息。如，做一个购物类的网站，要从数据库中提取物品信息，如果用session保存这些物品信息，每个用户都访问一便数据库，效率就太低了；所以要用来Servlet上下文来保存，在服务器开始时，就访问数据库，将物品信息存入Servlet上下文中，这样，每个用户只用从上下文中读入物品信息就行了。</p>
+<p>　　获取ServletContext的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">　 session.getServletContext();</span><br></pre></td></tr></table></figure>
+<p>从我自己的经验来看，对上下文的认识，算是分成了三个阶段，每一个阶段，都让我从外在的表现中，理解了一些更本质上的东西。</p>
+<h3 id="1-第一阶段，不知"><a href="#1-第一阶段，不知" class="headerlink" title="1. 第一阶段，不知"></a>1. 第一阶段，不知</h3><p>我最开始接触 js 的时候，看到了它的 <code>new</code> ，看到了它的 <code>this</code> ，很自然地会把 js 和其它的一些 OOP 语言等同起来看待，并且，好像，也是这么回事。比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">  <span class="keyword">this</span>.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ins = <span class="keyword">new</span> Class(<span class="number">1</span>);</span><br><span class="line">ins.add();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码，可以按预期的那样，最后得到 <code>2</code> 的输出。</p>
+<p>但是，如果仅仅是 <em>类，实例</em> 这种层面的认识，我无法解释下面的问题：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ins = <span class="keyword">new</span> Class(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> func = ins.add;</span><br><span class="line">func();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a); <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>甚至解释不清楚下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.add();</span><br><span class="line"><span class="built_in">console</span>.log(obj.a); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>这里可没有 <em>类</em> ，也没有 <em>实例</em> 。</p>
+<p>我上面的最开始对 js 的认识当中，局限就在于，把 <code>this</code> 理解成了 <em>实例</em> 。也许在其它语言中（比如 Python 常用的实例方法第一个参数 <code>self</code>），是这样。但是在 js 中， <code>this</code> 跟 <em>实例</em> 完全没有关系。</p>
+<h3 id="2-第二阶段，this"><a href="#2-第二阶段，this" class="headerlink" title="2. 第二阶段，this"></a>2. 第二阶段，this</h3><p>当我明白问题出在 <code>this</code> 上，或者说，当我终于理解了 <code>this</code> 这个东西之后，上面的代码，再也不会困扰我了。</p>
+<p>我知道了， js 中有一个东西叫 <em>上下文</em> ，可惜的是，这时，我对上下文的概念，仅仅停留在 <code>this</code>上。</p>
+<p>这时我的理解是： <code>this</code> 表示的是，函数调用时的 <em>上下文</em> 。</p>
+<p>说得详细一点，就是 <code>this</code> 不是表示的 <em>实例</em> ，而是函数调用时的 <em>上下文</em> 。 <em>上下文</em> 这个东西，默认是 <code>window</code> ，即 <em>全局</em> 。但是，你可以明确地为函数指定一个 <em>上下文</em> 。回到 <code>this</code> 上，就是在定义时你根本不知道 <code>this</code> 是什么，因为在调用时，它可以是任何东西（因为 <em>上下文</em> 是可以人为指定的）。</p>
+<p>回到刚开始的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">  <span class="keyword">this</span>.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ins = <span class="keyword">new</span> Class(<span class="number">1</span>);</span><br><span class="line">ins.add();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>这段代码的结构之所以是 <code>2</code> ，不是因为 <em>实例</em> ，而是因为 <em>上下文</em> 。</p>
+<p>首先说一下 <code>new</code> 。 <code>new</code> 在 js 中，不考虑原型链它的作用，相当于是先创建了一个空的对象，然后把这个空的对象，作为 <em>构造函数</em> 的 <em>上下文</em> ，再去执行 <em>构造函数</em> ，最后再返回这个当初的空对象。即：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> what_new = <span class="function"><span class="keyword">function</span>(<span class="params">func, a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> context = &#123;&#125;;</span><br><span class="line">  func.apply(context, [a]);</span><br><span class="line">  <span class="keyword">return</span> context;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">  <span class="keyword">this</span>.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ins = what_new(Class, <span class="number">1</span>);</span><br><span class="line">ins.add();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a);</span><br></pre></td></tr></table></figure>
+<p>当然， <code>new</code> 除了上面的 <code>func.apply</code> 的作用之外， <strong>它还会处理原型链</strong> ，这里就不介绍了。上面的代码仅是为了说明 <code>new</code> 对于所谓的构造函数做了什么事。</p>
+<p>有了上下文，就不难解释 <code>ins</code> 这个东西了。所谓的构造函数，只是在指定了 <code>this</code> 到底是哪一个对象之后，作了相应的赋值操作而已，最后得到这个对象的返回，经过了一些赋值操作，对象中就有了新的东西了。</p>
+<p>同样，对于一个在定义时包含了 <code>this</code> 的函数，比如前面的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果来一句：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = obj.add;</span><br><span class="line">func(); <span class="comment">//undefined</span></span><br><span class="line">func.apply(&#123;<span class="attr">a</span>: <span class="number">0</span>&#125;) <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>这些都很容易明白了。 js 中的函数，都是一些很单纯的函数，所有的函数跟它在哪里定义完全没有关系（考虑闭包的情况除外）。所以上面的代码，虽然 <code>add</code> 函数是写在 <code>obj</code> 中的，但是，它跟你在 <code>window</code> 中写一个函数是 <strong>完全一样</strong> 的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">this</span>.a++&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: add</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然 <code>add</code> 函数中有 <code>this</code> ，那么这个函数执行时的行为，就要小心一点了。所以上面明确地指定了一个上下文给它 <code>func.apply({a: 0})</code> 。</p>
+<p>还是回到开始的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于上面的代码，我知道了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.add();</span><br></pre></td></tr></table></figure>
+<p>和：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = obj.add();</span><br><span class="line">func();</span><br></pre></td></tr></table></figure>
+<p>会得到不一样的结果。并且知道，这个不一样的结果是上下文引起的，还知道，后者 <code>func()</code> 执行时，上下文是全局的 <code>window</code> 了。</p>
+<p>我虽然知道是这样的一个情况，但是，为什么？执行同一个函数结果怎么就不一样了呢？</p>
+<p>我在很长时间里，都没有去细细考虑过这个问题。不过，因为知道了“上下文是一个在定义时无意义，其具体值完全由执行时决定”这点之后，我都尽量避免去使用 <code>this</code> ，实在要用，在调用时，我都会通过 <code>apply</code> 或 <code>call</code> 明确指定上下文，这样，至少不会踩坑里。</p>
+<h3 id="3-第三阶段，一切都是上下文"><a href="#3-第三阶段，一切都是上下文" class="headerlink" title="3. 第三阶段，一切都是上下文"></a>3. 第三阶段，一切都是上下文</h3><p>某天，我在网上看到了这样一段代码（原始出处不知道）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bind = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Function</span>.prototype.bind)</span><br></pre></td></tr></table></figure>
+<p>这个新定义的 <code>bind</code> 函数具体做什么事先不管它，我好奇的是 <code>call.bind()</code> 这个调用。因为 <code>call</code> 这个函数，之前一直以为它是 <code>Function</code> 对象的一个方法（它本身也是一个函数），但是，如果按“对象的方法”这个角度去想的话，那对它绑定一个上下文（ <code>bind()</code> 的调用 ）不就完全没有意义了么？（因为对象的方法应该是跟上下文无关的）</p>
+<p>不久之前，我在一条tweet上看到了这样一段js代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bind = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Function</span>.prototype.bind);</span><br></pre></td></tr></table></figure>
+<p>第一眼看上去，我能猜出它究竟是用来做什么的。它把x.y(z)转化成了y(x,z)。我欣喜万分的给我的同事看这段代码。他们问我这是什么意思。而我当我正要开口向他们解释时却发现不知道怎么说才好。我徘徊了一会然后郁闷的走开了。</p>
+<p>编写良好的代码会向人们传达它的作用。在读完Functional Javascript和 JavaScript Allongé （两本都是相当好的书）这两本书之后，再加上我在Javascript函数式编程方面有些经验，弄懂上面这段代码的意思毫无压力。但是应该怎么向没有函数式编程经验的人解释呢（正如大多数人关心的那样）？</p>
+<p>我决定亲自来完成这个任务，通过简单地例子和注释。我的结果如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//设立一个简单地对象作为“上下文”</span></span><br><span class="line"><span class="keyword">var</span> context = &#123; <span class="attr">foo</span>: <span class="string">"bar"</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//一个在this上下文中指向foo变量的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnFoo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 变量在作用域中不存在，因此显示undefined</span></span><br><span class="line">returnFoo(); <span class="comment">// =&gt; undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果我们把它绑定在context上下文中</span></span><br><span class="line"><span class="keyword">var</span> bound = returnFoo.bind(context);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在的作用域中有这个变量了</span></span><br><span class="line">bound(); <span class="comment">// =&gt; "bar"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// 这就是Function.prototype.bind的作用.    </span></span><br><span class="line"><span class="comment">//由于returnFoo也是函数，因此它继承了function的原型</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// 如果你觉得享受，接着往下读，下面更精彩</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 有许多方法将函数绑定在一个上下文中</span></span><br><span class="line"><span class="comment">// Call和Apply让你能在上下文中调用函数</span></span><br><span class="line">returnFoo.call(context); <span class="comment">// =&gt; bar</span></span><br><span class="line">returnFoo.apply(context); <span class="comment">// =&gt; bar</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将函数添加到对象中</span></span><br><span class="line">context.returnFoo = returnFoo;</span><br><span class="line">context.returnFoo(); <span class="comment">// =&gt; bar</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// 现在我们来玩一点诡异的东西</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Array.prototype 中有一个叫做slice的方法</span></span><br><span class="line"><span class="comment">// 对一个数组调用slice，可以返回一个从start index到end index的数组</span></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].slice(<span class="number">0</span>,<span class="number">1</span>); <span class="comment">// =&gt; [1]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因此我们把Array.slice赋值给一个本地变量slice</span></span><br><span class="line"><span class="keyword">var</span> slice = <span class="built_in">Array</span>.prototype.slice;</span><br><span class="line"></span><br><span class="line"><span class="comment">//现在的slice是"自由的"，由于Array.prototype中的slice一般指定了上下文</span></span><br><span class="line"><span class="comment">//或者默认为this,此时slice将不起作用</span></span><br><span class="line">slice(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">// =&gt; TypeError: can't convert undefined to object</span></span><br><span class="line">slice([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="number">0</span>, <span class="number">1</span>); <span class="comment">// =&gt; TypeError: ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 但是如果我们使用call或者apply，slice又将在一个上下文中执行</span></span><br><span class="line">slice.call([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="number">0</span>, <span class="number">1</span>); <span class="comment">// =&gt; [1]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Apply和Call差不多，知识参数要放在一个数组中</span></span><br><span class="line">slice.apply([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">0</span>,<span class="number">1</span>]); <span class="comment">// =&gt; [1]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用call没错了，那么能不呢使用bind呢？</span></span><br><span class="line"><span class="comment">// 没错，我们来把"call"绑定在slice上</span></span><br><span class="line">slice = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Array</span>.prototype.slice);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在slice可以把第一个参数作为上下文了</span></span><br><span class="line">slice([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="number">0</span>, <span class="number">1</span>); <span class="comment">// =&gt; [1]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// 很酷，对吧。现在再来完成一件事</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在我们对bind本身做一件刚才对silce做的事</span></span><br><span class="line"><span class="keyword">var</span> bind = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Function</span>.prototype.bind);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在这里总结一下，好好想想</span></span><br><span class="line"><span class="comment">// 发生了什么事? 我们改变了call，</span></span><br><span class="line"><span class="comment">// 返回一个接收一个函数和一个上下文作为ic桉树的函数</span></span><br><span class="line"><span class="comment">//并且返回了一个完全绑定的函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 回到最初的例子</span></span><br><span class="line"><span class="keyword">var</span> context = &#123; <span class="attr">foo</span>: <span class="string">"bar"</span> &#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnFoo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在来使用神奇的"bind"函数</span></span><br><span class="line"><span class="keyword">var</span> amazing = bind(returnFoo, context);</span><br><span class="line">amazing(); <span class="comment">// =&gt; bar</span></span><br></pre></td></tr></table></figure>
+<p>其中以 <code>slice</code> 函数举的例子让我恍然大悟：</p>
+<ul>
+<li>上下文控制不仅仅是 <code>apply</code> / <code>call</code>，所有的点 <code>.</code> ，都是在指定上下文。</li>
+<li>js 中的函数比我想像的还要纯，根本没有“对象中的方法”这个东西，即使是“原生对象”中。（它仅仅起一个名字空间的作用）</li>
+</ul>
+<p>所有的函数调用，都有两层意义，比如 <code>c.f()</code>：</p>
+<ul>
+<li><code>f</code> 这个函数，它在 <code>c</code> 中。（名字空间的问题）</li>
+<li>把 <code>c</code> 作为 <code>f</code> 的上下文，去调用 <code>f</code> 。（前提是 <code>f</code> 没有绑定过上下文）</li>
+</ul>
+<p>如果 <code>c</code> 没有，则默认是 <code>window</code> 。</p>
+<p>所有的，js 中所有的函数调用，都是如此。即使是 <code>f.call(context, x)</code> ，我之前只看到了第一层意义（ <code>f</code> 中有一个 <code>call</code> 方法可以使用），则忽略了第二层意义 —— 把 <code>f</code> 作为 <code>call</code> 的上下文。</p>
+<p>简单来说，我们可以相像 <code>call</code> 这个函数，它的代码大概是这样的（可变参数的问题先不管）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> call = <span class="function"><span class="keyword">function</span>(<span class="params">context, a</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> new_func = <span class="keyword">this</span>.bind(context);</span><br><span class="line">    retur new_func(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的作用，就是把 <em>指定的上下文（context）</em> 作为 <em>自己的上下文（this）</em> 的 <em>上下文</em> ，然后再调用 <em>自己的上下文（绑定上下文之后的 this）</em> 。</p>
+<p>上面一句话有些纠结哈，主要搞明白多种上下文的关系， <code>f.call(context, x)</code> 当中， <em>自己的上下文</em>上面是 <code>f</code> 。 <em>指定的上下文</em> 上面是 <code>context</code> 。</p>
+<p>再看 <code>f.call(context, x)</code> 这个代码，结合“函数是单纯”这点，我想到，即使是原生对象的那些方法， <strong>也不过是把一些单纯的函数放到了 prototype 中而已</strong> ，比如把 <code>call</code> 函数放到了 <code>Function.prototype</code> 当中。</p>
+<p>至此，再看 <code>c.f()</code> ， <code>a.b.c()</code> 这些，不要去想是调用 <code>c</code> 对象中的 <code>f</code> 方法（这么说没错，但是名字空间的问题是显而易见的嘛），而是想成，调用时把 <code>c</code> 作为 <code>f</code> 的上下文。</p>
+<p>好了，回到开始的那行例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> new_bind = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Function</span>.prototype.bind)</span><br></pre></td></tr></table></figure>
+<p>这个就非常好理解了（为了描述方便，我改成 <code>new_bind</code> 了），把 <code>bind</code> 作为上下文绑定到 <code>call</code>中。</p>
+<p>这里注意一下，绑定了上下文的 <code>call</code> 函数，还是 <code>call</code> 函数，但是 “此 <code>call</code> 已经非彼 <code>call</code>” 了。</p>
+<p>所以：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_bind != <span class="built_in">Function</span>.prototype.call</span><br></pre></td></tr></table></figure>
+<p>虽然调用形式上， <code>new_bind</code> 和 <code>call</code> 完全一样，但是他们的上下文行为不一样：</p>
+<ul>
+<li><code>call</code> 是未绑定状态，所以 <code>f.call()</code> 会在执行时把 <code>f</code> 作为上下文绑定到 <code>call</code> 函数中。</li>
+<li><code>new_bind</code> 是已绑定状态，所以 <code>f.new_bind()</code> 对 <code>new_bind()</code> 的执行完全没影响。</li>
+</ul>
+<p>我们可以以这样的流程来帮助我们理解：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_bind =&gt; <span class="function"><span class="params">call</span> =&gt;</span> bind.call =&gt; bind.call(f, context) =&gt; f.bind(context)</span><br></pre></td></tr></table></figure>
+<p>一步一步解释：</p>
+<ul>
+<li><p><code>new_bind =&gt; call</code></p>
+<p><code>new_bind</code> 在形式上就是 <code>call</code> 。</p>
+</li>
+<li><p><code>call =&gt; bind.call</code></p>
+<p>只是这个 <code>call</code> ，是指定了 <code>bind</code> 作为它的上下文的。既然是 <code>bind</code> 作为它的上下文，那我们可以写成是 <code>bind.call</code> 的样式。</p>
+</li>
+<li><p><code>bind.call(f, context) =&gt; f.bind(context)</code></p>
+<p><code>new_bind</code> 的调用 <code>new_bind(f, context)</code> 就相当于是 <code>bind.call(f, context)</code> 。考虑 <code>call</code> 函数之前的行为： <code>f.call(context, a)</code> 是把 <code>context</code> 作为 <code>f</code> 的上下文，也就是 <code>context.f(a)</code> ，那么 <code>bind.call(f, context)</code> 对应的就是 <code>f.bind(context)</code> 。</p>
+</li>
+<li><p><code>f.bind(context)</code></p>
+<p>不用多说了吧，把 <code>context</code> 绑定到 <code>f</code> 上，返回一个绑定了上下文的新函数。</p>
+</li>
+</ul>
+<p>完全是最基本的代数推导嘛，形式上，上下文前置总是没有问题的。</p>
+<h3 id="4-结语"><a href="#4-结语" class="headerlink" title="4. 结语"></a>4. 结语</h3><p>我一直认同，要理解 js 的东西，从函数式语言入手，非常合适。硬要往面向对象的那套东西上套，太纠结了（我不管概念上到底什么样才叫面向对象，原生没有类定义，没有继承，没有实例化，就别扯这些就完了。对了，我认为原型追溯那不叫继承哈）。</p>
+<p>当然，我不知道弄明白了最后那个“代数推导”到底有什么好处，也许没有，因为就算不明白这些也不影响我写了很多可以正常工作的 js 代码嘛。只是，我以后再写，思路上的可能会有一些不同了。比如代码组织的形式上，可以尝试把很多的小函数做到不同的“名字空间”中，然后再在业务层面，通过 <em>Mixin</em> 来拼出不同的业务对象。这些函数中可能到处充斥着 <code>this</code> ，我能控制好它们了。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/39022.html">
+        <span class="nav-arrow">← </span>
+        
+          AngularJs技术
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/3405.html">
+        
+          hybrid app技术开发APP应用
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#上下文解释"><span class="toc-nav-text">上下文解释</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-第一阶段，不知"><span class="toc-nav-text">1. 第一阶段，不知</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-第二阶段，this"><span class="toc-nav-text">2. 第二阶段，this</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-第三阶段，一切都是上下文"><span class="toc-nav-text">3. 第三阶段，一切都是上下文</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-结语"><span class="toc-nav-text">4. 结语</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/55294.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "JavaScript中的Bind，Call和Apply",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      软件工程实践的八大常识 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>软件工程实践的八大常识</h2>
+  <p class="post-date">2018-02-21</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0124.jpg" alt="image"></p>
+<p> “<strong>常识</strong>” (Commonsense), 即多数人信以为真并自觉应用的知识, 受社会的普遍认同,反映当时社会的最一般观念。常识有“内心感官” 之称, 它如同外部感官(视、听、嗅、味和触) 一样, 能近乎“直觉” 和“本能” 地指导个体实践。概言之, 常识既是个体学习和实践的结晶, 又是个体学习和实践的法宝。<br><a id="more"></a><br>   — 本文摘选自《软件工程核心知识》下卷第1093页，文中所提页码都出自该著作。</p>
+<p>​    软件工程常识是软件实践者的法宝, 既包括一些已成功迁移至专业实践的生活常识, 又包括一些属于本领域独有的专业常识。本书一共阐述了55 项常识, 这些都是实践者最应掌握并自觉应用的核心知识。笔者从中归纳出最基本的八大常识, 列述如下。笔者认为, 这八大常识应当成为每一名专业实践者的“直觉” 或“本能”。</p>
+<p><strong>常识一：软件是一类人力、智力、知识和创造力密集的、充满“人性”的高复杂产品。</strong></p>
+<ul>
+<li>大师FrederickBrooks (布鲁克斯) 就说过, 软件是一类创造性的知识密集型产品, 是人类迄今为止最复杂的制品[Bro86]。</li>
+<li>工程师的知识、创造力、技能和情感等因素共同造就了软件产品的“人性特征”, 表现为 产品具有强烈的“唯一性”, 而过程则表现出强烈的“不可重复性”。</li>
+</ul>
+<p><strong>常识二：没有普适的“万能”模型。(页162)</strong></p>
+<ul>
+<li>软件工程法则、定律、技术和过程等都仅针对特定应用场景, 无法同等有效地应用于不同团队和项目。经实践和研究凝聚而成的行业相关标准也明显不具有普适性。</li>
+</ul>
+<p><strong>常识三：不存在“完美的”软件产品。</strong></p>
+<ul>
+<li>业界著名专家NicholasZvegintzov 就说过, “软件永不完美, 也永不完整。”</li>
+<li>软件开发团队永远得不到准确而完整的需求(页192), 也永远得不到所谓最佳的设计方案(页322), 最终也得不到完美的软件产品。</li>
+</ul>
+<p><strong>常识四：软件产品必须满足用户的现实需要, 进而实现价值/成本比的最大化。</strong></p>
+<ul>
+<li>软件是商品, 一切软件实践理所当然地应当考虑成本和价值Ê, 力求最大化价值/成本比(页24)。软件的价值主要体现为功能和质量, 即满足用户的现实功能和质量需求的程度。软件的成本主要是指开发和维护成本。</li>
+<li>用户是软件产品的直接服务对象; 软件开发必须尽可能地满足用户的现实需要(页294)。注意, 并不是用户的所有需要都应得到满足。典型的, 所有不能为产品客户带来实质价值反馈的用户需要就不应得到满足。</li>
+</ul>
+<p><strong>常识五：人是软件实践的最重要因素。</strong></p>
+<ul>
+<li>软件是人力、智力和知识密集型产品, 实践者不要幻想能够全自动地开发出软件产品。</li>
+<li>大型软件开发超出了单个工程师的脑力和能力范围, 必须依靠团队合力(页964)。诚如Tom DeMarco所言 “团队协作是推动平凡个体取得非凡成就的燃料” [DL99, 页178]。</li>
+</ul>
+<p><strong>常识六：以一种“足够简单”的方式, 完成软件实践。</strong></p>
+<ul>
+<li>软件产品本身已然具有高复杂度, 切勿再在开发过程中增添不必要的过程复杂度。为此, 软件管理者和工程师都应当选用最简单而又有效的策略和技术。</li>
+<li>在保证设计方案适合于目标软件及其开发项目的前提之下, 尽可能地简化, 使之足够简单直接(页439)。类似的, 代码编写也应当简单明了(页513)。同时, 软件管理者应追求简单而有效的管理, 不要过度简化, 更不要复杂化(页769)。</li>
+</ul>
+<p><strong>常识七：阶段化开发。</strong></p>
+<ul>
+<li>阶段化反映出“分而治之” 的传统智慧。</li>
+<li>软件生命期阶段化为三大主要阶段 开发、维护、演化(页88)。软件开发过程阶段化为四大主要阶段 需求工程、软件设计、构造和质量控制(包括测试和审查)(页94)。软件测试过程又阶段化为四大阶段 单元测试、集成测试、系统测试和验收测试(页591)。</li>
+</ul>
+<p><strong>常识八：将软件描述成文, 并存档。</strong></p>
+<ul>
+<li>著名软件工程学者MichaelJackson 就说过, “描述是软件开发之核。”</li>
+<li>软件需求和设计方案都应当编写成具有合理结构的技术文档(页246)。同时, 软件过程必须成文, 并共享于团队(页891)。</li>
+<li>文档编写必须讲究文风, 合理安排文档组织结构, 帮助读者快速而有效地阅读(页1007)。以敷衍态度匆忙编写的技术文档必定是低质量的(页1006)。</li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Think" >
+    <span class="tag-code">Think</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/31929.html">
+        <span class="nav-arrow">← </span>
+        
+          东亚教育浪费了太多生命
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/62389.html">
+        
+          Java成神之路——框架图（一）
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="nav">none</ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/14284.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "软件工程实践的八大常识",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

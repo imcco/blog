@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Spring任务调度之Spring-Task | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Spring任务调度之Spring-Task</h2>
+  <p class="post-date">2017-12-12</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0022.jpg" alt="image"></p>
+<p>在工作中有用到spring task作为定时任务的处理，spring通过接口TaskExecutor和TaskScheduler这两个接口的方式为异步定时任务提供了一种抽象。这就意味着spring容许你使用其他的定时任务框架，当然spring自身也提供了一种定时任务的实现：spring task。spring task支持线程池，可以高效处理许多不同的定时任务。同时，spring还支持使用Java自带的Timer定时器和Quartz定时框架。限于篇幅，这里将只介绍spring task的使用。</p>
+<p>其实，官方文档已经介绍地足够详细，只不过都是英文版，所以为了更好地理解并使用spring task，首先会对spring task的实现原理做一个简单的介绍，然后通过实际代码演示spring task是如何使用的。这里会涉及到一个很重要的知识点：cron表达式。<br><a id="more"></a></p>
+<h3 id="TaskExecutor和TaskScheduler"><a href="#TaskExecutor和TaskScheduler" class="headerlink" title="TaskExecutor和TaskScheduler"></a>TaskExecutor和TaskScheduler</h3><p>TaskExecutor是spring task的第一个抽象，它很自然让人联想到jdk中concurrent包下的Executor，实际上TaskExecutor就是为区别于Executor才引入的，而引入TaskExecutor的目的就是为定时任务的执行提供线程池的支持，那么，问题来了，为什么spring不直接使用jdk自带的Executor呢？TaskExecutor源码如下？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TaskExecutor</span> <span class="keyword">extends</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable var1)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，答案很显然，TaskExecutor提供的线程池支持也是基于jdk自带的Executor的。用法于Executor没有什么不同。</p>
+<p>TaskScheduler是spring task的第二个抽象，那么从字面的意义看，TaskScheduler就是为了提供定时任务的支持咯。TaskScheduler需要传入一个Runnable的任务做为参数，并指定需要周期执行的时间或者触发器，这样Runnable任务就可以周期性执行了。传入时间很好理解，有意思的是传入一个触发器（Trigger）的情况，因为这里需要使用cron表达式去触发一个定时任务，所以有必要先了解下cron表达式的使用。</p>
+<p>在spring 4.x中已经不支持7个参数的cronin表达式了，要求必须是6个参数（具体哪个参数后面会说）。cron表达式的格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;秒&#125; &#123;分&#125; &#123;时&#125; &#123;日期（具体哪天）&#125; &#123;月&#125; &#123;星期&#125;</span><br></pre></td></tr></table></figure>
+<p>秒：必填项，允许的值范围是0-59，支持的特殊符号包括<br>, - <em> /，,表示特定的某一秒才会触发任务，-表示一段时间内会触发任务，</em>表示每一秒都会触发，/表示从哪一个时刻开始，每隔多长时间触发一次任务。<br>分：必填项，允许的值范围是0-59，支持的特殊符号和秒一样，含义类推<br>时：必填项，允许的值范围是0-23，支持的特殊符号和秒一样，含义类推<br>日期：必填项，允许的值范围是1-31，支持的特殊符号相比秒多了?，表示与{星期}互斥，即意味着若明确指定{星期}触发，则表示{日期}无意义，以免引起冲突和混乱。<br>月：必填项，允许的值范围是1-12（JAN-DEC），支持的特殊符号与秒一样，含义类推<br>星期：必填项，允许值范围是1~7 (SUN-SAT),1代表星期天（一星期的第一天），以此类推，7代表星期六，支持的符号相比秒多了?，表达的含义是与{日期}互斥，即意味着若明确指定{日期}触发，则表示{星期}无意义。<br>比如下面这个cron表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 表达的含义是：每半分钟触发一次任务</span><br><span class="line">30 * * * * ?</span><br></pre></td></tr></table></figure>
+<p>spring提供了一个CronTrigger，通过传入一个Runnable任务和CronTrigger，就可以使用cron表达式去指定定时任务了，是不是非常方面。实际上，在工程实践上，cron表达式也是使用很多的。实际上，是执行了下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheduler.schedule(task, new CronTrigger(&quot;30 * * * * ?&quot;));</span><br></pre></td></tr></table></figure>
+<p>TaskScheduler抽象的好处是让需要执行定时任务的代码不需要指定特定的定时框架（比如Timer和Quartz）。TaskScheduler的更简单的实现是ThreadPoolTaskScheduler,它实际上代理一个jdk中的SchedulingTaskExecutor，并且也实现了TaskExecutor接口，所以需要经常执行定时任务的场景可以使用这个实现（Spring推荐）。我们再来看一下TaskExecutor和TaskScheduler的类继承关系：<br><img src="http://ovi3ob9p4.bkt.clouddn.com/task.jpg" alt="image"><br>spring-task</p>
+<p>通常而言，使用spring task实现定时任务有两种方式：注解和xml配置文件。这里使用xml配置文件的方式加以说明。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="创建Maven工程，pom-xml"><a href="#创建Maven工程，pom-xml" class="headerlink" title="创建Maven工程，pom.xml:"></a>创建Maven工程，pom.xml:</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.rhwayfun<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sring-task-demo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.2.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="开发需要执行定时任务的方法："><a href="#开发需要执行定时任务的方法：" class="headerlink" title="开发需要执行定时任务的方法："></a>开发需要执行定时任务的方法：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rhwayfun.task;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDateTime;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ZhongCB</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2016年09月10日 14:30</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">1</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">2</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute3</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">3</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute4</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">4</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute5</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">5</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute6</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">6</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute7</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">7</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute8</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">8</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute9</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">9</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute10</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">10</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute11</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"Task: %s, Current time: %s\n"</span>, <span class="number">11</span>, LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="spring配置文件如下："><a href="#spring配置文件如下：" class="headerlink" title="spring配置文件如下："></a>spring配置文件如下：</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:task</span>=<span class="string">"http://www.springframework.org/schema/task"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置注解扫描 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.rhwayfun.task"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">task:scheduler</span> <span class="attr">id</span>=<span class="string">"taskScheduler"</span> <span class="attr">pool-size</span>=<span class="string">"100"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">task:scheduled-tasks</span> <span class="attr">scheduler</span>=<span class="string">"taskScheduler"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每半分钟触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute1"</span> <span class="attr">cron</span>=<span class="string">"30 * * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每小时的10分30秒触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute2"</span> <span class="attr">cron</span>=<span class="string">"30 10 * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每天1点10分30秒触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute3"</span> <span class="attr">cron</span>=<span class="string">"30 10 1 * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每月20号的1点10分30秒触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute4"</span> <span class="attr">cron</span>=<span class="string">"30 10 1 20 * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每年10月20号的1点10分30秒触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute5"</span> <span class="attr">cron</span>=<span class="string">"30 10 1 20 10 ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每15秒、30秒、45秒时触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute6"</span> <span class="attr">cron</span>=<span class="string">"15,30,45 * * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 15秒到45秒每隔1秒触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute7"</span> <span class="attr">cron</span>=<span class="string">"15-45 * * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每分钟的每15秒时任务任务，每隔5秒触发一次 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute8"</span> <span class="attr">cron</span>=<span class="string">"15/5 * * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每分钟的15到30秒之间开始触发，每隔5秒触发一次 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute9"</span> <span class="attr">cron</span>=<span class="string">"15-30/5 * * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 每小时的0分0秒开始触发，每隔3分钟触发一次 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute10"</span> <span class="attr">cron</span>=<span class="string">"0 0/3 * * * ?"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 星期一到星期五的10点15分0秒触发任务 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"app"</span> <span class="attr">method</span>=<span class="string">"execute11"</span> <span class="attr">cron</span>=<span class="string">"0 15 10 ? * MON-FRI"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">task:scheduled-tasks</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="编写测试代码："><a href="#编写测试代码：" class="headerlink" title="编写测试代码："></a>编写测试代码：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rhwayfun.task;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ZhongCB</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2016年09月10日 14:55</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"classpath:/app-context-task.xml"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行测试代码，控制台会定时输出每个定时任务的日志信息，说明测试通过。</p>
+<h3 id="小插曲"><a href="#小插曲" class="headerlink" title="小插曲"></a>小插曲</h3><p>由于项目使用jdk 1.8进行开发，所以初始的时候每次pom文件发生修改，编译器的版本又变成了jdk 1.5，后面发现需要在pom文件中添加build便签那部分才能将默认的编译器进行修改。也算一个小收获了。</p>
+<h2 id="附：前一段时间，在工作中要使用定时器功能"><a href="#附：前一段时间，在工作中要使用定时器功能" class="headerlink" title="附：前一段时间，在工作中要使用定时器功能"></a>附：前一段时间，在工作中要使用定时器功能</h2><h3 id="1、首先web-xml中配置"><a href="#1、首先web-xml中配置" class="headerlink" title="1、首先web.xml中配置"></a>1、首先web.xml中配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置spring核心servlet --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>spring<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2、开-启定时启开-关在"><a href="#2、开-启定时启开-关在" class="headerlink" title="2、开 启定时启开 关在"></a>2、开 启定时启开 关在</h3><p>spring-servlet.xml 中开启</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:task</span>=<span class="string">"http://www.springframework.org/schema/task"</span> <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans  </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd   </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">task:annotation-driven</span> /&gt;</span> <span class="comment">&lt;!-- 定时器开关 --&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 自动扫描的包名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zxl78585.springtask.task"</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myTask"</span> <span class="attr">class</span>=<span class="string">"com.zxl78585.springtask.task.MyTask"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">task:scheduled-tasks</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 这里表示的是每隔五秒执行一次 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"myTask"</span> <span class="attr">method</span>=<span class="string">"show"</span> <span class="attr">cron</span>=<span class="string">"*/10 * * * * ?"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">task:scheduled-tasks</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3、写自己的定时器"><a href="#3、写自己的定时器" class="headerlink" title="3、写自己的定时器"></a>3、写自己的定时器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">new</span> Date().getTime());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="需要注意的几点："><a href="#需要注意的几点：" class="headerlink" title="需要注意的几点："></a>需要注意的几点：</h3><ul>
+<li>1、spring的@Scheduled注解  需要写在实现上、</li>
+<li>2、 定时器的任务方法不能有返回值（如果有返回值，spring初始化的时候会告诉你有个错误、需要设定一个proxytargetclass的某个值为true、具体就去百度google吧）</li>
+<li>3、实现类上要有组件的注解@Component</li>
+</ul>
+<p>剩下的就是corn表达式了、具体使用以及参数请百度google、</p>
+<p>下面只例出几个式子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CRON表达式    含义 </span><br><span class="line">&quot;0 0 12 * * ?&quot;    每天中午十二点触发 </span><br><span class="line">&quot;0 15 10 ? * *&quot;    每天早上10：15触发 </span><br><span class="line">&quot;0 15 10 * * ?&quot;    每天早上10：15触发 </span><br><span class="line">&quot;0 15 10 * * ? *&quot;    每天早上10：15触发 </span><br><span class="line">&quot;0 15 10 * * ? 2005&quot;    2005年的每天早上10：15触发 </span><br><span class="line">&quot;0 * 14 * * ?&quot;    每天从下午2点开始到2点59分每分钟一次触发 </span><br><span class="line">&quot;0 0/5 14 * * ?&quot;    每天从下午2点开始到2：55分结束每5分钟一次触发 </span><br><span class="line">&quot;0 0/5 14,18 * * ?&quot;    每天的下午2点至2：55和6点至6点55分两个时间段内每5分钟一次触发 </span><br><span class="line">&quot;0 0-5 14 * * ?&quot;    每天14:00至14:05每分钟一次触发 </span><br><span class="line">&quot;0 10,44 14 ? 3 WED&quot;    三月的每周三的14：10和14：44触发 </span><br><span class="line">&quot;0 15 10 ? * MON-FRI&quot;    每个周一、周二、周三、周四、周五的10：15触发</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Spring task" >
+    <span class="tag-code">Spring task</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/9382.html">
+        <span class="nav-arrow">← </span>
+        
+          SOA组件模型和系统间数据传输
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/11881.html">
+        
+          北方的空地
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#TaskExecutor和TaskScheduler"><span class="toc-nav-text">TaskExecutor和TaskScheduler</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#实战"><span class="toc-nav-text">实战</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建Maven工程，pom-xml"><span class="toc-nav-text">创建Maven工程，pom.xml:</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#开发需要执行定时任务的方法："><span class="toc-nav-text">开发需要执行定时任务的方法：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#spring配置文件如下："><span class="toc-nav-text">spring配置文件如下：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#编写测试代码："><span class="toc-nav-text">编写测试代码：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#小插曲"><span class="toc-nav-text">小插曲</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#附：前一段时间，在工作中要使用定时器功能"><span class="toc-nav-text">附：前一段时间，在工作中要使用定时器功能</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1、首先web-xml中配置"><span class="toc-nav-text">1、首先web.xml中配置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2、开-启定时启开-关在"><span class="toc-nav-text">2、开 启定时启开 关在</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3、写自己的定时器"><span class="toc-nav-text">3、写自己的定时器</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#需要注意的几点："><span class="toc-nav-text">需要注意的几点：</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/19157.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Spring任务调度之Spring-Task",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

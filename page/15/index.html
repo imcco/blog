@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link active">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link mobile-active">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <main class="app-body">
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/8224.html">OAuth2认证的基本流程</a>
+      </h2>
+      <p class="article-date">2017年8月30日</p>
+      
+        
+  <a href="/tags#OAuth2" >
+    <span class="tag-code">OAuth2</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0028.jpg" alt="image"></p>
+<p>在一个单位中，可能是存在多个不同的应用，比如学校会有财务的系统会有学生工作的系统，还有图书馆的系统等等，如果每个系统都用独立的账号认证体系，会给用户带来很大困扰，也给管理带来很大不便。所以需要设计一种统一登录的解决方案。比如我登陆了百度账号，进贴吧时发现已经登录了，进糯米发现也自动登录了。常见的有两种情况，一种是SSO（单点登录）效果是一次输入密码多个网站可以识别在线状态；还有一种是多平台登录，效果是可以用一个账号（比如QQ账号）登录多个不同的网站。<br>
+        
+      </div>
+      <a class="more" href="/blog/8224.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/5063.html">Node.js</a>
+      </h2>
+      <p class="article-date">2017年8月28日</p>
+      
+        
+  <a href="/tags#nodeJs" >
+    <span class="tag-code">nodeJs</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0019.jpg" alt="image"></p>
+<h2 id="NodeJS基础"><a href="#NodeJS基础" class="headerlink" title="NodeJS基础"></a>NodeJS基础</h2><h3 id="什么是NodeJS"><a href="#什么是NodeJS" class="headerlink" title="什么是NodeJS"></a>什么是NodeJS</h3><p>JS是脚本语言，脚本语言都需要一个解析器才能运行。对于写在HTML页面里的JS，浏览器充当了解析器的角色。而对于需要独立运行的JS，NodeJS就是一个解析器。<br>
+        
+      </div>
+      <a class="more" href="/blog/5063.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/2779.html">约定优于配置（convention over configuration）</a>
+      </h2>
+      <p class="article-date">2017年8月24日</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#BackEnd" >
+    <span class="tag-code">BackEnd</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0013.jpg" alt="image"></p>
+<p>文章来自维基百科</p>
+<p>约定优于配置（convention over configuration），也称作按约定编程，是一种软件设计范式，旨在减少软件开发人员需做决定的数量，获得简单的好处，而又不失灵活性。<br>
+        
+      </div>
+      <a class="more" href="/blog/2779.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/40270.html">servlet中web.xml配置详解</a>
+      </h2>
+      <p class="article-date">2017年8月24日</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0012.jpg" alt="image"></p>
+<p>Web.xml常用元素<br>
+        
+      </div>
+      <a class="more" href="/blog/40270.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/32362.html">hexo 常用命令</a>
+      </h2>
+      <p class="article-date">2017年8月24日</p>
+      
+        
+  <a href="/tags#hexo next" >
+    <span class="tag-code">hexo next</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0043.jpg" alt="image"></p>
+<p>hexo 常用的命令<br>
+        
+      </div>
+      <a class="more" href="/blog/32362.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/47815.html">hexo next主题集成gitment评论系统</a>
+      </h2>
+      <p class="article-date">2017年7月24日</p>
+      
+        
+  <a href="/tags#hexo next" >
+    <span class="tag-code">hexo next</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0041.jpg" alt="image"></p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>本文介绍hexo next主题(5.1.2)集成giment评论系统的过程。所谓gitment就是把评论放到github的issues系统里，评论支持md，比较适合程序员.</p>
+        
+      </div>
+      <a class="more" href="/blog/47815.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/12197.html">jQuery使用技巧</a>
+      </h2>
+      <p class="article-date">2016年11月22日</p>
+      
+        
+  <a href="/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+  <a href="/tags#jQuery" >
+    <span class="tag-code">jQuery</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0051.jpg" alt="image"></p>
+<h3 id="禁用页面的右键菜单"><a href="#禁用页面的右键菜单" class="headerlink" title="禁用页面的右键菜单"></a>禁用页面的右键菜单</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </span><br><span class="line">  $(<span class="built_in">document</span>).bind(<span class="string">"contextmenu"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+        
+      </div>
+      <a class="more" href="/blog/12197.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/43183.html">Git学习总结</a>
+      </h2>
+      <p class="article-date">2016年10月7日</p>
+      
+        
+  <a href="/tags#Git" >
+    <span class="tag-code">Git</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <h2 id="git-简介"><a href="#git-简介" class="headerlink" title="git 简介"></a>git 简介</h2><p>git 是分布式的，所以其核心就是分支，分支的意义在于，可以将项目代码按照功能、模块拆分成不同的分支。比如这个产品要加一个支付功能和一个登陆功能，可以创建两个分支，交给不同的开发人员并行开发。登陆功能先开发完，测试无误后合并改分支到 master 分支，master 分支部署上线。支付功能虽然没有开发完成，但是在另一条分支上，所以产品上线和功能开发完全不受影响。这才是分布式开发的高效模式。<br>在 git 中，工作目录下面的所有文件都不外乎这两种状态：<strong>已跟踪</strong>或<strong>未跟踪</strong>。已跟踪的文件是指本来就被纳入版本控制管理的文件，在上次快照中有它们的记录，工作一段时间后，它们的状态可能是未更新，已修改或者已放入暂存区。而所有其他文件都属于未跟踪文件。它们既没有上次更新时的快照，也不在当前的暂存区域。初次克隆某个仓库时，工作目录中的所有文件都属于已跟踪文件，且状态为未修改。<br><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0001.jpg" alt="image"><br>
+        
+      </div>
+      <a class="more" href="/blog/43183.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/64470.html">Hexo-NexT搭建个人博客（五）</a>
+      </h2>
+      <p class="article-date">2016年9月8日</p>
+      
+        
+  <a href="/tags#Hexo" >
+    <span class="tag-code">Hexo</span>
+  </a>
+
+  <a href="/tags#Next" >
+    <span class="tag-code">Next</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0039.jpg" alt="image"></p>
+<p>在这之前，我写过四篇关于 Hexo + NexT 构建博客的文章。=》【<a href="/categories/Hexo/">传送门</a>】</p>
+<p>本文将会介绍一些自定义的功能。相较于之前主要是修改配置文件中的内容，现在更多的是动手改源码来实现功能，而且还能帮你搞懂一些 Hexo NexT 的源码。如果你能弄懂源码的一些流程和逻辑，那么，你将能更好的来实现自己的一些想法。<br>
+        
+      </div>
+      <a class="more" href="/blog/64470.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/14696.html">Hexo-NexT搭建个人博客（四）</a>
+      </h2>
+      <p class="article-date">2016年9月7日</p>
+      
+        
+  <a href="/tags#Hexo" >
+    <span class="tag-code">Hexo</span>
+  </a>
+
+  <a href="/tags#Next" >
+    <span class="tag-code">Next</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0040.jpg" alt="image"></p>
+<p id="div-border-left-blue">提示：本篇文章将介绍在使用 heox 做博客框架中的一些 bug 处理情况。</p>
+
+<p>按照之前的教程介绍应该是会比较顺利的搭建好你的博客，但是难免会遇到一些意外，这个时候就要学会解决问题了。<br>解决问题的原则是：查看 bug 信息，从上到下依次解决 bug。<br>
+        
+      </div>
+      <a class="more" href="/blog/14696.html">Read more</a>
+    </article>
+  
+
+  
+    <div class="guide-pager">
+  
+    <a href="/page/14/"><span class="page-arrow">← </span>Prev</a>
+  
+  
+    <a href="/page/16/">Next<span class="page-arrow"> →</span></a>
+  
+</div>
+  
+</main>
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

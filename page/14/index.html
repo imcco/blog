@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link active">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link mobile-active">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <main class="app-body">
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/14233.html">REST客户端编程实例</a>
+      </h2>
+      <p class="article-date">2017年9月18日</p>
+      
+        
+  <a href="/tags#restClient" >
+    <span class="tag-code">restClient</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0055.jpg" alt="image"></p>
+<h1 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h1><p>JAX-RS 2.0 又称 JSR 339 不仅定义了一套用于构建 RESTful 网络服务的 API，同时也通过增强客户端 API 功能简化了REST 客户端的构建过程。<br>
+        
+      </div>
+      <a class="more" href="/blog/14233.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/47293.html">Request Mapping 基础用法</a>
+      </h2>
+      <p class="article-date">2017年9月15日</p>
+      
+        
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0020.jpg" alt="image"></p>
+<p>@RequestMapping 是 Spring Web 应用程序中最常被用到的注解之一。这个注解会将 HTTP 请求映射到 MVC 和 REST 控制器的处理方法上。<br>在这篇文章中，你将会看到 @RequestMapping 注解在被用来进行 Spring MVC 控制器方法的映射可以如何发挥其多才多艺的功能的。</p>
+        
+      </div>
+      <a class="more" href="/blog/47293.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/37707.html">FreeMarker自定义TemplateDirectiveModel(二)</a>
+      </h2>
+      <p class="article-date">2017年9月7日</p>
+      
+        
+  <a href="/tags#freemarker" >
+    <span class="tag-code">freemarker</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0032.jpg" alt="image"></p>
+<p>FreeMarker是一个用Java语言编写的模板引擎，它基于模板来生成文本输出。FreeMarker与Web容器无关，即在Web运行时，它并不知道Servlet或HTTP。它不仅可以用作表现层的实现技术，而且还可以用于生成XML，JSP或Java 等。<br>
+        
+      </div>
+      <a class="more" href="/blog/37707.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/21487.html">FreeMarker自定义TemplateDirectiveModel(一)</a>
+      </h2>
+      <p class="article-date">2017年9月7日</p>
+      
+        
+  <a href="/tags#freemarker" >
+    <span class="tag-code">freemarker</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0031.jpg" alt="image"></p>
+<p>FreeMarker是一个用Java语言编写的模板引擎，它基于模板来生成文本输出。FreeMarker与Web容器无关，即在Web运行时，它并不知道Servlet或HTTP。它不仅可以用作表现层的实现技术，而且还可以用于生成XML，JSP或Java 等。<br>
+        
+      </div>
+      <a class="more" href="/blog/21487.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/42994.html">Java知识梳理（三）—— html&JavaScript&ajax部分</a>
+      </h2>
+      <p class="article-date">2017年9月5日</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#html" >
+    <span class="tag-code">html</span>
+  </a>
+
+  <a href="/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+  <a href="/tags#ajax" >
+    <span class="tag-code">ajax</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0011.jpg" alt="image"></p>
+<p> html&amp;JavaScript&amp;ajax</p>
+        
+      </div>
+      <a class="more" href="/blog/42994.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/44611.html">Java知识梳理（二）——算法与编程</a>
+      </h2>
+      <p class="article-date">2017年9月5日</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#单例模式" >
+    <span class="tag-code">单例模式</span>
+  </a>
+
+  <a href="/tags#排序算法" >
+    <span class="tag-code">排序算法</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0010.jpg" alt="image"></p>
+<p>Java算法编程。java排序算法，经典问题算法，单例模式</p>
+        
+      </div>
+      <a class="more" href="/blog/44611.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/50981.html">Java知识梳理（一）——Java基础知识</a>
+      </h2>
+      <p class="article-date">2017年9月4日</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0009.jpg" alt="image"></p>
+<p>基础部分的顺序：基本语法，类相关的语法，内部类的语法，继承相关的语法，异常的语法，线程的语法，集合的语法，io 的语法，虚拟机方面的语法。</p>
+        
+      </div>
+      <a class="more" href="/blog/50981.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/20927.html">Markdown的语法及基本命令</a>
+      </h2>
+      <p class="article-date">2017年9月4日</p>
+      
+        
+  <a href="/tags#markdown" >
+    <span class="tag-code">markdown</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0005.jpg" alt="image"></p>
+<p>Markdown是一种可以使用普通文本编辑器编写的标记语言，通过类似HTML的标记语法，它可以使普通文本内容具有一定的格式。<br>
+        
+      </div>
+      <a class="more" href="/blog/20927.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/25712.html">JEECMS自定义标签</a>
+      </h2>
+      <p class="article-date">2017年9月4日</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#cms" >
+    <span class="tag-code">cms</span>
+  </a>
+
+  <a href="/tags#jeecms" >
+    <span class="tag-code">jeecms</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0030.jpg" alt="image"></p>
+<p>CMS是”Content Management System”的缩写，意为”内容管理系统”。 内容管理系统是企业信息化建设和电子政务的新宠，也是一个相对较新的市场。对于内容管理，业界还没有一个统一的定义，不同的机构有不同的理解。<br>
+        
+      </div>
+      <a class="more" href="/blog/25712.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/blog/13957.html">HEXO主题图配置</a>
+      </h2>
+      <p class="article-date">2017年9月1日</p>
+      
+        
+  <a href="/tags#hexo" >
+    <span class="tag-code">hexo</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0042.jpg" alt="image"></p>
+<p>为一篇博客添加相关的图片可以快速吸引读者的目光，也能帮助读者理解文章概要，尤其是在写技术博客或是某些很复杂的东西时。</p>
+<p>然而，Hexo 主题一般只提供一种默认的图片样式，包括 Jacman。所以，我为 Jacman 实现了几种常见的图片样式。这里我会展示这几种图片样式以及其实现方法。<br>
+        
+      </div>
+      <a class="more" href="/blog/13957.html">Read more</a>
+    </article>
+  
+
+  
+    <div class="guide-pager">
+  
+    <a href="/page/13/"><span class="page-arrow">← </span>Prev</a>
+  
+  
+    <a href="/page/15/">Next<span class="page-arrow"> →</span></a>
+  
+</div>
+  
+</main>
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

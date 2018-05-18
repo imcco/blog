@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Spring定时任务之Quartz | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Spring定时任务之Quartz</h2>
+  <p class="post-date">2018-04-06</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0169.jpg" alt="image"><br>Spring中的定时任务功能，最好的办法当然是使用Quartz来实现。我使用的是Maven来管理项目<br><a id="more"></a></p>
+<h3 id="需要的Jar包"><a href="#需要的Jar包" class="headerlink" title="需要的Jar包"></a>需要的Jar包</h3><p><code>quartz-1.8.5.jar  commons-logging.jar  spring-core-3.0.5.RELEASE.jar  spring-beans-3.0.5.RELEASE.jar  spring-context-3.0.5.RELEASE.jar  spring-context-support-3.0.5.RELEASE.jar  spring-asm-3.0.5.RELEASE.jar  spring-expression-3.0.5.RELEASE.jar  spring.transaction-3.0.5.RELEASE.jar  spring-web-3.0.5.RELEASE.jar</code> </p>
+<h3 id="Maven的pom-xml的配置"><a href="#Maven的pom-xml的配置" class="headerlink" title="Maven的pom.xml的配置"></a>Maven的pom.xml的配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span>  </span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>  </span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>QtzTest<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>QtzTest<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">springframework.version</span>&gt;</span>3.0.5.RELEASE<span class="tag">&lt;/<span class="name">springframework.version</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springframework.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springframework.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-tx<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springframework.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springframework.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mortbay.jetty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jetty-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>7.5.4.v20111024<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span>  </span><br><span class="line">                    <span class="tag">&lt;<span class="name">scanIntervalSeconds</span>&gt;</span>10<span class="tag">&lt;/<span class="name">scanIntervalSeconds</span>&gt;</span>  </span><br><span class="line">                    <span class="tag">&lt;<span class="name">webApp</span>&gt;</span>  </span><br><span class="line">                        <span class="tag">&lt;<span class="name">contextPath</span>&gt;</span>/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">contextPath</span>&gt;</span>  </span><br><span class="line">                    <span class="tag">&lt;/<span class="name">webApp</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="在Spring中使用Quartz有两种方式实现"><a href="#在Spring中使用Quartz有两种方式实现" class="headerlink" title="在Spring中使用Quartz有两种方式实现"></a>在Spring中使用Quartz有两种方式实现</h3><p>第一种是任务类继承QuartzJobBean</p>
+<p>第二种则是在配置文件里定义任务类和要执行的方法，类和方法仍然是普通类。</p>
+<p>很显然，第二种方式远比第一种方式来的灵活。</p>
+<h4 id="第一种方式的JAVA代码："><a href="#第一种方式的JAVA代码：" class="headerlink" title="第一种方式的JAVA代码："></a>第一种方式的JAVA代码：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ncs.hj;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;  </span><br><span class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;  </span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.quartz.QuartzJobBean;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringQtz</span> <span class="keyword">extends</span> <span class="title">QuartzJobBean</span></span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> counter = <span class="number">0</span>;  </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">executeInternal</span><span class="params">(JobExecutionContext context)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;  </span><br><span class="line">        System.out.println();  </span><br><span class="line">        <span class="keyword">long</span> ms = System.currentTimeMillis();  </span><br><span class="line">        System.out.println(<span class="string">"\t\t"</span> + <span class="keyword">new</span> Date(ms));  </span><br><span class="line">        System.out.println(ms);  </span><br><span class="line">        System.out.println(<span class="string">"("</span> + counter++ + <span class="string">")"</span>);  </span><br><span class="line">        String s = (String) context.getMergedJobDataMap().get(<span class="string">"service"</span>);  </span><br><span class="line">        System.out.println(s);  </span><br><span class="line">        System.out.println();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第二种方式的JAVA代码："><a href="#第二种方式的JAVA代码：" class="headerlink" title="第二种方式的JAVA代码："></a>第二种方式的JAVA代码：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ncs.hj;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;  </span><br><span class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;  </span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.quartz.QuartzJobBean;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.Date;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringQtz</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> counter = <span class="number">0</span>;  </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span>  </span>&#123;  </span><br><span class="line">        <span class="keyword">long</span> ms = System.currentTimeMillis();  </span><br><span class="line">        System.out.println(<span class="string">"\t\t"</span> + <span class="keyword">new</span> Date(ms));  </span><br><span class="line">        System.out.println(<span class="string">"("</span> + counter++ + <span class="string">")"</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Spring的配置文件"><a href="#Spring的配置文件" class="headerlink" title="Spring的配置文件"></a>Spring的配置文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!------------ 配置调度程序quartz ，其中配置JobDetail有两种方式--------------&gt;</span>    </span><br><span class="line">    <span class="comment">&lt;!--方式一：使用JobDetailBean，任务类必须实现Job接口 --&gt;</span>     </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myjob"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.JobDetailBean"</span>&gt;</span>    </span><br><span class="line">     <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"exampleJob"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>    </span><br><span class="line">     <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobClass"</span> <span class="attr">value</span>=<span class="string">"com.ncs.hj.SpringQtz"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>   </span><br><span class="line">     <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobDataAsMap"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">map</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"service"</span>&gt;</span><span class="tag">&lt;<span class="name">value</span>&gt;</span>simple is the beat<span class="tag">&lt;/<span class="name">value</span>&gt;</span><span class="tag">&lt;/<span class="name">entry</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">map</span>&gt;</span>  </span><br><span class="line">;/property&gt;  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>   </span><br><span class="line">    <span class="comment">&lt;!--运行时请将方式一注释掉！ --&gt;</span>    </span><br><span class="line">    <span class="comment">&lt;!-- 方式二：使用MethodInvokingJobDetailFactoryBean，任务类可以不实现Job接口，通过targetMethod指定调用方法--&gt;</span>    </span><br><span class="line">    <span class="comment">&lt;!-- 定义目标bean和bean中的方法 --&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"SpringQtzJob"</span> <span class="attr">class</span>=<span class="string">"com.ncs.hj.SpringQtz"</span>/&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"SpringQtzJobMethod"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetObject"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"SpringQtzJob"</span>/&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetMethod"</span>&gt;</span>  <span class="comment">&lt;!-- 要执行的方法名称 --&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>execute<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">&lt;!-- ======================== 调度触发器 ======================== --&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"CronTriggerBean"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.CronTriggerBean"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobDetail"</span> <span class="attr">ref</span>=<span class="string">"SpringQtzJobMethod"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"cronExpression"</span> <span class="attr">value</span>=<span class="string">"0/5 * * * * ?"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">&lt;!-- ======================== 调度工厂 ======================== --&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"SpringJobSchedulerFactoryBean"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.SchedulerFactoryBean"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"triggers"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">list</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"CronTriggerBean"</span>/&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">list</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="关于cronExpression表达式"><a href="#关于cronExpression表达式" class="headerlink" title="关于cronExpression表达式"></a>关于cronExpression表达式</h3><p>一个cron表达式由6或7个时间元素组成。它们之间用空格分隔，依次为：[秒][分] [小时][日] [月][星期] [年]</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>说明</th>
+<th>是否必填</th>
+<th>允许填写的值</th>
+<th>允许的符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>秒</td>
+<td>是</td>
+<td>0－59</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>2</td>
+<td>分</td>
+<td>是</td>
+<td>0－59</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>3</td>
+<td>小时</td>
+<td>是</td>
+<td>0－23</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>4</td>
+<td>日</td>
+<td>是</td>
+<td>1－31</td>
+<td>, - * ? / L W</td>
+</tr>
+<tr>
+<td>5</td>
+<td>月</td>
+<td>是</td>
+<td>1－12 or JAN-DEC</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>6</td>
+<td>星期</td>
+<td>是</td>
+<td>1-7 or SUN-SAT</td>
+<td>, - * ? / L #</td>
+</tr>
+<tr>
+<td>7</td>
+<td>年</td>
+<td>否</td>
+<td>1970-2099</td>
+<td>, - * /</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>其中每个元素值可以是一个确定值(6)，一个连续区间(9-12)，一个间隔时间(0/5)，一个列表(1，3，5)或通配符。</p>
+</blockquote>
+<p>“-”表示可选值范围，如在“小时”上设置“10-12”，表示10点、11点和12点触发。<br>“，”表示可选的多个值，例如在“星期”上设置“MON，WED，FRI”，表示周一，周三和周五触发。<br>“/”用于递增触发，如在“秒”上面设置“5/15”表示从第5秒开始，每15秒触发一次(5，20，35，50)；在“日”上设置“1/3”表示每月1号开始，每三天触发一次。</p>
+<p><em>表示所有值. 如在“分”上设置“</em>”，表示每分钟触发。<br>“？”字符仅出现在“日”和“星期”两个元素上，表示不指定值。当这两个元素之一被指定了值以后，为了避免冲突，需要将另一个元素的值设为“？”</p>
+<p>“月”和“星期”元素上若使用英文字母是不区分大小写的，即MON与mon相同</p>
+<p>“L” 字符仅出现在“日”和“星期”两个元素上，它是单词“last”的缩写。<br>“L”在“日”元素上出现，表示每个月的最后一天；在“星期”元素上出现，表示每个月最后一个星期六。<br>如果在“L”前有具体的内容，它就具有其他的含义了。例如：“6L”在“日”上出现，表示每月的倒数第６天；“5L”在“星期”上出现，表示每月的最后一个星期四</p>
+<blockquote>
+<p>注意：在使用“L”参数时，不要指定列表或范围，因为这会导致问题</p>
+</blockquote>
+<p>W表示离指定日期的最近那个工作日(周一至周五).<br>例如在日字段上设置“15W”，表示离每月15号最近的那个工作日触发。<br>如果15号正好是周六，则找最近的周五(14号)触发；如果15号是周未，则找最近的下周一(16号)触发；如果15号正好在工作日(周一至周五)，则就在该天触发。<br>如果指定格式为“1W”，它则表示每月1号往后最近的工作日触发。<br>如果1号正是周六，则将在3号下周一触发。(注，“W”前只能设置具体的数字，不允许区间“-”).</p>
+<blockquote>
+<p>小提示：“L”和 “W”可以一组合使用。如果在“日”上设置“LW”，则表示在本月的最后一个工作日触发；</p>
+</blockquote>
+<p>常用示例: </p>
+<ul>
+<li><p>0 0 12 <em> </em> ? 每天12点触发</p>
+</li>
+<li><p>0 15 10 ? <em> </em> 每天10点15分触发</p>
+</li>
+<li>0 15 10 <em> </em> ? 每天10点15分触发</li>
+<li>0 15 10 <em> </em> ? * 每天10点15分触发</li>
+<li>0 15 10 <em> </em> ? 2005 2005年每天10点15分触发</li>
+<li>0 <em> 14 </em> * ? 每天14点到14点59分之间，每分钟触发一次</li>
+<li>0 0/5 14 <em> </em> ? 每天14点到14点59分之间，每5分钟触发一次（从14点开始触发）</li>
+<li>0 0/5 14，18 <em> </em> ? 每天14点到14点59分及18点到18点59分，每5分钟触发一次（分别从14点、18点开始触发）</li>
+<li>0 0-5 14 <em> </em> ? 每天14点到14点05分之间，每分钟触发</li>
+<li>0 10，44 14 ? 3 WED 3月份每周三14点10分和14点44分触发</li>
+<li>0 15 10 ? * MON-FRI 周一到周五每天10点15分触发</li>
+<li>0 15 10 15 * ? 每月15号10点15分触发</li>
+<li>0 15 10 L * ? 每月最后一天的10点15分触发</li>
+<li>0 15 10 ? * 6L 每月最后一个周五的10点15分触发</li>
+<li>0 15 10 ? * 6L 2002-2005 从2002年到2005年每月一个周五的10点15分触发</li>
+<li>0 15 10 ? * 6#3 每月第三个周五的10点15分触发</li>
+<li>0 0 12 1/5 * ? 每月1号的12点开始触发，每隔5天触发一次</li>
+</ul>
+<h3 id="web-xml里面配置Spring"><a href="#web-xml里面配置Spring" class="headerlink" title="web.xml里面配置Spring"></a>web.xml里面配置Spring</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span>  </span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>  </span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee  </span></span></span><br><span class="line"><span class="tag"><span class="string">          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>  </span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">"2.5"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>index.html<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>/WEB-INF/spring-config.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">listener</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">listener</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="加载任务loadTask-java"><a href="#加载任务loadTask-java" class="headerlink" title="加载任务loadTask.java"></a>加载任务loadTask.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imc.task;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"><span class="keyword">import</span> java.util.UUID;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.quartz.JobDataMap;</span><br><span class="line"><span class="keyword">import</span> org.quartz.Scheduler;</span><br><span class="line"><span class="keyword">import</span> org.quartz.SchedulerException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.quartz.CronTriggerFactoryBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.quartz.JobDetailFactoryBean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.imc.entity.assist.CmsTask;</span><br><span class="line"><span class="keyword">import</span> com.imc.manager.assist.CmsTaskMng;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Tom</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadTask</span></span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 系统初始加载任务</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadTask</span><span class="params">()</span></span>&#123;</span><br><span class="line">		List&lt;CmsTask&gt;tasks=taskMng.getList();</span><br><span class="line">		<span class="keyword">if</span>(tasks.size()&gt;<span class="number">0</span>)&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; tasks.size(); i++) &#123;</span><br><span class="line">				CmsTask task=tasks.get(i);</span><br><span class="line">				<span class="comment">//任务开启状态 执行任务调度</span></span><br><span class="line">				<span class="keyword">if</span>(task.getEnable())&#123;</span><br><span class="line">					<span class="keyword">try</span> &#123;</span><br><span class="line">						JobDetailFactoryBean jobDetailFactoryBean = <span class="keyword">new</span> JobDetailFactoryBean();</span><br><span class="line">						<span class="comment">//设置任务名称</span></span><br><span class="line">						<span class="keyword">if</span>(StringUtils.isNotBlank(task.getTaskCode()))&#123;</span><br><span class="line">							jobDetailFactoryBean.setName(task.getTaskCode());</span><br><span class="line">						&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">							UUID uuid=UUID.randomUUID();</span><br><span class="line">							jobDetailFactoryBean.setName(uuid.toString());</span><br><span class="line">							task.setTaskCode(uuid.toString());</span><br><span class="line">							taskMng.update(task, task.getAttr());</span><br><span class="line">						&#125;</span><br><span class="line">						jobDetailFactoryBean.setJobClass(getClassByTask(task.getJobClass()));</span><br><span class="line">						<span class="comment">//任务需要参数attr属性 </span></span><br><span class="line">						jobDetailFactoryBean.setJobDataMap(getJobDataMap(task.getAttr()));</span><br><span class="line">						jobDetailFactoryBean.setGroup(Scheduler.DEFAULT_GROUP);</span><br><span class="line">						jobDetailFactoryBean.afterPropertiesSet();</span><br><span class="line">						</span><br><span class="line">						CronTriggerFactoryBean cronTriggerFactoryBean=<span class="keyword">new</span> CronTriggerFactoryBean();</span><br><span class="line">						cronTriggerFactoryBean.setBeanName(<span class="string">"cron_"</span> + i);</span><br><span class="line">						cronTriggerFactoryBean.setCronExpression(taskMng.getCronExpressionFromDB(task.getId()));</span><br><span class="line">						cronTriggerFactoryBean.setGroup(Scheduler.DEFAULT_GROUP);</span><br><span class="line">						cronTriggerFactoryBean.setName(<span class="string">"cron_"</span> + i);</span><br><span class="line">						cronTriggerFactoryBean.setDescription(<span class="string">""</span>);</span><br><span class="line">						cronTriggerFactoryBean.afterPropertiesSet();</span><br><span class="line">						<span class="comment">//调度任务</span></span><br><span class="line">						scheduler.scheduleJob(jobDetailFactoryBean.getObject(), cronTriggerFactoryBean.getObject()); </span><br><span class="line">					&#125; <span class="keyword">catch</span> (SchedulerException e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> params 任务参数</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> JobDataMap <span class="title">getJobDataMap</span><span class="params">(Map&lt;String,String&gt; params)</span></span>&#123;</span><br><span class="line">		JobDataMap jdm=<span class="keyword">new</span> JobDataMap();</span><br><span class="line">		Set&lt;String&gt;keySet=params.keySet();</span><br><span class="line">		Iterator&lt;String&gt;it=keySet.iterator();</span><br><span class="line">		<span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">			String key=it.next();</span><br><span class="line">			jdm.put(key, params.get(key));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> jdm;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> taskClassName 任务执行类名</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ClassNotFoundException</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> Class&lt;?&gt; getClassByTask(String taskClassName) <span class="keyword">throws</span> ClassNotFoundException&#123;</span><br><span class="line">		<span class="keyword">return</span> Class.forName(taskClassName);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> CmsTaskMng taskMng;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> Scheduler scheduler;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="用户同步任务"><a href="#用户同步任务" class="headerlink" title="用户同步任务"></a>用户同步任务</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> imc.c6.api.sysuser.SysUserAPI;</span><br><span class="line"><span class="keyword">import</span> imc.c6.api.sysuser.SysUserRoleAPI;</span><br><span class="line"><span class="keyword">import</span> imc.c6.api.sysuser.dto.SysDept;</span><br><span class="line"><span class="keyword">import</span> imc.c6.api.sysuser.dto.SysUser;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.imc.common.util.PropertyUtils;</span><br><span class="line"><span class="keyword">import</span> com.imc.common.web.springmvc.RealPathResolver;</span><br><span class="line"><span class="keyword">import</span> com.imc.core.entity.CmsGroup;</span><br><span class="line"><span class="keyword">import</span> com.imc.core.entity.CmsUser;</span><br><span class="line"><span class="keyword">import</span> com.imc.core.entity.CmsUserExt;</span><br><span class="line"><span class="keyword">import</span> com.imc.core.manager.CmsUserExtMng;</span><br><span class="line"><span class="keyword">import</span> com.imc.core.manager.CmsUserMng;</span><br><span class="line"><span class="keyword">import</span> com.imc.core.manager.UnifiedUserMng;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDayJob</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(UserDayJob.class);</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		String a =PropertyUtils.getPropertyValue(</span><br><span class="line">				<span class="keyword">new</span> File(realPathResolver.get(com.imc.cms.Constants.imc_CONFIG)),<span class="string">"cms.usetype"</span>);</span><br><span class="line">		String usetype=propertyUtils.getPropertiesString(<span class="string">"cms.usetype"</span>);	</span><br><span class="line">		<span class="keyword">if</span> ((usetype.equals(<span class="string">"3"</span>))||(usetype.equals(<span class="string">"2"</span>)))&#123;			</span><br><span class="line">		manager.getMember();</span><br><span class="line">		manager.getAdmin();	</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> CmsUserMng manager;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> CmsUserExtMng extManager;	</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">protected</span> PropertyUtils propertyUtils;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> RealPathResolver realPathResolver;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件quartz-task-xml"><a href="#配置文件quartz-task-xml" class="headerlink" title="配置文件quartz-task.xml"></a>配置文件quartz-task.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">default-lazy-init</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"executor"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"</span>&gt;</span> </span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"corePoolSize"</span> <span class="attr">value</span>=<span class="string">"10"</span> /&gt;</span> </span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxPoolSize"</span> <span class="attr">value</span>=<span class="string">"100"</span> /&gt;</span> </span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"queueCapacity"</span> <span class="attr">value</span>=<span class="string">"500"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--每日任务(内容相关) --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"contentDayJob"</span> <span class="attr">class</span>=<span class="string">"com.imc.task.job.ContentDayJob"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"contentDayJobDetail"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetObject"</span> <span class="attr">ref</span>=<span class="string">"contentDayJob"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetMethod"</span> <span class="attr">value</span>=<span class="string">"execute"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"contentDayJobTrigger"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.CronTriggerFactoryBean"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobDetail"</span> <span class="attr">ref</span>=<span class="string">"contentDayJobDetail"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"cronExpression"</span> <span class="attr">value</span>=<span class="string">"0 0 0 * * ?"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"siteDayJob"</span> <span class="attr">class</span>=<span class="string">"com.imc.task.job.SiteDayJob"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"siteDayJobDetail"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetObject"</span> <span class="attr">ref</span>=<span class="string">"siteDayJob"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetMethod"</span> <span class="attr">value</span>=<span class="string">"execute"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"siteDayJobTrigger"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.CronTriggerFactoryBean"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobDetail"</span> <span class="attr">ref</span>=<span class="string">"siteDayJobDetail"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"cronExpression"</span> <span class="attr">value</span>=<span class="string">"0 0 0 * * ?"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 用户同步任务 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDayJob"</span> <span class="attr">class</span>=<span class="string">"com.imc.task.job.UserDayJob"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDayJobDetail"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetObject"</span> <span class="attr">ref</span>=<span class="string">"userDayJob"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetMethod"</span> <span class="attr">value</span>=<span class="string">"execute"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDayJobTrigger"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.CronTriggerFactoryBean"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobDetail"</span> <span class="attr">ref</span>=<span class="string">"userDayJobDetail"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"cronExpression"</span> <span class="attr">value</span>=<span class="string">"*/5 * * * * ?"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 调度器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"scheduler"</span> <span class="attr">class</span>=<span class="string">"org.springframework.scheduling.quartz.SchedulerFactoryBean"</span>&gt;</span> </span><br><span class="line">       <span class="comment">&lt;!-- 通过applicationContextSchedulerContextKey属性配置spring上下文 --&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"applicationContextSchedulerContextKey"</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>applicationContext<span class="tag">&lt;/<span class="name">value</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span>   </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"triggers"</span>&gt;</span>  </span><br><span class="line">			<span class="tag">&lt;<span class="name">list</span>&gt;</span>   </span><br><span class="line">				<span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"contentDayJobTrigger"</span> /&gt;</span> </span><br><span class="line">				<span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"siteDayJobTrigger"</span> /&gt;</span> </span><br><span class="line">				<span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"userDayJobTrigger"</span> /&gt;</span>    </span><br><span class="line">			<span class="tag">&lt;/<span class="name">list</span>&gt;</span> </span><br><span class="line">		<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"taskExecutor"</span> <span class="attr">ref</span>=<span class="string">"executor"</span> /&gt;</span> </span><br><span class="line">   	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br><span class="line">    <span class="comment">&lt;!--加载数据库任务--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"loadTask"</span> <span class="attr">class</span>=<span class="string">"com.imc.task.LoadTask"</span> <span class="attr">init-method</span>=<span class="string">"loadTask"</span> /&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Quartz" >
+    <span class="tag-code">Quartz</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/7931.html">
+        <span class="nav-arrow">← </span>
+        
+          aJax使用小结
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/59893.html">
+        
+          JS特效-tab选项卡列表切换
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#需要的Jar包"><span class="toc-nav-text">需要的Jar包</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Maven的pom-xml的配置"><span class="toc-nav-text">Maven的pom.xml的配置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#在Spring中使用Quartz有两种方式实现"><span class="toc-nav-text">在Spring中使用Quartz有两种方式实现</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#第一种方式的JAVA代码："><span class="toc-nav-text">第一种方式的JAVA代码：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#第二种方式的JAVA代码："><span class="toc-nav-text">第二种方式的JAVA代码：</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Spring的配置文件"><span class="toc-nav-text">Spring的配置文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#关于cronExpression表达式"><span class="toc-nav-text">关于cronExpression表达式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#web-xml里面配置Spring"><span class="toc-nav-text">web.xml里面配置Spring</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#其他"><span class="toc-nav-text">其他</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#加载任务loadTask-java"><span class="toc-nav-text">加载任务loadTask.java</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#用户同步任务"><span class="toc-nav-text">用户同步任务</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#配置文件quartz-task-xml"><span class="toc-nav-text">配置文件quartz-task.xml</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/6441.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Spring定时任务之Quartz",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

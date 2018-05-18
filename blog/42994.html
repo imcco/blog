@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Java知识梳理（三）—— html&amp;JavaScript&amp;ajax部分 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Java知识梳理（三）—— html&JavaScript&ajax部分</h2>
+  <p class="post-date">2017-09-05</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0011.jpg" alt="image"></p>
+<p> html&amp;JavaScript&amp;ajax</p>
+<a id="more"></a>
+<h5 id="判断第二个日期比第一个日期大"><a href="#判断第二个日期比第一个日期大" class="headerlink" title="判断第二个日期比第一个日期大"></a>判断第二个日期比第一个日期大</h5><p>​    如何用脚本判断用户输入的的字符串是下面的时间格式2004-11-21 必须要保证用户的输入是此格式，并且是时间，比如说月份不大于12等等，另外我需要用户输入两个，并且后一个要比前一个晚，只允许用JAVASCRIPT，请详细帮助作答.</p>
+<p>//这里可用正则表达式判断提前判断一下格式，然后按下提取各时间字段内容</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;scripttype=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//这么写是为了实现js代码与html代码的分离，当我修改js时，不能影响html代码。</span></span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">"frm1"</span>).onsubmit=</span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> d1 =<span class="keyword">this</span>.d1.value;</span><br><span class="line">  <span class="keyword">var</span> d2 =<span class="keyword">this</span>.d2.value;</span><br><span class="line">  <span class="keyword">if</span>(!verifyDate (d1))&#123;alert(<span class="string">"第一个日期格式不对"</span>);<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">  <span class="keyword">if</span>(!verifyDate (d2))&#123;alert(<span class="string">"第二个日期格式不对"</span>);<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">  <span class="keyword">if</span>(!compareDate(d1,d2))&#123;alert(<span class="string">"第二个日期比第一日期小"</span>);<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">functioncompareDate(d1,d2)&#123;</span><br><span class="line">    <span class="keyword">var</span> arrayD1 =d1.split(<span class="string">"-"</span>);</span><br><span class="line">    <span class="keyword">var</span> date1 = <span class="keyword">new</span> <span class="built_in">Date</span>(arrayD1[<span class="number">0</span>],arrayD1[<span class="number">1</span>],arrayD1[<span class="number">2</span>]);</span><br><span class="line">    <span class="keyword">var</span> arrayD2 =d2.split(<span class="string">"-"</span>);</span><br><span class="line">    <span class="keyword">var</span> date2 = newDate(arrayD2[<span class="number">0</span>],arrayD2[<span class="number">1</span>],arrayD2[<span class="number">2</span>]);</span><br><span class="line">    <span class="keyword">if</span>(date1 &gt;date2) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">functionverifyDate(d)&#123;</span><br><span class="line">	<span class="keyword">var</span> datePattern= <span class="regexp">/^\d&#123;4&#125;-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2]\d|3[0-1])$/</span>;</span><br><span class="line">returndatePattern.test(d);</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;formid="frm1" action="xxx.html"&gt;</span></span><br><span class="line"><span class="regexp">&lt;inputtype="text" name="d1" /</span>&gt;</span><br><span class="line">&lt;inputtype=<span class="string">"text"</span> name=<span class="string">"d2"</span> /&gt;</span><br><span class="line">&lt;inputtype=<span class="string">"submit"</span>/&gt;</span><br><span class="line">&lt;<span class="regexp">/form&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="用table显示n条记录，每3行换一次颜色，即1，2，3用红色字体，4，5，6用绿色字体，7，8，9用红颜色字体。"><a href="#用table显示n条记录，每3行换一次颜色，即1，2，3用红色字体，4，5，6用绿色字体，7，8，9用红颜色字体。" class="headerlink" title="用table显示n条记录，每3行换一次颜色，即1，2，3用红色字体，4，5，6用绿色字体，7，8，9用红颜色字体。"></a>用table显示n条记录，每3行换一次颜色，即1，2，3用红色字体，4，5，6用绿色字体，7，8，9用红颜色字体。</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tableid="tbl"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>2<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>3<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>4<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>5<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>6<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>7<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>8<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>9<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>10<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">scripttype="text</span>/<span class="attr">javascript</span>"&gt;</span></span><br><span class="line">window.onload=function()&#123;</span><br><span class="line">	var tbl =document.getElementById("tbl");</span><br><span class="line">	rows =tbl.getElementsByTagName("tr");</span><br><span class="line">for(i=0;i<span class="tag">&lt;<span class="name">rows.length;i++)&#123;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">var</span> <span class="attr">j</span> =<span class="string">parseInt(i/3);</span></span></span><br><span class="line"><span class="tag">	<span class="attr">if</span>(<span class="attr">j</span>%<span class="attr">2</span>==<span class="string">0)rows[i].style.backgroundColor</span>=<span class="string">"#f00"</span>;</span></span><br><span class="line"><span class="tag">	<span class="attr">else</span> <span class="attr">rows</span>[<span class="attr">i</span>]<span class="attr">.style.backgroundColor</span>=<span class="string">"#0f0"</span>;</span></span><br><span class="line"><span class="tag">	&#125;</span></span><br><span class="line"><span class="tag">&#125;</span></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="HTML-的-form-提交之前如何验证数值文本框的内容全部为数字-否则的话提示用户并终止提交"><a href="#HTML-的-form-提交之前如何验证数值文本框的内容全部为数字-否则的话提示用户并终止提交" class="headerlink" title="HTML 的 form 提交之前如何验证数值文本框的内容全部为数字? 否则的话提示用户并终止提交?"></a>HTML 的 form 提交之前如何验证数值文本框的内容全部为数字? 否则的话提示用户并终止提交?</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;formonsubmit=’<span class="keyword">return</span> chkForm(<span class="keyword">this</span>)’&gt;</span><br><span class="line">&lt;inputtype=<span class="string">"text"</span> name=<span class="string">"d1"</span>/&gt;</span><br><span class="line">&lt;inputtype=<span class="string">"submit"</span>/&gt;</span><br><span class="line">&lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">&lt;scripttype=”text/</span>javascript” /&gt;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">chkForm</span>(<span class="params">this</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> value= thist.d1.value;</span><br><span class="line">		<span class="keyword">var</span> len =value.length;</span><br><span class="line">	<span class="keyword">for</span>(vari=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">	<span class="keyword">if</span>(value.charAt(i)&gt;<span class="string">"9"</span>|| value.charAt(i)&lt;<span class="string">"0"</span>)&#123;</span><br><span class="line">		alert(<span class="string">"含有非数字字符"</span>);<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="请写出用于校验HTML文本框中输入的内容全部为数字的javascript代码"><a href="#请写出用于校验HTML文本框中输入的内容全部为数字的javascript代码" class="headerlink" title="请写出用于校验HTML文本框中输入的内容全部为数字的javascript代码"></a>请写出用于校验HTML文本框中输入的内容全部为数字的javascript代码</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;inputtype=<span class="string">"text"</span> id=<span class="string">"d1"</span> onblur=<span class="string">" chkNumber(this)"</span>/&gt;</span><br><span class="line">&lt;scripttype=”text/javascript” /&gt;</span><br><span class="line">functionchkNumber(eleText) &#123;</span><br><span class="line">	<span class="keyword">var</span> value =eleText.value;</span><br><span class="line">	<span class="keyword">var</span> len =value.length;</span><br><span class="line"><span class="keyword">for</span>(vari=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">	<span class="keyword">if</span>(value.charAt(i)&gt;<span class="string">"9"</span>|| value.charAt(i)&lt;<span class="string">"0"</span>)&#123;</span><br><span class="line">		alert(<span class="string">"含有非数字字符"</span>); </span><br><span class="line">		eleText.focus();</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>除了写完代码，还应该在网页上写出实验步骤和在代码中加入实现思路，让面试官一看就明白你的意图和检查你的结果。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#html" >
+    <span class="tag-code">html</span>
+  </a>
+
+  <a href="/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+  <a href="/tags#ajax" >
+    <span class="tag-code">ajax</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/44611.html">
+        <span class="nav-arrow">← </span>
+        
+          Java知识梳理（二）——算法与编程
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/21487.html">
+        
+          FreeMarker自定义TemplateDirectiveModel(一)
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#判断第二个日期比第一个日期大"><span class="toc-nav-text">判断第二个日期比第一个日期大</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#用table显示n条记录，每3行换一次颜色，即1，2，3用红色字体，4，5，6用绿色字体，7，8，9用红颜色字体。"><span class="toc-nav-text">用table显示n条记录，每3行换一次颜色，即1，2，3用红色字体，4，5，6用绿色字体，7，8，9用红颜色字体。</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#HTML-的-form-提交之前如何验证数值文本框的内容全部为数字-否则的话提示用户并终止提交"><span class="toc-nav-text">HTML 的 form 提交之前如何验证数值文本框的内容全部为数字? 否则的话提示用户并终止提交?</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#请写出用于校验HTML文本框中输入的内容全部为数字的javascript代码"><span class="toc-nav-text">请写出用于校验HTML文本框中输入的内容全部为数字的javascript代码</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/42994.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Java知识梳理（三）—— html&JavaScript&ajax部分",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

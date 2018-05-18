@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      SWFUpload文件上传详解 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>SWFUpload文件上传详解</h2>
+  <p class="post-date">2017-12-01</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0034.jpg" alt="image"></p>
+<p>SWFUpload是一个客户端文件上传工具，最初由Vinterwebb.se开发，它通过整合Flash与JavaScript技术为WEB开发者提供了一个具有丰富功能继而超越传统<br>input type=”file”标签的文件上传模式。<br><a id="more"></a><br>官方站点：<a href="http://www.swfupload.org/" target="_blank" rel="noopener">http://www.swfupload.org/</a><br>DEMO地址：<a href="http://demo.swfupload.org/" target="_blank" rel="noopener">http://demo.swfupload.org/</a> </p>
+<h3 id="主要特点"><a href="#主要特点" class="headerlink" title="主要特点"></a>主要特点</h3><ul>
+<li>可以同时上传多个文件； </li>
+<li>类似AJAX的无刷新上传； </li>
+<li>可以显示上传进度； </li>
+<li>良好的浏览器兼容性； </li>
+<li>兼容其他JavaScript库 (例如：jQuery, Prototype等)； </li>
+<li>支持Flash 8和Flash 9； </li>
+</ul>
+<p>SWFUpload不同于其他基于Flash构建的上传工具，它有着优雅的代码设计，开发者可以利用XHTML、CSS和JavaScript来随心所欲的定制它在浏览器下的外观；它还提供了一组简明的JavaScript事件，借助它们开发者可以方便的在文件上传过程中更新页面内容来营造各种动态效果。 </p>
+<p>在使用SWFUpload之前，请确认你具备一定的JavaScript和DOM知识。在实际开发中，大部分的错误都是由于错误的设置和低劣的Event Handlers处理程序所造成的。<br><!--more--></p>
+<h3 id="SWFUpload的文件上传流程："><a href="#SWFUpload的文件上传流程：" class="headerlink" title="SWFUpload的文件上传流程："></a>SWFUpload的文件上传流程：</h3><ul>
+<li>引入相应的js文件 </li>
+<li>实例化SWFUpload对象，传入一个配置参数对象进行各方面的配置。 </li>
+<li>点击SWFUpload提供的Flash按钮，弹出文件选取窗口选择要上传的文件； </li>
+<li>文件选取完成后符合规定的文件会被添加到上传的队列里； </li>
+<li>调用startUpload方法让队列里文件开始上传； </li>
+<li>文件上传过程中会触发相应的事件，开发者利用这些事件来更新ui、处理错误、发出提示等等；</li>
+</ul>
+<h3 id="SWFUpload包括三部分的内容："><a href="#SWFUpload包括三部分的内容：" class="headerlink" title="SWFUpload包括三部分的内容："></a>SWFUpload包括三部分的内容：</h3><p>SWFUpload.js、swfupload.swf、初始化配置参数及各种事件处理函数。</p>
+<ul>
+<li><p>所以首先在页面引入SWFUpload.js</p>
+</li>
+<li><p>在页面中实例化一个SWFUpload对象：</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> swfu;  </span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line"><span class="keyword">var</span> settings_object = &#123;<span class="comment">//定义参数配置对象  </span></span><br><span class="line">upload_url : <span class="string">"http://www.swfupload.org/upload.php"</span>,  </span><br><span class="line">flash_url : <span class="string">"http://www.swfupload.org/swfupload.swf"</span>,  </span><br><span class="line">file_post_name : <span class="string">"Filedata"</span>,  </span><br><span class="line">post_params : &#123;  </span><br><span class="line"><span class="string">"post_param_name_1"</span> : <span class="string">"post_param_value_1"</span>,  </span><br><span class="line"><span class="string">"post_param_name_2"</span> : <span class="string">"post_param_value_2"</span>,  </span><br><span class="line"><span class="string">"post_param_name_n"</span> : <span class="string">"post_param_value_n"</span>  </span><br><span class="line">&#125;,  </span><br><span class="line">use_query_string : <span class="literal">false</span>,  </span><br><span class="line">requeue_on_error : <span class="literal">false</span>,  </span><br><span class="line">http_success : [<span class="number">201</span>, <span class="number">202</span>],  </span><br><span class="line">assume_success_timeout : <span class="number">0</span>,  </span><br><span class="line">file_types : <span class="string">"*.jpg;*.gif"</span>,  </span><br><span class="line">file_types_description: <span class="string">"Web Image Files"</span>,  </span><br><span class="line">file_size_limit : <span class="string">"1024"</span>,  </span><br><span class="line">file_upload_limit : <span class="number">10</span>,  </span><br><span class="line">file_queue_limit : <span class="number">2</span>,  </span><br><span class="line">debug : <span class="literal">false</span>,  </span><br><span class="line">prevent_swf_caching : <span class="literal">false</span>,  </span><br><span class="line">preserve_relative_urls : <span class="literal">false</span>,  </span><br><span class="line">button_placeholder_id : <span class="string">"element_id"</span>,  </span><br><span class="line">button_image_url : <span class="string">"http://www.swfupload.org/button_sprite.png"</span>,  </span><br><span class="line">button_width : <span class="number">61</span>,  </span><br><span class="line">button_height : <span class="number">22</span>,  </span><br><span class="line">button_text : <span class="string">"&lt;b&gt;Click&lt;/b&gt; &lt;span class="</span>redText<span class="string">"&gt;here&lt;/span&gt;"</span>,  </span><br><span class="line">button_text_style : <span class="string">".redText &#123; color: #FF0000; &#125;"</span>,  </span><br><span class="line">button_text_left_padding : <span class="number">3</span>,  </span><br><span class="line">button_text_top_padding : <span class="number">2</span>,  </span><br><span class="line">button_action : SWFUpload.BUTTON_ACTION.SELECT_FILES,  </span><br><span class="line">button_disabled : <span class="literal">false</span>,  </span><br><span class="line">button_cursor : SWFUpload.CURSOR.HAND,  </span><br><span class="line">button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,  </span><br><span class="line">swfupload_loaded_handler : swfupload_loaded_function,  </span><br><span class="line">file_dialog_start_handler : file_dialog_start_function,  </span><br><span class="line">file_queued_handler : file_queued_function,  </span><br><span class="line">file_queue_error_handler : file_queue_error_function,  </span><br><span class="line">file_dialog_complete_handler : file_dialog_complete_function,  </span><br><span class="line">upload_start_handler : upload_start_function,  </span><br><span class="line">upload_progress_handler : upload_progress_function,  </span><br><span class="line">upload_error_handler : upload_error_function,  </span><br><span class="line">upload_success_handler : upload_success_function,  </span><br><span class="line">upload_complete_handler : upload_complete_function,  </span><br><span class="line">debug_handler : debug_function,  </span><br><span class="line">&#125;;  </span><br><span class="line">swfu = <span class="keyword">new</span> SWFUpload(settings_object);<span class="comment">//实例化一个SWFUpload，传入参数配置对象  </span></span><br><span class="line">&#125;;  </span><br><span class="line"><span class="comment">/*定义各种事件监听函数*/</span>  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swfupload_loaded_function</span>(<span class="params"></span>)</span>&#123;&#125;  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">file_dialog_start_function</span>(<span class="params"></span>)</span>&#123;&#125;  </span><br><span class="line"><span class="comment">//...等等</span></span><br></pre></td></tr></table></figure>
+<p>​    我们看到要实现一个SWFUpload上传功能很简单，就是实例化一个SWFUpload对象。但繁琐的地方就在于实例化实要用到的参数配置对象，以及各种事件的发生时机以和提供的参数。所以重点来了。下面几个表格对开发中要用到的东西列举了出来，虽然已经蛮多了，但并不是SWFUpload的全部，我列出来的只是常用的。要查看完整的文档，请到SWFUpload官网上查询。</p>
+<h3 id="配置参数对象中的常用属性及说明"><a href="#配置参数对象中的常用属性及说明" class="headerlink" title="配置参数对象中的常用属性及说明"></a>配置参数对象中的常用属性及说明</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>upload_url</td>
+<td>String</td>
+<td></td>
+<td>处理上传文件的服务器端页面的url地址，可以是绝对地址，也可以是相对地址，当为相对地址时相对的是当前代码所在的文档地址</td>
+</tr>
+<tr>
+<td>preserve_relative_urls</td>
+<td>Boolean</td>
+<td>false</td>
+<td>如果为false则SWFUpload会把swfupload.swf用到的相对地址转换为绝对地址，以达到更好的兼容性</td>
+</tr>
+<tr>
+<td>file_post_name</td>
+<td>String</td>
+<td>Filedata</td>
+<td>相当于用普通的文件域上传文件时的name属性，服务器端接收页面通过该名称来获取上传的文件</td>
+</tr>
+<tr>
+<td>post_params</td>
+<td>Object(直接量)</td>
+<td></td>
+<td>一个对象直接量，里面的键/值对会随着每一个文件一起上传，文件上传要附加一些信息时很有用</td>
+</tr>
+<tr>
+<td>use_query_string</td>
+<td>Boolean</td>
+<td>false</td>
+<td>为false时,post_params属性定义的参数会以post方式上传；为true时，则会以get方式上传（即参数会以查询字符串的形式附加到url后面）</td>
+</tr>
+<tr>
+<td>file_types</td>
+<td>String</td>
+<td></td>
+<td>该属性指定了允许上传的文件类型，当有多个类型时使用分号隔开，比如：<em>.jpg;</em>.png ,允许所有类型时请使用 <em>.</em></td>
+</tr>
+<tr>
+<td>file_types_description</td>
+<td>String</td>
+<td></td>
+<td>指定在文件选取窗口中显示的文件类型描述，起一个提示和说明的作用吧</td>
+</tr>
+<tr>
+<td>file_size_limit</td>
+<td>String</td>
+<td></td>
+<td>指定要上传的文件的最大体积，可以带单位，合法的单位有:B、KB、MB、GB，如果省略了单位，则默认为KB。该属性为0时，表示不限制文件的大小。</td>
+</tr>
+<tr>
+<td>file_upload_limit</td>
+<td>Number</td>
+<td></td>
+<td>指定最多能上传多少个文件，当上传成功的文件数量达到了这个最大值后，就不能再上传文件了，也不能往上传队列里添加文件了。把该属性设为0时表示不限制文件的上传数量。</td>
+</tr>
+<tr>
+<td>file_queue_limit</td>
+<td>Number</td>
+<td></td>
+<td>指定文件上传队列里最多能同时存放多少个文件。当超过了这个数目后只有当队列里有文件上传成功、上传出错或被取消上传后，等同数量的其他文件才可以被添加进来。当file_upload_limit的数值或者剩余的能上传的文件数量小于file_queue_limit时，则取那个更小的值</td>
+</tr>
+<tr>
+<td>flash_url</td>
+<td>String</td>
+<td></td>
+<td>swfupload.swf文件的绝对或相对地址，相对地址是指相对于当前的页面地址。实例化swfupload后，就不能再改变该属性的值了。</td>
+</tr>
+<tr>
+<td>prevent_swf_caching</td>
+<td>Boolean</td>
+<td></td>
+<td>为true时会加一个随机数在swfupload.swf地址的后面，以阻止flash影片被缓存，这是为了防止某些版本的IE浏览器在读取缓存的falsh影片时出现的bug</td>
+</tr>
+<tr>
+<td>button_placeholder_id</td>
+<td>String</td>
+<td></td>
+<td>指定一个dom元素的id,该dom元素在swfupload实例化后会被Flash按钮代替，这个dom元素相当于一个占位符</td>
+</tr>
+<tr>
+<td>button_placeholder</td>
+<td>DOMElement</td>
+<td></td>
+<td>指定一个dom元素,该dom元素在swfupload实例化后会被Flash按钮代替，这个dom元素相当于一个占位符。当button_placeholder_id与button_placeholder都存在时，以button_placeholder_id为优先</td>
+</tr>
+<tr>
+<td>button_image_url</td>
+<td>String</td>
+<td></td>
+<td>指定Flash按钮的背景图片，相对地址或绝对地址都可以。该地址会受到preserve_relative_urls属性的影响，遵从与upload_url一样的规则。该背景图片必须是一个sprite图片,从上到下包含了Flash按钮的正常、鼠标悬停、按下、禁用这四种状态。因此该图片的高度应该是Flash按钮高度的四倍</td>
+</tr>
+<tr>
+<td>button_width</td>
+<td>Number</td>
+<td></td>
+<td>指定Flash按钮的宽度</td>
+</tr>
+<tr>
+<td>button_height</td>
+<td>Number</td>
+<td></td>
+<td>指定Flash按钮的高度，应该为button_image_url所指定的按钮背景图片高度的1/4</td>
+</tr>
+<tr>
+<td>button_text</td>
+<td>String</td>
+<td></td>
+<td>指定Flash按钮上的文字，也可以是html代码</td>
+</tr>
+<tr>
+<td>button_text_style</td>
+<td>String</td>
+<td></td>
+<td>Flash按钮上的文字的样式，使用方法见示例</td>
+</tr>
+<tr>
+<td>button_text_top_padding</td>
+<td>Number</td>
+<td></td>
+<td>指定Flash按钮顶部的内边距，可使用负值</td>
+</tr>
+<tr>
+<td>button_text_left_padding</td>
+<td>Number</td>
+<td></td>
+<td>指定Flash按钮左边的内边距，可使用负值</td>
+</tr>
+<tr>
+<td>button_disabled</td>
+<td>Boolean</td>
+<td>false</td>
+<td>为true时Flash按钮将变为禁用状态，点击也不会触发任何行为</td>
+</tr>
+<tr>
+<td>button_cursor</td>
+<td></td>
+<td></td>
+<td>指定鼠标悬停在Flash按钮上时的光标样式，可用值为SWFUpload.CURSOR里定义的常量</td>
+</tr>
+<tr>
+<td>button_window_mode</td>
+<td></td>
+<td></td>
+<td>指定Flash按钮的WMODE属性，可用值为SWFUpload.WINDOW_MODE里定义的常量</td>
+</tr>
+<tr>
+<td>file_dialog_start_handler</td>
+<td>Function</td>
+<td></td>
+<td>fileDialogStart事件侦听函数</td>
+</tr>
+<tr>
+<td>file_queued_handler</td>
+<td>Function</td>
+<td></td>
+<td>fileQueued事件侦听函数</td>
+</tr>
+<tr>
+<td>file_queue_error_handler</td>
+<td>Function</td>
+<td></td>
+<td>fileQueueError事件侦听函数</td>
+</tr>
+<tr>
+<td>file_dialog_complete_handler</td>
+<td>Function</td>
+<td></td>
+<td>fileDialogComplete事件侦听函数</td>
+</tr>
+<tr>
+<td>upload_start_handler</td>
+<td>Function</td>
+<td></td>
+<td>uploadStart事件侦听函数</td>
+</tr>
+<tr>
+<td>upload_progress_handler</td>
+<td>Function</td>
+<td></td>
+<td>uploadProgress事件侦听函数</td>
+</tr>
+<tr>
+<td>upload_error_handler</td>
+<td>Function</td>
+<td></td>
+<td>uploadError事件侦听函数</td>
+</tr>
+<tr>
+<td>upload_success_handler</td>
+<td>Function</td>
+<td></td>
+<td>uploadSuccess事件侦听函数</td>
+</tr>
+<tr>
+<td>upload_complete_handler</td>
+<td>Function</td>
+<td></td>
+<td>uploadComplete事件侦听函数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="各种事件说明"><a href="#各种事件说明" class="headerlink" title="各种事件说明"></a>各种事件说明</h3><p>要实现与用户的交互，靠的就是在这些事件上做文章了</p>
+<table>
+<thead>
+<tr>
+<th>fileDialogStart ( )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>在文件选取窗口将要弹出时触发</td>
+</tr>
+<tr>
+<td>fileQueued ( file object )</td>
+</tr>
+<tr>
+<td>当一个文件被添加到上传队列时会触发此事件，提供的唯一参数为包含该文件信息的file object对象</td>
+</tr>
+<tr>
+<td>fileQueueError ( file object, error code, message )</td>
+</tr>
+<tr>
+<td>当文件添加到上传队列失败时触发此事件，失败的原因可能是文件大小超过了你允许的数值、文件是空的或者文件队列已经满员了等。该事件提供了三个参数。第一个参数是当前出现问题的文件对象，第二个参数是具体的错误代码，可以参照SWFUpload.QUEUE_ERROR中定义的常量</td>
+</tr>
+<tr>
+<td>fileDialogComplete ( number of files selected, number of files queued, total number of files in the queued )</td>
+</tr>
+<tr>
+<td>当文件选取完毕且选取的文件经过处理后（指添加到上传队列），会立即触发该事件。可以在该事件中调用this.startUpload()方法来实现文件的自动上传参数number of files selected指本次在文件选取框里选取的文件数量参数number of files queued指本次被添加到上传队列的文件数量参数total number of files in the queued指当前上传队列里共有多少个文件（包括了本次添加进去的文件）</td>
+</tr>
+<tr>
+<td>uploadStart ( file object )</td>
+</tr>
+<tr>
+<td>当文件即将上传时会触发该事件,该事件给了你在文件上传前的最后一次机会来验证文件信息、增加要随之上传的附加信息或做其他工作。可以通过返回false来取消本次文件的上传参数file object为当前要上传的文件的信息对象</td>
+</tr>
+<tr>
+<td>uploadProgress ( file object, bytes complete, total bytes )</td>
+</tr>
+<tr>
+<td>该事件会在文件的上传过程中反复触发，可以利用该事件来实现上传进度条参数file object为文件信息对象参数bytes complete为当前已上传的字节数参数total bytes为文件总的字节数</td>
+</tr>
+<tr>
+<td>uploadError ( file object, error code, message )</td>
+</tr>
+<tr>
+<td>文件上传被中断或是文件没有成功上传时会触发该事件。停止、取消文件上传或是在uploadStart事件中返回false都会引发这个事件，但是如果某个文件被取消了但仍然还在队列中则不会触发该事件参数file object为文件信息对象参数error code为错误代码，具体的可参照SWFUpload.UPLOAD_ERROR中定义的常量</td>
+</tr>
+<tr>
+<td>uploadSuccess ( file object, server data, received response )</td>
+</tr>
+<tr>
+<td>当一个文件上传成功后会触发该事件参数file object为文件信息对象参数server data为服务器端输出的数据</td>
+</tr>
+<tr>
+<td>uploadComplete( file object )</td>
+</tr>
+<tr>
+<td>当一次文件上传的流程完成时（不管是成功的还是不成功的）会触发该事件，该事件表明本次上传已经完成，上传队列里的下一个文件可以开始上传了。该事件发生后队列中下一个文件的上传将会开始</td>
+</tr>
+</tbody>
+</table>
+<h3 id="swfupload实例的方法"><a href="#swfupload实例的方法" class="headerlink" title="swfupload实例的方法"></a>swfupload实例的方法</h3><p>方法中大多数是动态改变参数配置对象的方法</p>
+<table>
+<thead>
+<tr>
+<th>destroy ( )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>当不需要再使用SWFUpload了的时候,可以使用该方法来销毁它的实例和dom元素</td>
+</tr>
+<tr>
+<td>startUpload( file_id )</td>
+</tr>
+<tr>
+<td>开始上传队列中指定的文件参数file_id代表要上传的文件的id，如果未填写这个参数，则会上传队列中第一个文件</td>
+</tr>
+<tr>
+<td>cancelUpload ( file_id, trigger_error_event )</td>
+</tr>
+<tr>
+<td>取消文件的上传参数file_id为要取消的文件的id,如果该参数为undefined或者未填写，则会取消队列里的第一个文件参数trigger_error_event接受一个布尔值，当为false时取消文件不会触发uploadError事件，默认为true</td>
+</tr>
+<tr>
+<td>stopUpload ( )</td>
+</tr>
+<tr>
+<td>终止当前正在上传的文件，会触发uploadError事件。如果当前没有文件在上传，则该方法什么都不会做</td>
+</tr>
+<tr>
+<td>getStats ( )</td>
+</tr>
+<tr>
+<td>获取队列的stats object</td>
+</tr>
+<tr>
+<td>setStats ( stats_object )</td>
+</tr>
+<tr>
+<td>修改队列的stats_object，传入修改过的stats_object作为参数</td>
+</tr>
+<tr>
+<td>getFile ( file_id, index )</td>
+</tr>
+<tr>
+<td>根据文件id或文件索引来获取一个File Object,当使用文件id时只能获得队列里的文件，当使用文件索引时所有文件（包括队列内和队列外）都可获得</td>
+</tr>
+<tr>
+<td>addPostParam ( name, value)</td>
+</tr>
+<tr>
+<td>往配置对象中post_params指定的附加信息对象中增加键/值对</td>
+</tr>
+<tr>
+<td>removePostParam ( name)</td>
+</tr>
+<tr>
+<td>移除置配置对象中的post_params包含的某一个键/值对，参数name为要移除的值的键名</td>
+</tr>
+<tr>
+<td>addFileParam ( file_id, name, value)</td>
+</tr>
+<tr>
+<td>为某个特定文件增加随之一起上传的附加信息。注意，只有在该指定的文件上传时，附加的信息才会一起上传。而配置对象中post_param设置的附加信息在任一文件上传时都会与之一起发送。参数file_id为要指定的文件id,参数name和value分别为附加信息的名称和值</td>
+</tr>
+<tr>
+<td>removeFileParam ( file_id, name)</td>
+</tr>
+<tr>
+<td>移除通过addFileParam方法增加的附加信息，两个参数相信就不用我多讲了吧</td>
+</tr>
+<tr>
+<td>setUploadURL ( url)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中upload_url的值</td>
+</tr>
+<tr>
+<td>setPostParams ( param_object)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中post_params属性的值，新的值会覆盖旧的值。参数param_object必须为一个对象直接量，且里面的属性和值都只能为字符串</td>
+</tr>
+<tr>
+<td>setFileTypes ( types, description)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中file_types 和 file_types_description属性的值。两个参数都不能省略</td>
+</tr>
+<tr>
+<td>setFileSizeLimit ( file_size_limit)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中file_size_limit属性的值</td>
+</tr>
+<tr>
+<td>setFileUploadLimit ( file_upload_limit)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中file_upload_limit属性的值</td>
+</tr>
+<tr>
+<td>setFileQueueLimit ( file_queue_limit)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中file_queue_limit属性的值</td>
+</tr>
+<tr>
+<td>setFilePostName ( file_post_name)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中file_post_name属性的值</td>
+</tr>
+<tr>
+<td>setUseQueryString ( use_query_string)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中use_query_string属性的值</td>
+</tr>
+<tr>
+<td>setButtonImageURL ( url)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中button_image_url属性的值</td>
+</tr>
+<tr>
+<td>setButtonDimensions ( width, height)</td>
+</tr>
+<tr>
+<td>动态设置Flash按钮的宽度和高度，两个参数分别为宽度和高度的值，类型为数字，且不能带单位</td>
+</tr>
+<tr>
+<td>setButtonText ( text)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中button_text属性的值</td>
+</tr>
+<tr>
+<td>setButtonTextStyle ( css_style_text)</td>
+</tr>
+<tr>
+<td>动态设置配置对象中button_text_style属性的值</td>
+</tr>
+<tr>
+<td>setButtonTextPadding ( left, top )</td>
+</tr>
+<tr>
+<td>动态设置Flash按钮的左边内边距和顶部内边距</td>
+</tr>
+<tr>
+<td>setButtonDisabled ( isDisabled )</td>
+</tr>
+<tr>
+<td>动态对Flash按钮进行禁用和不禁用的操作，参数为一个布尔值</td>
+</tr>
+<tr>
+<td>setButtonCursor ( buttonCursor )</td>
+</tr>
+<tr>
+<td>动态设置配置对象中button_cursor的值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="文件信息对象-File-Object"><a href="#文件信息对象-File-Object" class="headerlink" title="文件信息对象 File Object"></a>文件信息对象 File Object</h3><p>在事件监听函数中，经常要用到文件信息对象来获取文件的信息以供下一步的操作</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>SWFUpload定义的文件id,用来控制文件的上传</td>
+</tr>
+<tr>
+<td>index</td>
+<td>Number</td>
+<td>文件的索引，用在getFile(i)方法中</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>文件的原始名称，不包括路径</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>文件类型</td>
+</tr>
+<tr>
+<td>creationdate</td>
+<td>Date</td>
+<td>文件的创建日期</td>
+</tr>
+<tr>
+<td>modificationdate</td>
+<td>Date</td>
+<td>文件的最后修改日期</td>
+</tr>
+<tr>
+<td>filestatus</td>
+<td>Number</td>
+<td>当前文件的状态，详细的请参照SWFUpload.FILE_STATUS中定义的常量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="队列状态对象-Stats-Object"><a href="#队列状态对象-Stats-Object" class="headerlink" title="队列状态对象 Stats Object"></a>队列状态对象 Stats Object</h3><p>用来获取当前队列的状况</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>in_progress</td>
+<td>Number</td>
+<td>得到的值为1或0，表明当前队列是否有文件正在上传中</td>
+</tr>
+<tr>
+<td>files_queued</td>
+<td>Number</td>
+<td>目前上传队列中的文件数量</td>
+</tr>
+<tr>
+<td>successful_uploads</td>
+<td>Number</td>
+<td>已成功上传(指触发了uploadSuccess事件)的文件数量</td>
+</tr>
+<tr>
+<td>upload_errors</td>
+<td>Number</td>
+<td>上传失败的文件数量(包括被取消上传的文件)</td>
+</tr>
+<tr>
+<td>upload_cancelled</td>
+<td>Number</td>
+<td>被取消上传的文件数量</td>
+</tr>
+<tr>
+<td>queue_errors</td>
+<td>Number</td>
+<td>触发了fileQueueError事件的文件数量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="一些常量"><a href="#一些常量" class="headerlink" title="一些常量"></a>一些常量</h3><p>定义的一些常量，便于理解</p>
+<table>
+<thead>
+<tr>
+<th>常量名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SWFUpload.instances</td>
+<td>该常量是一个对象，代表一个页面上所有的SWFUpload实例的引用的集合，用SWFUpload实例的movieName属性进行索引</td>
+</tr>
+<tr>
+<td>SWFUpload.movieCount</td>
+<td>页面上存在的SWFUpload实例的数量</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED</td>
+<td>用户选取的文件超过了允许的数量</td>
+</tr>
+<tr>
+<td>SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT</td>
+<td>文件的体积超过了允许的大小</td>
+</tr>
+<tr>
+<td>SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE</td>
+<td>文件是空的</td>
+</tr>
+<tr>
+<td>SWFUpload.QUEUE_ERROR.INVALID_FILETYPE</td>
+<td>不允许的文件类型</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.HTTP_ERROR</td>
+<td>服务器返回的状态码不是200</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL</td>
+<td>没有设置 upload_url</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.IO_ERROR</td>
+<td>读取或传输文件时发生错误</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.SECURITY_ERROR</td>
+<td>上传受到了安全方面的限制</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED</td>
+<td>上传的文件数量超过了允许的最大值</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED</td>
+<td>上传出现错误</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND</td>
+<td>给startUpload()方法传入的文件id不存在</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED</td>
+<td>uploadStart()方法中返回了false</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.FILE_CANCELLED</td>
+<td>上传被取消了</td>
+</tr>
+<tr>
+<td>SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED</td>
+<td>上传被终止了</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SWFUpload.FILE_STATUS.QUEUED</td>
+<td>文件正在队列中等待上传</td>
+</tr>
+<tr>
+<td>SWFUpload.FILE_STATUS.IN_PROGRESS</td>
+<td>文件正在上传</td>
+</tr>
+<tr>
+<td>SWFUpload.FILE_STATUS.ERROR</td>
+<td>文件在添加到队列或是上传的时候出现了错误</td>
+</tr>
+<tr>
+<td>SWFUpload.FILE_STATUS.COMPLETE</td>
+<td>文件已上传成功</td>
+</tr>
+<tr>
+<td>SWFUpload.FILE_STATUS.</td>
+<td>文件被取消上传</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SWFUpload.CURSOR.ARROW</td>
+<td>鼠标以箭头显示</td>
+</tr>
+<tr>
+<td>SWFUpload.CURSOR.HAND</td>
+<td>鼠标以手形显示</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SWFUpload.WINDOW_MODE.WINDOW</td>
+<td>Flash按钮会显示在页面的所有dom元素上面</td>
+</tr>
+<tr>
+<td>SWFUpload.WINDOW_MODE.OPAQUE</td>
+<td>允许其他dom元素覆盖住Flash按钮</td>
+</tr>
+<tr>
+<td>SWFUpload.WINDOW_MODE.TRANSPARENT</td>
+<td>允许Flash按钮透明显示</td>
+</tr>
+</tbody>
+</table>
+<h3 id="struts2-swfUpload简单例子"><a href="#struts2-swfUpload简单例子" class="headerlink" title="struts2+swfUpload简单例子"></a>struts2+swfUpload简单例子</h3><h6 id="index-jsp"><a href="#index-jsp" class="headerlink" title="index.jsp"></a>index.jsp</h6><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> <span class="keyword">import</span>=<span class="string">"java.util.*"</span> pageEncoding=<span class="string">"UTF-8"</span>%&gt;  </span><br><span class="line">&lt;%  </span><br><span class="line">String path = request.getContextPath();  </span><br><span class="line">String basePath = request.getScheme()+<span class="string">"://"</span>+request.getServerName()+<span class="string">":"</span>+request.getServerPort()+path+<span class="string">"/"</span>;  </span><br><span class="line">%&gt;  </span><br><span class="line">  </span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC <span class="string">"-//W3C//DTD HTML 4.01 Transitional//EN"</span>&gt;  </span><br><span class="line">&lt;html&gt;  </span><br><span class="line">  &lt;head&gt;  </span><br><span class="line">  &lt;link href=<span class="string">"&lt;%=basePath%&gt;css/default.css"</span> rel=<span class="string">"stylesheet"</span> type=<span class="string">"text/css"</span> /&gt;  </span><br><span class="line">    &lt;script type="text/javascript" src="&lt;%=basePath%&gt;js/swfupload.js"&gt;&lt;/script&gt;  </span><br><span class="line">    &lt;script type="text/javascript" src="&lt;%=basePath%&gt;js/swfupload.queue.js"&gt;&lt;/script&gt;  </span><br><span class="line">    &lt;script type="text/javascript" src="&lt;%=basePath%&gt;js/fileprogress.js"&gt;&lt;/script&gt;  </span><br><span class="line">    &lt;script type="text/javascript" src="&lt;%=basePath%&gt;js/handlers.js"&gt;&lt;/script&gt;  </span><br><span class="line">    &lt;!-- 初始化swfupload 对象--&gt;  </span><br><span class="line">   &lt;script type=<span class="string">"text/javascript"</span>&gt;  </span><br><span class="line">        var upload1;  </span><br><span class="line">  </span><br><span class="line">        window.onload = function() &#123;  </span><br><span class="line">            upload1 = <span class="keyword">new</span> SWFUpload(&#123;  </span><br><span class="line">  </span><br><span class="line">                <span class="comment">//提交路径  </span></span><br><span class="line">                upload_url: <span class="string">"upload.action"</span>,  </span><br><span class="line">                <span class="comment">//向后台传递额外的参数  </span></span><br><span class="line">                post_params: &#123;<span class="string">"name"</span> : <span class="string">"kaobian"</span>&#125;,  </span><br><span class="line">                <span class="comment">//上传文件的名称  </span></span><br><span class="line">                file_post_name: <span class="string">"file"</span>,  </span><br><span class="line">                  </span><br><span class="line">                <span class="comment">// 下面自己按照字面意思理解  </span></span><br><span class="line">                file_size_limit : <span class="string">"102400"</span>, <span class="comment">// 100MB  </span></span><br><span class="line">                file_types : <span class="string">"*.*"</span>,  </span><br><span class="line">                file_types_description : <span class="string">"All Files"</span>,  </span><br><span class="line">                file_upload_limit : <span class="string">"10"</span>,  </span><br><span class="line">                file_queue_limit : <span class="string">"0"</span>,  </span><br><span class="line">  </span><br><span class="line">                <span class="comment">// 事件处理  </span></span><br><span class="line">                file_dialog_start_handler : fileDialogStart,  </span><br><span class="line">                file_queued_handler : fileQueued,  </span><br><span class="line">                file_queue_error_handler : fileQueueError,  </span><br><span class="line">                file_dialog_complete_handler : fileDialogComplete,  </span><br><span class="line">                upload_start_handler : uploadStart,  </span><br><span class="line">                upload_progress_handler : uploadProgress,  </span><br><span class="line">                upload_error_handler : uploadError,  </span><br><span class="line">                upload_success_handler : uploadSuccess,  </span><br><span class="line">                upload_complete_handler : uploadComplete,  </span><br><span class="line">  </span><br><span class="line">                <span class="comment">// 按钮的处理  </span></span><br><span class="line">                button_image_url : <span class="string">"images/XPButtonUploadText_61x22.png"</span>,  </span><br><span class="line">                button_placeholder_id : <span class="string">"spanButtonPlaceholder1"</span>,  </span><br><span class="line">                button_width: <span class="number">61</span>,  </span><br><span class="line">                button_height: <span class="number">22</span>,  </span><br><span class="line">                  </span><br><span class="line">                <span class="comment">// Flash Settings  </span></span><br><span class="line">                flash_url : <span class="string">"js/swfupload.swf"</span>,  </span><br><span class="line">                  </span><br><span class="line">  </span><br><span class="line">                custom_settings : &#123;  </span><br><span class="line">                    progressTarget : <span class="string">"fsUploadProgress1"</span>,  </span><br><span class="line">                    cancelButtonId : <span class="string">"btnCancel1"</span>  </span><br><span class="line">                &#125;,  </span><br><span class="line">                  </span><br><span class="line">                <span class="comment">// Debug Settings  </span></span><br><span class="line">                debug: <span class="keyword">false</span>  </span><br><span class="line">            &#125;);  </span><br><span class="line">         &#125;  </span><br><span class="line">          </span><br><span class="line">    &lt;/script&gt;  </span><br><span class="line">  &lt;/head&gt;  </span><br><span class="line">    </span><br><span class="line">  &lt;body&gt;  </span><br><span class="line">&lt;/div&gt;  </span><br><span class="line">  &lt;div id=<span class="string">"content"</span>&gt;  </span><br><span class="line">    &lt;form action=<span class="string">"upload.action"</span> method=<span class="string">"post"</span> name=<span class="string">"thisform"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;  </span><br><span class="line">          </span><br><span class="line">        &lt;table&gt;  </span><br><span class="line">            &lt;tr valign=<span class="string">"top"</span>&gt;  </span><br><span class="line">                &lt;td&gt;  </span><br><span class="line">                    &lt;div&gt;  </span><br><span class="line">                          </span><br><span class="line">                        &lt;div style=<span class="string">"padding-left: 5px;"</span>&gt;  </span><br><span class="line">                              </span><br><span class="line">                            &lt;span id="spanButtonPlaceholder1"&gt;&lt;/span&gt;  </span><br><span class="line">                            &lt;!--&lt;input type=<span class="string">"button"</span> value=<span class="string">"上传"</span> onclick=<span class="string">"upload1.addPostParam('idname',encodeURI(document.getElementById('myFileName').value));upload1.startUpload();"</span>/&gt;  </span><br><span class="line">                            --&gt;&lt;input id=<span class="string">"btnCancel1"</span> type=<span class="string">"button"</span> value=<span class="string">"Cancel Uploads"</span> onclick=<span class="string">"cancelQueue(upload1);"</span> disabled=<span class="string">"disabled"</span> style=<span class="string">"margin-left: 2px; height: 22px; font-size: 8pt;"</span> /&gt;  </span><br><span class="line">                            &lt;br /&gt;  </span><br><span class="line">                        &lt;/div&gt;  </span><br><span class="line">                        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"fieldset flash"</span> id=<span class="string">"fsUploadProgress1"</span>&gt;  </span><br><span class="line">                            &lt;span class="legend"&gt;文件上传&lt;/span&gt;  </span><br><span class="line">                        &lt;/div&gt;  </span><br><span class="line">                    &lt;/div&gt;  </span><br><span class="line">                &lt;/td&gt;  </span><br><span class="line">            &lt;/tr&gt;  </span><br><span class="line">        &lt;/table&gt;  </span><br><span class="line">    &lt;/form&gt;  </span><br><span class="line">    &lt;/div&gt;  </span><br><span class="line">  &lt;/body&gt;  </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="Upload-action"><a href="#Upload-action" class="headerlink" title="Upload.action"></a>Upload.action</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.action;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.io.File;  </span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> org.apache.struts2.ServletActionContext;  </span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.ActionSupport;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileUploadAction</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> File file;  </span><br><span class="line">    <span class="keyword">private</span> String fileFileName;  </span><br><span class="line">    <span class="keyword">private</span> String fileContentType;  </span><br><span class="line">    <span class="keyword">private</span> String savePath;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">          </span><br><span class="line">        InputStream is = <span class="keyword">new</span> FileInputStream(file);  </span><br><span class="line">        String root = getSavePath();  </span><br><span class="line">        <span class="comment">//String tempName = System.currentTimeMillis()+this.getFileFileName().substring(this.getFileFileName().indexOf("."));     </span></span><br><span class="line">        File deskFile = <span class="keyword">new</span> File(root, <span class="keyword">this</span>.getFileFileName());  </span><br><span class="line">        OutputStream os = <span class="keyword">new</span> FileOutputStream(deskFile);  </span><br><span class="line">        <span class="keyword">byte</span>[] bytefer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];  </span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">while</span> ((length = is.read(bytefer)) != -<span class="number">1</span>) &#123;  </span><br><span class="line">            os.write(bytefer, <span class="number">0</span>, length);  </span><br><span class="line">        &#125;  </span><br><span class="line">        os.close();  </span><br><span class="line">        is.close();  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSavePath</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> ServletActionContext.getServletContext().getRealPath(savePath);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSavePath</span><span class="params">(String savePath)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.savePath = savePath;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> File <span class="title">getFile</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> file;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFile</span><span class="params">(File file)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.file = file;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFileFileName</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> fileFileName;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFileFileName</span><span class="params">(String fileFileName)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.fileFileName = fileFileName;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFileContentType</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> fileContentType;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFileContentType</span><span class="params">(String fileContentType)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.fileContentType = fileContentType;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Web-xml"><a href="#Web-xml" class="headerlink" title="Web.xml"></a>Web.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">version</span>=<span class="string">"2.5"</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee   </span></span></span><br><span class="line"><span class="tag"><span class="string">    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>index.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">filter</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>  </span><br><span class="line">            org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="Struts-xml"><a href="#Struts-xml" class="headerlink" title="Struts.xml"></a>Struts.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;  </span><br><span class="line"><span class="meta">&lt;!DOCTYPE struts PUBLIC  "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd"&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">&lt;!-- 配置struts2.1.8 上传是文件的最大限制为100M --&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.multipart.maxSize"</span> <span class="attr">value</span>=<span class="string">"104857600"</span> /&gt;</span>  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">&lt;!-- 设置struts2 上传文件时  保存的临时目录 --&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.multipart.saveDir"</span> <span class="attr">value</span>=<span class="string">"C:\temp"</span>&gt;</span><span class="tag">&lt;/<span class="name">constant</span>&gt;</span>  </span><br><span class="line">      </span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"struts2"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"upload"</span> <span class="attr">class</span>=<span class="string">"com.action.FileUploadAction"</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"savePath"</span>&gt;</span>/upload<span class="tag">&lt;/<span class="name">param</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span>&gt;</span>/index.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"input"</span>&gt;</span>/index.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">package</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​    SWFUpload的上传过程中各个步骤的显示方式要改变；我们需要往服务器传递参数；需要从服务器返回参数；这些问题上面的例子都没有解决。 </p>
+<p>看下面这个图片，这是我在项目中的SWFUpload上传附件的效果（其实仿的是126邮箱做的）。 </p>
+<p>上传完成。（上传成功的附件不消失，上传发生错误文件消失。） </p>
+<p>删除：删除上传完成的文件（删除后文件逐渐消失）。   </p>
+<h3 id="SWFUpload如何改upload控件的样式"><a href="#SWFUpload如何改upload控件的样式" class="headerlink" title="SWFUpload如何改upload控件的样式"></a>SWFUpload如何改upload控件的样式</h3><h6 id="修改上传flash按钮样式"><a href="#修改上传flash按钮样式" class="headerlink" title="修改上传flash按钮样式"></a>修改上传flash按钮样式</h6><p>SWFUpload Demo文件中提供了一个XPButtonUploadText_61x22.png 图片文件 </p>
+<p>重新制作一个类似的图片文件替换它。 </p>
+<p>如果你做的这个图片文件的长款与原图不同，不要忘记修改 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/ 按钮的处理  </span><br><span class="line">button_image_url : <span class="string">"images/XPButtonUploadText_61x22.png"</span>,  </span><br><span class="line">button_placeholder_id : <span class="string">"spanButtonPlaceholder1"</span>,  </span><br><span class="line">button_width: <span class="number">61</span>,  </span><br><span class="line">button_height: <span class="number">22</span>,  Java代码</span><br></pre></td></tr></table></figure>
+<h6 id="修改上传队列附件样式"><a href="#修改上传队列附件样式" class="headerlink" title="修改上传队列附件样式"></a>修改上传队列附件样式</h6><p>这个东西的构建是通过fileprogress.js文件和defaut.css来完成的。 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FileProgress</span>(<span class="params">file, targetID</span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressID = file.id;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">this</span>.opacity = <span class="number">100</span>;  </span><br><span class="line">    <span class="keyword">this</span>.height = <span class="number">0</span>;  </span><br><span class="line">      </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressWrapper = <span class="built_in">document</span>.getElementById(<span class="keyword">this</span>.fileProgressID);  </span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.fileProgressWrapper) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressWrapper = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressWrapper.className = <span class="string">"progressWrapper"</span>;  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressWrapper.id = <span class="keyword">this</span>.fileProgressID;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement.className = <span class="string">"progressContainer"</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">var</span> progressCancel = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);  </span><br><span class="line">        progressCancel.className = <span class="string">"progressCancel"</span>;  </span><br><span class="line">        progressCancel.href = <span class="string">"#"</span>;  </span><br><span class="line">        progressCancel.style.visibility = <span class="string">"hidden"</span>;  </span><br><span class="line">        progressCancel.appendChild(<span class="built_in">document</span>.createTextNode(<span class="string">" "</span>));  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">var</span> progressText = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);  </span><br><span class="line">        progressText.className = <span class="string">"progressName"</span>;  </span><br><span class="line">        progressText.appendChild(<span class="built_in">document</span>.createTextNode(file.name));  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">var</span> progressBar = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);  </span><br><span class="line">        progressBar.className = <span class="string">"progressBarInProgress"</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">var</span> progressStatus = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);  </span><br><span class="line">        progressStatus.className = <span class="string">"progressBarStatus"</span>;  </span><br><span class="line">        progressStatus.innerHTML = <span class="string">"&amp;nbsp;"</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement.appendChild(progressCancel);  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement.appendChild(progressText);  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement.appendChild(progressStatus);  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement.appendChild(progressBar);  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressWrapper.appendChild(<span class="keyword">this</span>.fileProgressElement);  </span><br><span class="line">  </span><br><span class="line">        <span class="built_in">document</span>.getElementById(targetID).appendChild(<span class="keyword">this</span>.fileProgressWrapper);  </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">        <span class="keyword">this</span>.fileProgressElement = <span class="keyword">this</span>.fileProgressWrapper.firstChild;  </span><br><span class="line">        <span class="keyword">this</span>.reset();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">this</span>.height = <span class="keyword">this</span>.fileProgressWrapper.offsetHeight;  </span><br><span class="line">    <span class="keyword">this</span>.setTimer();  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//……  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每当我们选择一个文件上传时它就会new FileProgress(file, this.customSettings.progressTarget); </p>
+<p>根据上面的代码分析其实就是在网页中添加了以下html代码 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=file.id <span class="class"><span class="keyword">class</span></span>=<span class="string">"progressWrapper"</span>&gt;  </span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"progressContainer"</span> &gt;  </span><br><span class="line">        &lt;a href=<span class="string">"#"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"progressCancel"</span> style=<span class="string">"visibility:hidden"</span>&gt; <span class="xml"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span>  </span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"progressName"</span>&gt; file.name &lt;<span class="regexp">/div&gt;  </span></span><br><span class="line"><span class="regexp">        &lt;div class="progressBarInProgress"&gt;&lt;/</span>div&gt;  </span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"progressBarStatus"</span>&gt;&amp;nbsp;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>  </span><br><span class="line">    &lt;<span class="regexp">/div&gt;  </span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;  </span><br><span class="line"><span class="comment">//css文件在defaut.css中。  </span></span><br><span class="line"><span class="comment">//file.id 和file.name 选中上传文件的id和name属性的值。</span></span><br></pre></td></tr></table></figure>
+<p>这段代码会被插入下面这段代码里面 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fieldset flash"</span> <span class="attr">id</span>=<span class="string">"fsUploadProgress1"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"legend"</span>&gt;</span>文件上传<span class="tag">&lt;/<span class="name">span</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果你的css和javascrpt能力很强，动态在页面中创建对象改变这个控件的外貌是不是很容易呢。 </p>
+<p>选择好事件重写事件代码就ok了。</p>
+<p>不过提醒一下，不要改变现有的这些对象的顺序，您看下后面的代码就这道了。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.fileProgressElement.childNodes[<span class="number">3</span>].className = <span class="string">"progressBarInProgress"</span>;  </span><br><span class="line"><span class="keyword">this</span>.fileProgressElement.childNodes[<span class="number">3</span>].style.width = percentage + <span class="string">"%"</span>;</span><br></pre></td></tr></table></figure>
+<h6 id="如何控制上传队列中的文件消失（hidden）情况"><a href="#如何控制上传队列中的文件消失（hidden）情况" class="headerlink" title="如何控制上传队列中的文件消失（hidden）情况"></a>如何控制上传队列中的文件消失（hidden）情况</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fades out and clips away the FileProgress box.  </span></span><br><span class="line">FileProgress.prototype.disappear = function () &#123;<span class="comment">//…&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这段代码是FileProgress文件disappear的属性代码。 </p>
+<pre><code>1) 如果想上传后FileProgress不消失
+</code></pre><p>在fileprogress.js文件找到下面代码，像我一样注释掉最后3行就ok了。当然你也可以在相应的事件中重写函数。 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FileProgress.prototype.setComplete = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressElement.className = <span class="string">"progressContainer blue"</span>;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressElement.childNodes[<span class="number">3</span>].className = <span class="string">"progressBarComplete"</span>;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressElement.childNodes[<span class="number">3</span>].style.width = <span class="string">""</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">var</span> oSelf = <span class="keyword">this</span>;  </span><br><span class="line">    <span class="comment">//this.setTimer(setTimeout(function () &#123;  </span></span><br><span class="line">    <span class="comment">//  oSelf.disappear();  </span></span><br><span class="line">    <span class="comment">//&#125;, 10000));  </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​    2) 删除的时候让FileProgress消失</p>
+<p>在fileprogress.js文件中增加 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FileProgress.prototype.setDelete = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressElement.className = <span class="string">"progressContainer"</span>;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressElement.childNodes[<span class="number">3</span>].className = <span class="string">"progressBarError"</span>;  </span><br><span class="line">    <span class="keyword">this</span>.fileProgressElement.childNodes[<span class="number">3</span>].style.width = <span class="string">""</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">var</span> oSelf = <span class="keyword">this</span>;  </span><br><span class="line">    <span class="keyword">this</span>.setTimer(setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line">        oSelf.disappear();  </span><br><span class="line">    &#125;, <span class="number">0</span>));  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在删除事件中调用即可。 </p>
+<h3 id="SWFUpload向服务器传递参数"><a href="#SWFUpload向服务器传递参数" class="headerlink" title="SWFUpload向服务器传递参数"></a>SWFUpload向服务器传递参数</h3><ul>
+<li><p>SWFUpload传递参数有3中方式： </p>
+<p>1、在url后加连接： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_url: <span class="string">"&lt;%=basePath%&gt;upload?action=up"</span>,</span><br></pre></td></tr></table></figure>
+<p>2、使用swfupload传递参数，在setting中配置 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">post_params: &#123;  </span><br><span class="line">                <span class="string">"hello"</span> : <span class="string">"Here I Am"</span>,  </span><br><span class="line">                <span class="string">"name"</span> : <span class="string">"张三"</span>,  </span><br><span class="line">                <span class="string">"ff"</span> : document.getElementById(<span class="string">"tf"</span>).value  </span><br><span class="line">            &#125;,  </span><br><span class="line">  </span><br><span class="line">use_query_string : <span class="keyword">true</span>,<span class="comment">//要传递参数用到的配置</span></span><br></pre></td></tr></table></figure>
+<p>3、采用swfupload的函数： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addPostParam(<span class="string">"myFileName"</span>,encodeURI(file.name));<span class="comment">//这个是我用来传递文件名称的</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>​           我的方法是修改了一下uploadStart函数 </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">uploadStart</span><span class="params">(file)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">try</span> &#123;  </span><br><span class="line">        <span class="comment">/* I don't want to do any file validation or anything,  I'll just update the UI and return true to indicate that the upload should start */</span>  </span><br><span class="line">        var progress = <span class="keyword">new</span> FileProgress(file, <span class="keyword">this</span>.customSettings.progressTarget);  </span><br><span class="line">          </span><br><span class="line">        <span class="comment">//progress.setStatus("Uploading...");  </span></span><br><span class="line">        progress.setStatus(<span class="string">"上传中..."</span>);  </span><br><span class="line">        progress.toggleCancel(<span class="keyword">true</span>, <span class="keyword">this</span>);  </span><br><span class="line">        <span class="keyword">this</span>.setPostParams(&#123;   </span><br><span class="line">              <span class="string">'fileName'</span>:encodeURIComponent(file.name)   </span><br><span class="line">              &#125;);   </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">catch</span> (ex) &#123;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SWFUpload接受服务器Action返回的参数"><a href="#SWFUpload接受服务器Action返回的参数" class="headerlink" title="SWFUpload接受服务器Action返回的参数"></a>SWFUpload接受服务器Action返回的参数</h3><ul>
+<li><p>首先我们要了解这个函数 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadSuccess</span>(<span class="params">file, serverData</span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">try</span> &#123;  </span><br><span class="line">        <span class="keyword">var</span> progress = <span class="keyword">new</span> FileProgress(file, <span class="keyword">this</span>.customSettings.progressTarget);  </span><br><span class="line">        progress.setComplete();  </span><br><span class="line">        progress.setStatus(<span class="string">"Complete."</span>);  </span><br><span class="line">        progress.toggleCancel(<span class="literal">false</span>);  </span><br><span class="line">  </span><br><span class="line">    &#125; <span class="keyword">catch</span> (ex) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.debug(ex);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>file为上传的文件对象，我们可以获得，file.id、file.name、file.type、file.size 等信息。 </p>
+<p>serverData的意思是服务器返回的数据，如果你指定页面，那服务器返回的应该就是这个jsp的数据了，这里最好用type=json的格式 </p>
+<p>action 代码 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//……  </span></span><br><span class="line"><span class="comment">//返回页面信息  </span></span><br><span class="line">       HttpServletResponse response=ServletActionContext.getResponse();  </span><br><span class="line">       response.setContentType(<span class="string">"text/html; charset=UTF-8"</span>);  </span><br><span class="line">        response.setHeader(<span class="string">"Cache-Control"</span>, <span class="string">"no-cache"</span>);  </span><br><span class="line">        PrintWriter out = response.getWriter();  </span><br><span class="line">        out.write(“action返回的参数”);  </span><br><span class="line">          </span><br><span class="line">        out.flush();  </span><br><span class="line">        out.close();  </span><br><span class="line">  </span><br><span class="line">      <span class="keyword">return</span> SUCCESS;</span><br></pre></td></tr></table></figure>
+<p>struts.xml </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"upload"</span>[<span class="attr">color</span>=<span class="string">red]</span> <span class="attr">extends</span>=<span class="string">"json-default"</span> [/<span class="attr">color</span>]<span class="attr">namespace</span>=<span class="string">""</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"upload"</span> <span class="attr">class</span>=<span class="string">"com.action.FileUploadAction"</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"savePath"</span>&gt;</span>/upload<span class="tag">&lt;/<span class="name">param</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span> <span class="attr">type</span>=<span class="string">"json"</span>&gt;</span>/index.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个配置会出现一个bug（如果你以前没用过json插件的话） </p>
+<p>当前使用struts2.23版本，使用了jsonplugin-0.3x.jar报错 </p>
+<p>引用</p>
+<p>java.lang.ClassNotFoundException: com.opensymphony.xwork2.util.TextUtils</p>
+<p>解决： </p>
+<p>在下载好的Struts2的lib文件夹里找到了以下jar包： </p>
+<p>引用</p>
+<p>json-lib-2.x.jar<br>struts2-json-plugin-2.x.x.jar<br>struts2-junit-plugin-2.x.x.jar</p>
+<p>上面三个包加入项目里之后，再删除jsonplugin-0.3x.jar包 </p>
+<h3 id="SWFUpload中文乱码问题"><a href="#SWFUpload中文乱码问题" class="headerlink" title="SWFUpload中文乱码问题"></a>SWFUpload中文乱码问题</h3></li>
+<li><p>在网上搜的帖子，关于这个问题的解决方法有很多。 </p>
+<p>第一种：fileName= new String(fileName.getBytes(&quot;UTF-8&quot;),&quot;GBK&quot;);<br>用这种方式能解决大部分乱码，但如果文件名中有特殊字符和标点符号有时候会转不过来。<br>第二种：我使用的是这种办法，测试已经通过 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**在设置时需要设置一下上传事件  </span></span><br><span class="line"><span class="comment">  *upload_start_handler : UploadStart,  </span></span><br><span class="line"><span class="comment">  *动态传参数，解决文件名中文乱码问题  </span></span><br><span class="line"><span class="comment">**/</span>    </span><br><span class="line"><span class="function">function <span class="title">uploadStart</span><span class="params">(file)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">try</span> &#123;  </span><br><span class="line">        <span class="comment">/* I don't want to do any file validation or anything,  I'll just update the UI and return true to indicate that the upload should start */</span>  </span><br><span class="line">        var progress = <span class="keyword">new</span> FileProgress(file, <span class="keyword">this</span>.customSettings.progressTarget);  </span><br><span class="line">          </span><br><span class="line">        <span class="comment">//progress.setStatus("Uploading...");  </span></span><br><span class="line">        progress.setStatus(<span class="string">"上传中..."</span>);  </span><br><span class="line">        progress.toggleCancel(<span class="keyword">true</span>, <span class="keyword">this</span>);  </span><br><span class="line">        <span class="keyword">this</span>.setPostParams(&#123;   </span><br><span class="line">              <span class="string">'fileName'</span>:&lt;span style=<span class="string">"color: #ff0000;"</span>&gt;encodeURIComponent(file.name)   </span><br><span class="line">&lt;/span&gt;           &#125;);   </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">catch</span> (ex) &#123;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在action中使用 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fileName = URLDecoder.decode(fileName, <span class="string">"UTF-8"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>​       第三种：配置web.config配置文件这种方法我没试，不知道行不行。 </p>
+<p>参考：<a href="http://www.cnblogs.com/yjmyzz/archive/2010/03/19/1689996.html" target="_blank" rel="noopener">谈web开中几种经典的大文件上传组件</a> </p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#swfupload" >
+    <span class="tag-code">swfupload</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/180.html">
+        <span class="nav-arrow">← </span>
+        
+          hexo高级教程SEO优化
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/2295.html">
+        
+          YAML脚本学习笔记
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#主要特点"><span class="toc-nav-text">主要特点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SWFUpload的文件上传流程："><span class="toc-nav-text">SWFUpload的文件上传流程：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SWFUpload包括三部分的内容："><span class="toc-nav-text">SWFUpload包括三部分的内容：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#配置参数对象中的常用属性及说明"><span class="toc-nav-text">配置参数对象中的常用属性及说明</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#各种事件说明"><span class="toc-nav-text">各种事件说明</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#swfupload实例的方法"><span class="toc-nav-text">swfupload实例的方法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#文件信息对象-File-Object"><span class="toc-nav-text">文件信息对象 File Object</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#队列状态对象-Stats-Object"><span class="toc-nav-text">队列状态对象 Stats Object</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一些常量"><span class="toc-nav-text">一些常量</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#struts2-swfUpload简单例子"><span class="toc-nav-text">struts2+swfUpload简单例子</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#index-jsp"><span class="toc-nav-text">index.jsp</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Upload-action"><span class="toc-nav-text">Upload.action</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Web-xml"><span class="toc-nav-text">Web.xml</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Struts-xml"><span class="toc-nav-text">Struts.xml</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SWFUpload如何改upload控件的样式"><span class="toc-nav-text">SWFUpload如何改upload控件的样式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#修改上传flash按钮样式"><span class="toc-nav-text">修改上传flash按钮样式</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#修改上传队列附件样式"><span class="toc-nav-text">修改上传队列附件样式</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#如何控制上传队列中的文件消失（hidden）情况"><span class="toc-nav-text">如何控制上传队列中的文件消失（hidden）情况</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SWFUpload向服务器传递参数"><span class="toc-nav-text">SWFUpload向服务器传递参数</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SWFUpload接受服务器Action返回的参数"><span class="toc-nav-text">SWFUpload接受服务器Action返回的参数</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SWFUpload中文乱码问题"><span class="toc-nav-text">SWFUpload中文乱码问题</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/15202.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "SWFUpload文件上传详解",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

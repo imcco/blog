@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Gson和Jackson的使用 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Gson和Jackson的使用</h2>
+  <p class="post-date">2018-01-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0102.jpg" alt="image"></p>
+<p>现在json的第三方解析工作很多，如json-lib，gson，jackson，fastjson等，先学习下面两种。<br><a id="more"></a></p>
+<h3 id="JackSON使用："><a href="#JackSON使用：" class="headerlink" title="JackSON使用："></a>JackSON使用：</h3><p>Jackson主要使用ObjectMapper对象来进行序列化以及反序列化操作。</p>
+<p>使用Jackson可以毫无压力的将复杂对象进行完全序列化，也可以将各种类型的对象反序列化</p>
+<p>以下代码均省略异常处理</p>
+<p>普通对象</p>
+<h4 id="序列化Order-order对象："><a href="#序列化Order-order对象：" class="headerlink" title="序列化Order order对象："></a>序列化Order order对象：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">Writer strWriter = <span class="keyword">new</span> StringWriter();</span><br><span class="line">mapper.writeValue(strWriter, order);</span><br><span class="line">String json = strWriter.toString();</span><br></pre></td></tr></table></figure>
+<h4 id="反序列化："><a href="#反序列化：" class="headerlink" title="反序列化："></a>反序列化：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Order order = mapper.readValue(json, Order.class);</span><br></pre></td></tr></table></figure>
+<p>链表、Map等</p>
+<h4 id="序列化List-orderList："><a href="#序列化List-orderList：" class="headerlink" title="序列化List orderList："></a>序列化List<order> orderList：</order></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">Writer strWriter = <span class="keyword">new</span> StringWriter();</span><br><span class="line">mapper.writeValue(strWriter, orderList);</span><br><span class="line">String json = strWriter.toString();</span><br></pre></td></tr></table></figure>
+<h4 id="反序列化：-1"><a href="#反序列化：-1" class="headerlink" title="反序列化："></a>反序列化：</h4><p>需要用到TypeReference</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Order&gt; orderList = mapper.readValue(json, <span class="keyword">new</span> TypeReference&lt;List&lt;Order&gt;&gt;() &#123;  </span><br><span class="line">   &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h4 id="反序列化List-lt-LinkedHashMap-lt-String-String-gt-gt"><a href="#反序列化List-lt-LinkedHashMap-lt-String-String-gt-gt" class="headerlink" title="反序列化List&lt;LinkedHashMap&lt;String,String&gt;&gt;"></a>反序列化List&lt;LinkedHashMap&lt;String,String&gt;&gt;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List orderList = mapper.readValue(json, List.class);</span><br></pre></td></tr></table></figure>
+<h4 id="解析某个字段"><a href="#解析某个字段" class="headerlink" title="解析某个字段"></a>解析某个字段</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JsonNode node = mapper.readTree(json);</span><br><span class="line">String name= node.get(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="Jackson的JSON操作方法"><a href="#Jackson的JSON操作方法" class="headerlink" title="Jackson的JSON操作方法"></a>Jackson的JSON操作方法</h4><h5 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h5><p>首先去官网下载Jackson工具包，下载地址<a href="http://wiki.fasterxml.com/JacksonDownload。Jackson有1.x系列和2.x系列，截止目前2.x系列的最新版本是2.2.3，2.x系列有3个jar包需要下载：" target="_blank" rel="noopener">http://wiki.fasterxml.com/JacksonDownload。Jackson有1.x系列和2.x系列，截止目前2.x系列的最新版本是2.2.3，2.x系列有3个jar包需要下载：</a></p>
+<p>jackson-core-2.2.3.jar（核心jar包，<a href="http://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.2.3/jackson-core-2.2.3.jar" target="_blank" rel="noopener">下载地址</a>）</p>
+<p>jackson-annotations-2.2.3.jar（该包提供Json注解支持，<a href="http://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.2.3/jackson-annotations-2.2.3.jar" target="_blank" rel="noopener">下载地址</a>）</p>
+<p>jackson-databind-2.2.3.jar（<a href="http://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.2.3/jackson-databind-2.2.3.jar" target="_blank" rel="noopener">下载地址</a>）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//JSON序列化和反序列化使用的User类</span></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">	<span class="keyword">private</span> Date birthday;</span><br><span class="line">	<span class="keyword">private</span> String email;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Date <span class="title">getBirthday</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> birthday;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBirthday</span><span class="params">(Date birthday)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.birthday = birthday;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getEmail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> email;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmail</span><span class="params">(String email)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.email = email;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="JAVA对象转JSON-JSON序列化"><a href="#JAVA对象转JSON-JSON序列化" class="headerlink" title="JAVA对象转JSON[JSON序列化]"></a>JAVA对象转JSON[JSON序列化]</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JacksonDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">		User user = <span class="keyword">new</span> User();</span><br><span class="line">		user.setName(<span class="string">"小民"</span>);	</span><br><span class="line">		user.setEmail(<span class="string">"xiaomin@sina.com"</span>);</span><br><span class="line">		user.setAge(<span class="number">20</span>);</span><br><span class="line">		</span><br><span class="line">		SimpleDateFormat dateformat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">		user.setBirthday(dateformat.parse(<span class="string">"1996-10-01"</span>));		</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * ObjectMapper是JSON操作的核心，Jackson的所有JSON操作都是在ObjectMapper中实现。</span></span><br><span class="line"><span class="comment">		 * ObjectMapper有多个JSON序列化的方法，可以把JSON字符串保存File、OutputStream等不同的介质中。</span></span><br><span class="line"><span class="comment">		 * writeValue(File arg0, Object arg1)把arg1转成json序列，并保存到arg0文件中。</span></span><br><span class="line"><span class="comment">		 * writeValue(OutputStream arg0, Object arg1)把arg1转成json序列，并保存到arg0输出流中。</span></span><br><span class="line"><span class="comment">		 * writeValueAsBytes(Object arg0)把arg0转成json序列，并把结果输出成字节数组。</span></span><br><span class="line"><span class="comment">		 * writeValueAsString(Object arg0)把arg0转成json序列，并把结果输出成字符串。</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//User类转JSON</span></span><br><span class="line">		<span class="comment">//输出结果：&#123;"name":"小民","age":20,"birthday":844099200000,"email":"xiaomin@sina.com"&#125;</span></span><br><span class="line">		String json = mapper.writeValueAsString(user);</span><br><span class="line">		System.out.println(json);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Java集合转JSON</span></span><br><span class="line">		<span class="comment">//输出结果：[&#123;"name":"小民","age":20,"birthday":844099200000,"email":"xiaomin@sina.com"&#125;]</span></span><br><span class="line">		List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;User&gt;();</span><br><span class="line">		users.add(user);</span><br><span class="line">		String jsonlist = mapper.writeValueAsString(users);</span><br><span class="line">		System.out.println(jsonlist);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="JSON转Java类-JSON反序列化"><a href="#JSON转Java类-JSON反序列化" class="headerlink" title="JSON转Java类[JSON反序列化]"></a>JSON转Java类[JSON反序列化]</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JacksonDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">		String json = <span class="string">"&#123;\"name\":\"小民\",\"age\":20,\"birthday\":844099200000,\"email\":\"xiaomin@sina.com\"&#125;"</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * ObjectMapper支持从byte[]、File、InputStream、字符串等数据的JSON反序列化。</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">		User user = mapper.readValue(json, User.class);</span><br><span class="line">		System.out.println(user);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="JSON注解"><a href="#JSON注解" class="headerlink" title="JSON注解"></a>JSON注解</h5><p>Jackson提供了一系列注解，方便对JSON序列化和反序列化进行控制，下面介绍一些常用的注解。</p>
+<p>@JsonIgnore 此注解用于属性上，作用是进行JSON操作时忽略该属性。</p>
+<p>@JsonFormat 此注解用于属性上，作用是把Date类型直接转化为想要的格式，如@JsonFormat(pattern = “yyyy-MM-dd HH-mm-ss”)。</p>
+<p>@JsonProperty 此注解用于属性上，作用是把该属性的名称序列化为另外一个名称，如把trueName属性序列化为name，@JsonProperty(“name”)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//不JSON序列化年龄属性</span></span><br><span class="line">	<span class="meta">@JsonIgnore</span> </span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//格式化日期属性</span></span><br><span class="line">	<span class="meta">@JsonFormat</span>(pattern = <span class="string">"yyyy年MM月dd日"</span>)</span><br><span class="line">	<span class="keyword">private</span> Date birthday;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//序列化email属性为mail</span></span><br><span class="line">	<span class="meta">@JsonProperty</span>(<span class="string">"mail"</span>)</span><br><span class="line">	<span class="keyword">private</span> String email;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Date <span class="title">getBirthday</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> birthday;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBirthday</span><span class="params">(Date birthday)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.birthday = birthday;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getEmail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> email;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmail</span><span class="params">(String email)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.email = email;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JacksonDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">		User user = <span class="keyword">new</span> User();</span><br><span class="line">		user.setName(<span class="string">"小民"</span>);	</span><br><span class="line">		user.setEmail(<span class="string">"xiaomin@sina.com"</span>);</span><br><span class="line">		user.setAge(<span class="number">20</span>);</span><br><span class="line">		</span><br><span class="line">		SimpleDateFormat dateformat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">		user.setBirthday(dateformat.parse(<span class="string">"1996-10-01"</span>));		</span><br><span class="line">		</span><br><span class="line">		ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">		String json = mapper.writeValueAsString(user);</span><br><span class="line">		System.out.println(json);</span><br><span class="line">		<span class="comment">//输出结果：&#123;"name":"小民","birthday":"1996年09月30日","mail":"xiaomin@sina.com"&#125;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="GSON的使用："><a href="#GSON的使用：" class="headerlink" title="GSON的使用："></a>GSON的使用：</h3><p>Gson（又称Google Gson）是Google公司发布的一个开放源代码的Java库，主要用途为串行化Java对象为JSON字符串，或反串行化JSON字符串成Java对象。GSON核心jar包不到1M，非常精简，但提供的功能无疑是非常强大的，如果使用JDK自带的JSON解析API，使用起来相对比较繁琐一点，而且代码量较多。</p>
+<h4 id="GSON目前的发展状况"><a href="#GSON目前的发展状况" class="headerlink" title="GSON目前的发展状况"></a>GSON目前的发展状况</h4><p>初始版本    2008年5月22日<br>最新版本(稳定版本)    2.2.4/2013年5月13日；2个月前<br>编程语言    Java<br>操作平台    各种平台<br>许可协议    Apache License 2.0<br>官方网站    <a href="http://code.google.com/p/google-gson/" target="_blank" rel="noopener">http://code.google.com/p/google-gson/</a><br>下载地址    <a href="http://code.google.com/p/google-gson/downloads/list" target="_blank" rel="noopener">http://code.google.com/p/google-gson/downloads/list</a><br>GSON帮助文档    <a href="http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/index.html" target="_blank" rel="noopener">http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/index.html</a></p>
+<h4 id="使用GSON转换时报的一个异常。"><a href="#使用GSON转换时报的一个异常。" class="headerlink" title="使用GSON转换时报的一个异常。"></a>使用GSON转换时报的一个异常。</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread "main" com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was BEGIN_ARRAY at line 1 column 2  at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:176)  </span><br><span class="line">    at com.google.gson.Gson.fromJson(Gson.java:803)  </span><br><span class="line">    at com.google.gson.Gson.fromJson(Gson.java:768)  </span><br><span class="line">    at com.google.gson.Gson.fromJson(Gson.java:717)  </span><br><span class="line">    at com.google.gson.Gson.fromJson(Gson.java:689)  </span><br><span class="line">    at com.demoone.UseGson.testOneBeanFromJSON(UseGson.java:54)  </span><br><span class="line">    at com.demoone.UseGson.main(UseGson.java:89)  </span><br><span class="line">Caused by: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was BEGIN_ARRAY at line 1 column 2   //注意这句话跟数组集合有关  </span><br><span class="line">    at com.google.gson.stream.JsonReader.beginObject(JsonReader.java:374)  </span><br><span class="line">    at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:165)  </span><br><span class="line">    ... 6 more</span><br></pre></td></tr></table></figure>
+<p>下面贴出，笔者的测试源码，注意上述异常，在代码的注释中已经指出问题原因</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demoone;  </span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;  </span><br><span class="line"><span class="keyword">import</span> java.util.List;    </span><br><span class="line"><span class="keyword">import</span> com.entity.Person;  </span><br><span class="line"><span class="keyword">import</span> com.google.gson.Gson;  </span><br><span class="line"><span class="keyword">import</span> com.google.gson.reflect.*;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/***  </span></span><br><span class="line"><span class="comment"> * 使用gson </span></span><br><span class="line"><span class="comment"> * 进行序列化,反序列化的操作 </span></span><br><span class="line"><span class="comment"> * json </span></span><br><span class="line"><span class="comment"> * **/</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UseGson</span> </span>&#123;       </span><br><span class="line"> <span class="keyword">static</span> Gson g=<span class="keyword">new</span> Gson();  </span><br><span class="line"> <span class="comment">/** </span></span><br><span class="line"><span class="comment">  * 由集合类型的实体类 </span></span><br><span class="line"><span class="comment">  * 转换成Json类型  </span></span><br><span class="line"><span class="comment">  * **/</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testToJSON</span><span class="params">()</span></span>&#123;     </span><br><span class="line">        List&lt;Person&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();      </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>;i++)&#123;  </span><br><span class="line">         Person p=<span class="keyword">new</span> Person(i, <span class="string">"散仙"</span>+i, <span class="string">"北京市"</span>+i, <span class="string">"54152541@qq.com"</span>, <span class="number">500.0</span>);  </span><br><span class="line">            list.add(p);  </span><br><span class="line">        &#125;  </span><br><span class="line">        String json=g.toJson(list);  </span><br><span class="line">        System.out.println(json);          </span><br><span class="line">    &#125;      </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 由json转换为实体类 </span></span><br><span class="line"><span class="comment">     * */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOneBeanFromJSON</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        <span class="comment">/** </span></span><br><span class="line"><span class="comment">         * 转换一个Java Bean的时候 </span></span><br><span class="line"><span class="comment">         * 记住不能使用[],只有在使用集合的时候才可以使用  </span></span><br><span class="line"><span class="comment">         * 如上图贴的那个异常就是由此原因造成的，另外 </span></span><br><span class="line"><span class="comment">         * 格式要规范，中间不能出现空格字符 </span></span><br><span class="line"><span class="comment">         *  </span></span><br><span class="line"><span class="comment">         * **/</span>  </span><br><span class="line">        String jsonBean=<span class="string">"[&#123;\"id\":0,\"name\":\"散仙0\",\"address\":\"北京市0\",\"email\":\"54152541@qq.com\",\"money\":500.0&#125;]"</span>;  </span><br><span class="line">         Person p=g.fromJson(jsonBean, Person.class);  </span><br><span class="line">         System.out.println(p);  </span><br><span class="line">   </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 由json转换为实体类集合 </span></span><br><span class="line"><span class="comment">     *  </span></span><br><span class="line"><span class="comment">     * */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testListBeanFromJSON</span><span class="params">()</span></span>&#123;    </span><br><span class="line">         <span class="comment">/** </span></span><br><span class="line"><span class="comment">          * 转换一个集合 的实体Bean </span></span><br><span class="line"><span class="comment">          * 注意前面加上[]方括号，代表一个数组 </span></span><br><span class="line"><span class="comment">          * **/</span>   </span><br><span class="line">         String  jsonBeanList=<span class="string">"[&#123;\"id\":0,\"name\":\"散仙0\",\"address\":\"北京市0\",\"email\":\"54152541@qq.com\",\"money\":500.0&#125;,&#123;\"id\":1,\"name\":\"散仙1\",\"address\":\"北京市1\",\"email\":\"54152541@qq.com\",\"money\":500.0&#125;]"</span>;  </span><br><span class="line">           </span><br><span class="line">         List&lt;Person&gt; lists=g.fromJson(jsonBeanList,<span class="keyword">new</span>   TypeToken&lt;List&lt;Person&gt;&gt;()&#123;&#125;.getType());  </span><br><span class="line">         System.out.println(<span class="string">"反序列之后"</span>);  </span><br><span class="line">         <span class="keyword">for</span>(Person pp:lists)&#123;  </span><br><span class="line">               </span><br><span class="line">             System.out.println(pp);  </span><br><span class="line">         &#125;  </span><br><span class="line">    &#125;     </span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;        </span><br><span class="line">         testListBeanFromJSON();<span class="comment">//测试集合反序列化  </span></span><br><span class="line">         testOneBeanFromJSON();<span class="comment">//测试单个实体类反序列化  </span></span><br><span class="line">         <span class="comment">//testToJSON();//测试序列化            </span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">testListBeanFromJSON()  方法:  </span><br><span class="line">反序列之后  </span><br><span class="line">编号：0  名字:散仙0   地址:北京市0   E-mail:54152541@qq.com  钱:500.0  </span><br><span class="line">编号：1  名字:散仙1   地址:北京市1   E-mail:54152541@qq.com  钱:500.0  </span><br><span class="line">testOneBeanFromJSON()  方法:  </span><br><span class="line">编号：0  名字:散仙0   地址:北京市0   E-mail:54152541@qq.com  钱:500.0</span><br></pre></td></tr></table></figure>
+<p>实体类Person:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.entity;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 实体类 </span></span><br><span class="line"><span class="comment"> * **/</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;  </span><br><span class="line">    <span class="keyword">private</span> String name;  </span><br><span class="line">    <span class="keyword">private</span> String address;  </span><br><span class="line">    <span class="keyword">private</span> String email;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> money;  </span><br><span class="line">      </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub  </span></span><br><span class="line">        <span class="keyword">return</span>  <span class="string">"编号："</span>+id+<span class="string">"  名字:"</span>+name+<span class="string">"   地址:"</span>+address+<span class="string">"   E-mail:"</span>+email+<span class="string">"  钱:"</span>+money;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// TODO Auto-generated constructor stub  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> id, String name, String address, String email,  </span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">double</span> money)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">super</span>();  </span><br><span class="line">        <span class="keyword">this</span>.id = id;  </span><br><span class="line">        <span class="keyword">this</span>.name = name;  </span><br><span class="line">        <span class="keyword">this</span>.address = address;  </span><br><span class="line">        <span class="keyword">this</span>.email = email;  </span><br><span class="line">        <span class="keyword">this</span>.money = money;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> id;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.id = id;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> name;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.name = name;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAddress</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> address;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAddress</span><span class="params">(String address)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.address = address;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getEmail</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> email;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmail</span><span class="params">(String email)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.email = email;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getMoney</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> money;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMoney</span><span class="params">(<span class="keyword">double</span> money)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.money = money;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Json" >
+    <span class="tag-code">Json</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/16024.html">
+        <span class="nav-arrow">← </span>
+        
+          SASS是什么
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/17073.html">
+        
+          HTTP状态码（HTTP Status Code）
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#JackSON使用："><span class="toc-nav-text">JackSON使用：</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#序列化Order-order对象："><span class="toc-nav-text">序列化Order order对象：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#反序列化："><span class="toc-nav-text">反序列化：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#序列化List-orderList："><span class="toc-nav-text">序列化List orderList：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#反序列化：-1"><span class="toc-nav-text">反序列化：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#反序列化List-lt-LinkedHashMap-lt-String-String-gt-gt"><span class="toc-nav-text">反序列化List&lt;LinkedHashMap&lt;String,String&gt;&gt;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#解析某个字段"><span class="toc-nav-text">解析某个字段</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Jackson的JSON操作方法"><span class="toc-nav-text">Jackson的JSON操作方法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#准备工作"><span class="toc-nav-text">准备工作</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#JAVA对象转JSON-JSON序列化"><span class="toc-nav-text">JAVA对象转JSON[JSON序列化]</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#JSON转Java类-JSON反序列化"><span class="toc-nav-text">JSON转Java类[JSON反序列化]</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#JSON注解"><span class="toc-nav-text">JSON注解</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#GSON的使用："><span class="toc-nav-text">GSON的使用：</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#GSON目前的发展状况"><span class="toc-nav-text">GSON目前的发展状况</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用GSON转换时报的一个异常。"><span class="toc-nav-text">使用GSON转换时报的一个异常。</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/13911.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Gson和Jackson的使用",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

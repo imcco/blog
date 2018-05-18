@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      maven项目的tomcat配置 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>maven项目的tomcat配置</h2>
+  <p class="post-date">2018-03-20</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0159.jpg" alt="image"></p>
+<p>maven项目的tomcat配置<br><a id="more"></a></p>
+<h3 id="一、没有Tomcat情况"><a href="#一、没有Tomcat情况" class="headerlink" title="一、没有Tomcat情况"></a>一、没有Tomcat情况</h3><p>  <code>Run As--&gt;Maven build--&gt;tomcat:run</code>    (不支持jdk1.8+tomcat8;项目启动没问题,访问报错500;jdk1.7 可以正常访问)</p>
+<h3 id="二、war包形式"><a href="#二、war包形式" class="headerlink" title="二、war包形式"></a>二、war包形式</h3><ol>
+<li><p>使用maven导出war包</p>
+<p><code>Run As--&gt;Maven build... --&gt;package</code></p>
+<p>成功后会提示生成的war包路径。一般在项目的target目录下。 (<code>注：pom.xml的&lt;packaging/&gt;配置为war打包后的就是war包，配置为jar时打包后的就是jar包</code>)</p>
+</li>
+<li><p>将war包部署至tomcat中</p>
+</li>
+</ol>
+<p>将war放到Tomcat的webapps目录下，配置<code>conf\server.xml</code>文件<code>在&lt;Host&gt;中添加配置信息：(C:\Java\apache-tomcat-7.0.79\conf)</code></p>
+<ul>
+<li><p>① path:启动项目后访问项目的路径</p>
+</li>
+<li><p>② docBase:项目路径，可以使用绝对路径或相对路径，相对路径是相对于webapps</p>
+</li>
+<li><p>③ 你还可以在server.xml中配置你的端口号和项目名称，从而改变访问的url。    </p>
+</li>
+</ul>
+<ol start="3">
+<li>启动tomcat</li>
+</ol>
+<p>注: 在部署项目的时候直接将web项目编译后的文件放在webapps也是同样的</p>
+<pre><code>JavaEE项目部署 `默认存放在webapp--&gt;WEB-INF--&gt;classes下面(如：C:\Java\apache-tomcat-7.0.79\webapps\mobile_scm\WEB-INF\classes)`
+
+ maven项目部署 `默认存放在target下面(如：E:\MavenWorks\babasport\target)`
+</code></pre><h3 id="三、Tomcat启动"><a href="#三、Tomcat启动" class="headerlink" title="三、Tomcat启动"></a>三、Tomcat启动</h3><p>项目发布 直接到webapps下</p>
+<h4 id="maven工程的tomcat热部署"><a href="#maven工程的tomcat热部署" class="headerlink" title="maven工程的tomcat热部署"></a>maven工程的tomcat热部署</h4><p>教程：tomcat热部署：webapps下的项目正在运行，直接把开发的新版本发布到正在运行的Tomcat下(不能关闭Tomcat再发布新版本</p>
+<p>   开发者本地将代码通过Git push到服务器端，服务器自动编译-打包-发布等等；也就是说发布到tomcat中后，不需要重启tomcat。</p>
+<ol>
+<li>热部署前准备：</li>
+</ol>
+<ul>
+<li><p>配置Tomcat登录的用户名和密码</p>
+<p>热部署需要用户名和密码进行远程发布，修改user配置文件一是为了管理员进入tomcat管理页面并提高其安全性，二是为了在maven设置正确的用户名；</p>
+<pre><code>`C:\Java\apache-tomcat-7.0.79\conf\tomcat-users.xml`
+</code></pre></li>
+<li><p>找到tomcat-user配置文件:</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置Tomcat登录的用户名和密码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-script"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"tomcat"</span> <span class="attr">password</span>=<span class="string">"123456"</span> <span class="attr">roles</span>=<span class="string">"manager-gui,manager-script,admin,manager"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>重启Tomcat，访问<code>http://localhost:8080</code></p>
+<p>进入tomcat服务器根目录，点击“manager app”输入用户名和密码，成功进入管理页面，说明第一步配置成功。</p>
+<p>注：端口号改为80 可以默认不显示；访问项目应该隐藏项目名称；</p>
+</li>
+</ol>
+<h4 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h4><ol>
+<li><p>Maven的Server的配置    </p>
+<p>在Maven的安装路径找到<code>conf目录下的setting.xml文件(&quot;E:\software\apache-maven-3.5.0\conf&quot;)，在&lt;servers&gt;节点中添加tomcat7</code>下配置的用户信息    </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>tomcat<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">username</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">password</span>&gt;</span>password<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注：如果在pom.xml中没有配置用户名和密码，则使用setting里的配置，如果有的话，就是用pom里的配置（就近原则）配置完记得要<code>Maven--&gt;Update projiect</code>(刷新)</p>
+</li>
+<li><p>pom.xml中添加tomcat插件</p>
+</li>
+</ol>
+<ul>
+<li>① <code>可以在pom.xml中右键--&gt;Maven--&gt;Add Plugin--&gt;tomcat 自动添加插件</code></li>
+<li>② 可以手动配置插件和Tomcat的访问路径</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">finalName</span>&gt;</span>babasport<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 本地jdk版本 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat7-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">&lt;!-- 配置tomcat的访问 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 访问路径 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://localhost:8080/manager/text<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 项目发布到根目录,覆盖ROOT，URL访问可以省略项目名称 --&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- &lt;path&gt;/&lt;/path&gt; --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">path</span>&gt;</span>/babasport<span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">server</span>&gt;</span>tomcat<span class="tag">&lt;/<span class="name">server</span>&gt;</span>  <span class="comment">&lt;!-- 此处的名字必须和setting.xml中配置的ID一致--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">username</span>&gt;</span>tomcat<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">password</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>最后来验证一下：启动tomcat服务器，保证里面没有发布任何项目</li>
+</ol>
+<ul>
+<li><p>如果是eclipse</p>
+<p><code>直接右键项目---run as ---maven bulid...输入“tomcat7:deploy”(二次发布以后输入&quot;tomcat7:redeploy&quot;)</code></p>
+</li>
+<li><p>如果使用的是命令行</p>
+<p><code>直接输入“mvn tomcat7:redeploy”</code></p>
+</li>
+</ul>
+<p>测试通过，输入地址可以正常的访问！</p>
+<h4 id="server下设置tomcat发布位置"><a href="#server下设置tomcat发布位置" class="headerlink" title="server下设置tomcat发布位置"></a>server下设置tomcat发布位置</h4><p>maven项目发布后默认存放到target目录下(如：E:\MavenWorks\babasport\target)；开发web项目时，还需要手动复制到web服务器下(Tomcat)</p>
+<p>如果能自动部署到Web服务器，而不用每次手动把target下编译好的war包拷贝到Tomcat下就更好了。</p>
+<p>对servers设置：</p>
+<ol>
+<li>修改发布路径到webapps下</li>
+<li>修改timeout服务器启动和停止时间为300秒</li>
+<li>发布到webapps下的根目录(项目访问URL不需要填写项目名， 取消勾选自动发布!</li>
+<li>浏览器访问 <code>http://localhost:8080/</code> (省略了项目名称)    </li>
+</ol>
+<p>注：如果用eclipse，<code>http://localhost:8080/项目名称</code>  也可以访问； </p>
+<pre><code>用myeclipse，只能访问`http://localhost:8080/`
+</code></pre><p>注：如果不能成功发布到 / 目录下，或许需要做以下修改(一般默认完成，不用做修改)   </p>
+<ul>
+<li>1 删除webContext的发布</li>
+<li>2 增加webapp发布到根目录下</li>
+<li>3 增加<code>Maven库(jar包)到WEB-INF/lib 下</code></li>
+</ul>
+<h3 id="四、控制台不输出log没有反应"><a href="#四、控制台不输出log没有反应" class="headerlink" title="四、控制台不输出log没有反应"></a>四、控制台不输出log没有反应</h3><p>MyEclipse中Maven build…项目控制台不输出log 没有反应</p>
+<pre><code>一开始项目与都是可以通过maven build... 然后输入tomcat:run 跑起来的，后来忘记做了啥操作跑步起来了，控制台也不输出log了，总是一闪就过去了，后来也是试了各种方法，可能是自己换了当前项目的jdk版本，下面是解决方案
+</code></pre><p>右击maven项目: <code>Build Path ---&gt; configure Build Path... ---&gt; 先选中你当前的jdk remove掉 ，然后重新添加 ----&gt; Add Library ---&gt;  选择 JRE System Library  ---&gt; 选择Alternate JRE---&gt; 然后点击installed JRES 进入界面后选择你要用的jdk版本 ---&gt; edit ---&gt; 在Default VM arguments 添加 :Dmaven.multiModuleProjectDirectory=$MAVEN_HOME</code></p>
+<p>这样就可以，希望可以解决你的问题 !</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#maven" >
+    <span class="tag-code">maven</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/18967.html">
+        <span class="nav-arrow">← </span>
+        
+          Java basic knowledge
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/41980.html">
+        
+          WebUploader上传组件
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一、没有Tomcat情况"><span class="toc-nav-text">一、没有Tomcat情况</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二、war包形式"><span class="toc-nav-text">二、war包形式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三、Tomcat启动"><span class="toc-nav-text">三、Tomcat启动</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#maven工程的tomcat热部署"><span class="toc-nav-text">maven工程的tomcat热部署</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#热部署"><span class="toc-nav-text">热部署</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#server下设置tomcat发布位置"><span class="toc-nav-text">server下设置tomcat发布位置</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四、控制台不输出log没有反应"><span class="toc-nav-text">四、控制台不输出log没有反应</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/42040.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "maven项目的tomcat配置",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

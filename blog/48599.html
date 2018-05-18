@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      cms开发资料 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>cms开发资料</h2>
+  <p class="post-date">2018-02-27</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0147.jpg" alt="image"></p>
+<p>开发文档<br><a id="more"></a></p>
+<h1 id="1-系统架构概述"><a href="#1-系统架构概述" class="headerlink" title="1. 系统架构概述"></a>1. 系统架构概述</h1><p>本系统核心架构为FreeMarker+hibernate+Spirng的mvc分层架构。</p>
+<h2 id="1-1分层架构模型"><a href="#1-1分层架构模型" class="headerlink" title="1.1分层架构模型"></a>1.1分层架构模型</h2><p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms002.png" alt="img"></p>
+<h2 id="1-2数据流转模型-前端"><a href="#1-2数据流转模型-前端" class="headerlink" title="1.2数据流转模型(前端)"></a>1.2数据流转模型(前端)</h2><p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms004.png" alt="img"></p>
+<h1 id="2-框架目录介绍"><a href="#2-框架目录介绍" class="headerlink" title="2.框架目录介绍"></a>2.框架目录介绍</h1><h2 id="2-1Cms包介绍"><a href="#2-1Cms包介绍" class="headerlink" title="2.1Cms包介绍"></a>2.1Cms包介绍</h2><table>
+<thead>
+<tr>
+<th>具体包名</th>
+<th>相关功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>com\mi\cms</td>
+<td>常量包</td>
+</tr>
+<tr>
+<td>com\mi\cms\action</td>
+<td>通用action抽象类包</td>
+</tr>
+<tr>
+<td>com\mi\cms\action\directive</td>
+<td>cms自定义标签包,公用部分继承于abs包</td>
+</tr>
+<tr>
+<td>com\mi\cms\action\directive\abs</td>
+<td>公用部分自定义标签的抽象包</td>
+</tr>
+<tr>
+<td>com\mi\cms\action\front</td>
+<td>前台action包</td>
+</tr>
+<tr>
+<td>com\mi\cms\action\member</td>
+<td>会员中心包</td>
+</tr>
+<tr>
+<td>com\mi\cms\api</td>
+<td></td>
+</tr>
+<tr>
+<td>com\mi\cms\api\admin\assist</td>
+<td>Api辅助包</td>
+</tr>
+<tr>
+<td>com\mi\cms\api\admin\main</td>
+<td>Api主要controller包</td>
+</tr>
+<tr>
+<td>com\mi\cms\api\front</td>
+<td>API前端包</td>
+</tr>
+<tr>
+<td>com\mi\cms\api\member</td>
+<td>Api会员中心包</td>
+</tr>
+<tr>
+<td>com\mi\cms\dao\assist</td>
+<td>辅助dao的接口层</td>
+</tr>
+<tr>
+<td>com\mi\cms\dao\assist\impl</td>
+<td>辅助dao的接口实现层</td>
+</tr>
+<tr>
+<td>com\mi\cms\dao\main</td>
+<td>核心的dao接口层</td>
+</tr>
+<tr>
+<td>com\mi\cms\dao\main\impl</td>
+<td>核心的dao接口实现层</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\assist</td>
+<td>cms辅助实体类子类</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\assist\base</td>
+<td>cms辅助实体类基类</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\assist\hbm</td>
+<td>hibernate辅助实体类的关系映射文件</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\back</td>
+<td>cms备份实体类子类</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\back\base</td>
+<td>cms备份实体类基类</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\back\hbm</td>
+<td>hibernate备份实体类类的关系映射文件</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\main</td>
+<td>cms核心实体类子类</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\main\base</td>
+<td>cms核心实体类基类</td>
+</tr>
+<tr>
+<td>com\mi\cms\entity\main\hbm</td>
+<td>hibernate核心实体类的关系映射文件</td>
+</tr>
+<tr>
+<td>com\mi\cms\lucene</td>
+<td>搜索引擎封装包</td>
+</tr>
+<tr>
+<td>com\mi\cms\manager\assist</td>
+<td>辅助的service接口层</td>
+</tr>
+<tr>
+<td>com\mi\cms\manager\assist\impl</td>
+<td>辅助的service接口实现层</td>
+</tr>
+<tr>
+<td>com\mi\cms\manager\main</td>
+<td>核心的service接口层</td>
+</tr>
+<tr>
+<td>com\mi\cms\manager\main\impl</td>
+<td>核心的service接口实现层</td>
+</tr>
+<tr>
+<td>com\mi\cms\service</td>
+<td>service封装层</td>
+</tr>
+<tr>
+<td>com\mi\cms\staticpage</td>
+<td>静态页的封装包包</td>
+</tr>
+<tr>
+<td>com\mi\cms\staticpage\exception</td>
+<td>静态页的异常处理类型</td>
+</tr>
+<tr>
+<td>com\mi\cms\statistic</td>
+<td>内容发布统计包</td>
+</tr>
+<tr>
+<td>com\mi\cms\statistic\workload</td>
+<td>流量统计包</td>
+</tr>
+<tr>
+<td>com\mi\cms\web</td>
+<td>拦截器包</td>
+</tr>
+<tr>
+<td>com\mi\cms\task</td>
+<td>任务包</td>
+</tr>
+<tr>
+<td>com\mi\cms\task\job</td>
+<td>具体任务包</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-2Common包介绍"><a href="#2-2Common包介绍" class="headerlink" title="2.2Common包介绍"></a>2.2Common包介绍</h2><table>
+<thead>
+<tr>
+<th>具体包名</th>
+<th>相关功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>com\mi\common\captcha</td>
+<td>验证码封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\dic</td>
+<td>分词</td>
+</tr>
+<tr>
+<td>com\mi\common\email</td>
+<td>邮件包</td>
+</tr>
+<tr>
+<td>com\mi\common\fck</td>
+<td>fck编辑器封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\file</td>
+<td>文件操作封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\hibernate4</td>
+<td>hibeinate封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\image</td>
+<td>图片的封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\ipseek</td>
+<td>ip地址库封装</td>
+</tr>
+<tr>
+<td>com\mi\common\lucene</td>
+<td>收索引擎的基础包</td>
+</tr>
+<tr>
+<td>com\mi\common\office</td>
+<td>文档转换相关工具类</td>
+</tr>
+<tr>
+<td>com\mi\common\page</td>
+<td>jeecms分页封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\security</td>
+<td>安全认证相关的包</td>
+</tr>
+<tr>
+<td>com\mi\common\security\annotation</td>
+<td></td>
+</tr>
+<tr>
+<td>com\mi\common\security\encoder</td>
+<td></td>
+</tr>
+<tr>
+<td>com\mi\common\security\rememberme</td>
+<td></td>
+</tr>
+<tr>
+<td>com\mi\common\security\userdetails</td>
+<td></td>
+</tr>
+<tr>
+<td>com\mi\common\upload</td>
+<td>上传封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\util</td>
+<td>工具包</td>
+</tr>
+<tr>
+<td>com\mi\common\web</td>
+<td>常量包</td>
+</tr>
+<tr>
+<td>com\mi\common\web\freemarker</td>
+<td>freemarker视图封装包</td>
+</tr>
+<tr>
+<td>com\mi\common\web\session</td>
+<td>session包</td>
+</tr>
+<tr>
+<td>com\mi\common\web\session\cache</td>
+<td>session缓存包</td>
+</tr>
+<tr>
+<td>com\mi\common\web\springmvc</td>
+<td>springMVC的简单封装</td>
+</tr>
+<tr>
+<td>com\mi\cms\manager\main</td>
+<td>核心的service接口层</td>
+</tr>
+<tr>
+<td>com\mi\cms\manager\main\impl</td>
+<td>核心的service接口实现层</td>
+</tr>
+<tr>
+<td>com\mi\cms\service</td>
+<td>service封装层</td>
+</tr>
+<tr>
+<td>com\mi\cms\staticpage</td>
+<td>静态页的封装包</td>
+</tr>
+<tr>
+<td>com\mi\cms\staticpage\exception</td>
+<td>静态页的异常处理类型</td>
+</tr>
+<tr>
+<td>com\mi\cms\statistic</td>
+<td>流量统计包</td>
+</tr>
+<tr>
+<td>com\mi\cms\statistic\workload</td>
+<td>内容发布统计包</td>
+</tr>
+<tr>
+<td>com\mi\cms\web</td>
+<td>拦截器包</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-3Core包介绍"><a href="#2-3Core包介绍" class="headerlink" title="2.3Core包介绍"></a>2.3Core包介绍</h2><table>
+<thead>
+<tr>
+<th>具体包名</th>
+<th>相关功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>com\mi\core</td>
+<td>一般常量和异常处理</td>
+</tr>
+<tr>
+<td>com\mi\core\action\front</td>
+<td>核心前台的action</td>
+</tr>
+<tr>
+<td>com\mi\core\dao</td>
+<td>核心dao的接口</td>
+</tr>
+<tr>
+<td>com\mi\core\dao\impl</td>
+<td>核心dao的接口实现类</td>
+</tr>
+<tr>
+<td>com\mi\core\entity</td>
+<td>登录认证和核心用户的实体子类</td>
+</tr>
+<tr>
+<td>com\mi\core\entity\base</td>
+<td>登录认证和核心用户的实体基类</td>
+</tr>
+<tr>
+<td>com\mi\core\entity\hbm</td>
+<td>相关的hibernate的映射文件</td>
+</tr>
+<tr>
+<td>com\mi\core\manager</td>
+<td>核心的service接口层</td>
+</tr>
+<tr>
+<td>com\mi\core\manager\impl</td>
+<td>核心的service接口实现层</td>
+</tr>
+<tr>
+<td>com\mi\core\security</td>
+<td>认证登录、退出相关</td>
+</tr>
+<tr>
+<td>com\mi\core\tpl</td>
+<td>模板接口和相关service层</td>
+</tr>
+<tr>
+<td>com\mi\core\web</td>
+<td>定义内容显示的接口，工具类，和错误页面的指定</td>
+</tr>
+<tr>
+<td>com\mi\core\web\util</td>
+<td>uri帮助类</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-4页面资源介绍"><a href="#2-4页面资源介绍" class="headerlink" title="2.4页面资源介绍"></a>2.4页面资源介绍</h2><table>
+<thead>
+<tr>
+<th>具体包名</th>
+<th>相关功能描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebContent</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>r</td>
+<td>前台资源文件，如css、img、js等</td>
+<td></td>
+</tr>
+<tr>
+<td>jeeadmin</td>
+<td>后台页面和资源文件（由vue源码工程打包）</td>
+<td></td>
+</tr>
+<tr>
+<td>thirdparty</td>
+<td>第三方插件（ckeditor编辑器、swf上传、My97DatePicker日期选择）</td>
+<td></td>
+</tr>
+<tr>
+<td>u</td>
+<td>默认的用户上传资源目录</td>
+<td></td>
+</tr>
+<tr>
+<td>WebContent/WEB-INF</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache</td>
+<td>缓存文件</td>
+<td></td>
+</tr>
+<tr>
+<td>common</td>
+<td>通用页面</td>
+<td></td>
+</tr>
+<tr>
+<td>config</td>
+<td>核心的配置文件，如果action，service,manager,dao,bean等  plug为插件配置文件目录</td>
+<td></td>
+</tr>
+<tr>
+<td>directive</td>
+<td>标签向导模板文件</td>
+<td></td>
+</tr>
+<tr>
+<td>error</td>
+<td>错误页面</td>
+<td></td>
+</tr>
+<tr>
+<td>ftl</td>
+<td>自定义的freemark宏文件</td>
+<td></td>
+</tr>
+<tr>
+<td>ispeek</td>
+<td>ip地址库</td>
+<td></td>
+</tr>
+<tr>
+<td>languages</td>
+<td>国际化配置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>jeecms/admin</td>
+<td>后台</td>
+</tr>
+<tr>
+<td></td>
+<td>jeecms/front</td>
+<td>前台</td>
+</tr>
+<tr>
+<td></td>
+<td>jeecms/tpl</td>
+<td>模版</td>
+</tr>
+<tr>
+<td></td>
+<td>jeecore/admin</td>
+<td>公用国际化</td>
+</tr>
+<tr>
+<td></td>
+<td>jeecms/adminapi</td>
+<td>API接口消息国际化</td>
+</tr>
+<tr>
+<td></td>
+<td>plug</td>
+<td>插件国际化配置</td>
+</tr>
+<tr>
+<td>lucene</td>
+<td>lucene文件夹</td>
+<td></td>
+</tr>
+<tr>
+<td>t/cms</td>
+<td>前台模板页面</td>
+<td></td>
+</tr>
+<tr>
+<td>t/cms/www</td>
+<td>站点资源目录</td>
+<td></td>
+</tr>
+<tr>
+<td>t/cms/www/default</td>
+<td>站点方案</td>
+</tr>
+</tbody>
+</table>
+<h1 id="3-开发流程指导"><a href="#3-开发流程指导" class="headerlink" title="3. 开发流程指导"></a>3. 开发流程指导</h1><h2 id="3-1展现层"><a href="#3-1展现层" class="headerlink" title="3.1展现层"></a>3.1展现层</h2><h3 id="3-1-1Freemarer介绍"><a href="#3-1-1Freemarer介绍" class="headerlink" title="3.1.1Freemarer介绍"></a>3.1.1Freemarer介绍</h3><p>FreeMarker是一个用Java语言编写的模板引擎，它基于模板来生成文本输出。FreeMarker与Web容器无关，即在Web运行时，它并不知道Servlet或HTTP。它不仅可以用作表现层的实现技术，而且还可以用于生成XML，JSP或Java 等。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms006.png" alt="img"></p>
+<h3 id="3-1-2后台页面"><a href="#3-1-2后台页面" class="headerlink" title="3.1.2后台页面"></a>3.1.2后台页面</h3><p>后台管理页面全部采用vue工程开发，参考</p>
+<p> 4.后台管理页面vue工程开发](#_4.后台管理页面vue工程开发)</p>
+<h3 id="3-1-3前台模版页面"><a href="#3-1-3前台模版页面" class="headerlink" title="3.1.3前台模版页面"></a>3.1.3前台模版页面</h3><p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms008.png" alt="img"></p>
+<p>在default目录相应的文件夹添加html，在html文件中引入freemark机制控制control层传输对象的显示。</p>
+<h2 id="3-2控制层"><a href="#3-2控制层" class="headerlink" title="3.2控制层"></a>3.2控制层</h2><h3 id="3-2-1SpringMVC简介"><a href="#3-2-1SpringMVC简介" class="headerlink" title="3.2.1SpringMVC简介"></a>3.2.1SpringMVC简介</h3><p>Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块。使用 Spring 可插入的 MVC 架构，通过策略接口，Spring 框架是高度可配置的，而且包含多种视图技术，例如 FreeMarker、JavaServer Pages（JSP）技术、Velocity、Tiles、iText和 POI。Spring MVC 框架并不知道使用的视图，所以不会强迫您只使用 JSP 技术。Spring MVC 分离了控制器、模型对象、分派器以及处理程序对象的角色，这种分离让它们更容易进行定制。</p>
+<h3 id="3-2-2控制层实现"><a href="#3-2-2控制层实现" class="headerlink" title="3.2.2控制层实现"></a>3.2.2控制层实现</h3><h4 id="3-2-2-1配置SpringMVC支持"><a href="#3-2-2-1配置SpringMVC支持" class="headerlink" title="3.2.2.1配置SpringMVC支持"></a>3.2.2.1配置SpringMVC支持</h4><p>Web.xml配置Spring后台核心调度器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsAdminApi<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>dispatchOptionsRequest<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line">              /WEB-INF/config/jeecms-servlet-admin-api.xml</span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>3<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Web.xml配置Spring后台核心调度器匹配路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">     <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsAdminApi<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">     <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/api/admin/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Web.xml配置Spring前台核心调度器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsFront<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line">              /WEB-INF/config/jeecms-servlet-front.xml</span><br><span class="line"></span><br><span class="line">              /WEB-INF/config/plug/*/-servlet-front-action.xml</span><br><span class="line"></span><br><span class="line">           <span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>2<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Web.xml配置Spring前台核心调度器匹配路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsFront<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.jhtml<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsFront<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.jspx<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsFront<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.jsp<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>JeeCmsFront<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.htm<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-2-2-2Spring-Controller"><a href="#3-2-2-2Spring-Controller" class="headerlink" title="3.2.2.2Spring Controller"></a>3.2.2.2Spring Controller</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">com.mi.cms.api.admin.main核心管理模块Controller</span><br><span class="line">com.mi.cms.api.admin.assist辅助管理模块Controller</span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CmsLogApiAct</span> </span>&#123;</span><br><span class="line">         <span class="meta">@RequestMapping</span>(<span class="string">"/log/operating_list"</span>)</span><br><span class="line"></span><br><span class="line">         <span class="function">publicvoid <span class="title">list</span><span class="params">(String queryUsername, String queryTitle,Integer category,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">                            StringqueryIp, Integer pageNo, Integer pageSize,HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">                            HttpServletResponseresponse)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">                   Stringbody = <span class="string">"\"\""</span>;</span><br><span class="line"></span><br><span class="line">                   Stringmessage = Constants.API_MESSAGE_SUCCESS;</span><br><span class="line"></span><br><span class="line">                   Stringcode = ResponseCode.API_CODE_CALL_SUCCESS;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(pageNo==<span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                            pageNo=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(pageSize==<span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                            pageSize=<span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(category==<span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                            category=CmsLog.OPERATING;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   Paginationpage =<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">                   CmsSitesite = CmsUtils.getSite(request);</span><br><span class="line"></span><br><span class="line">                   WebErrorserrors = WebErrors.create(request);</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(category.equals(CmsLog.OPERATING)) &#123;</span><br><span class="line"></span><br><span class="line">                            page= manager.getPage(CmsLog.OPERATING, site.getId(),queryUsername, queryTitle,queryIp, pageNo, pageSize);</span><br><span class="line"></span><br><span class="line">                   &#125;elseif (category.equals(CmsLog.LOGIN_SUCCESS)) &#123;</span><br><span class="line"></span><br><span class="line">                            page= manager.getPage(CmsLog.LOGIN_SUCCESS, <span class="keyword">null</span>,queryUsername, queryTitle,queryIp, pageNo, pageSize);</span><br><span class="line"></span><br><span class="line">                   &#125;elseif (category.equals(CmsLog.LOGIN_FAILURE)) &#123;</span><br><span class="line"></span><br><span class="line">                            page= manager.getPage(CmsLog.LOGIN_FAILURE, <span class="keyword">null</span>,<span class="keyword">null</span>, queryTitle, queryIp, pageNo,pageSize);</span><br><span class="line"></span><br><span class="line">                   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">                            errors.addErrorString(Constants.API_MESSAGE_PARAM_ERROR);</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(errors.hasErrors()) &#123;</span><br><span class="line"></span><br><span class="line">                            message= errors.getErrors().get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">                            code= ResponseCode.API_CODE_PARAM_ERROR;</span><br><span class="line"></span><br><span class="line">                   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">                            inttotalCount = page.getTotalCount();</span><br><span class="line"></span><br><span class="line">                            List&lt;CmsLog&gt;list = (List&lt;CmsLog&gt;) page.getList();</span><br><span class="line"></span><br><span class="line">                            JSONArrayjsonArray = <span class="keyword">new</span> JSONArray();</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span>(list!=<span class="keyword">null</span>&amp;&amp;list.size()&gt;<span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                                     <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line"></span><br><span class="line">                                               jsonArray.put(i,list.get(i).convertToJson());</span><br><span class="line"></span><br><span class="line">                                     &#125;</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            body= jsonArray.toString()+<span class="string">",\"totalCount\":"</span>+totalCount;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   ApiResponseapiResponse = <span class="keyword">new</span> ApiResponse(request, body, message, code);</span><br><span class="line"></span><br><span class="line">                   ResponseUtils.renderApiJson(response,request, apiResponse);</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="comment">//自动装配对象</span></span><br><span class="line">         <span class="meta">@Autowired</span></span><br><span class="line">         privateCmsLogMng manager;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//统一返回JSON对象</span></span><br><span class="line"></span><br><span class="line">ApiResponse apiResponse = newApiResponse(request, body, message, code);</span><br><span class="line">ResponseUtils.renderApiJson(response,request, apiResponse);</span><br></pre></td></tr></table></figure>
+<p>另外一个例子</p>
+<p>//需要签名认证（建议保存、修改、删除类方法添加签名注解）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SignValidate</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/group/save"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(CmsGroup bean,StringviewChannelIds,String contriChannelIds,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">                            HttpServletRequestrequest,HttpServletResponse response)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">                   Stringbody = <span class="string">"\"\""</span>;</span><br><span class="line"></span><br><span class="line">                   Stringmessage = Constants.API_MESSAGE_PARAM_REQUIRED;</span><br><span class="line"></span><br><span class="line">                   Stringcode = ResponseCode.API_CODE_PARAM_REQUIRED;</span><br><span class="line"></span><br><span class="line">                   WebErrorserrors = WebErrors.create(request);</span><br><span class="line"></span><br><span class="line">                   <span class="comment">//通用认证必填参数</span></span><br><span class="line"></span><br><span class="line">                   errors= ApiValidate.validateRequiredParams(request, errors, bean.getName(),bean.getPriority(),</span><br><span class="line"></span><br><span class="line">                                     bean.getAllowMaxFile(),bean.getAllowPerDay(),bean.getAllowFileSize(),bean.getAllowFileTotal());</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(!errors.hasErrors()) &#123;</span><br><span class="line"></span><br><span class="line">                            Integer[]viewChannel = StrUtils.getInts(viewChannelIds);</span><br><span class="line"></span><br><span class="line">                            Integer[]contriChannel = StrUtils.getInts(contriChannelIds);</span><br><span class="line"></span><br><span class="line">                            errors= validateArrayLength(errors, viewChannel, contriChannel);</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span>(errors.hasErrors()) &#123;</span><br><span class="line"></span><br><span class="line">                                     message= errors.getErrors().get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">                                     code= ResponseCode.API_CODE_PARAM_ERROR;</span><br><span class="line"></span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">                                     bean.init();</span><br><span class="line"></span><br><span class="line">                                     bean= manager.save(bean, viewChannel, contriChannel);</span><br><span class="line"></span><br><span class="line">                                     log.info(<span class="string">"saveCmsGroup id=&#123;&#125;"</span>, bean.getId());</span><br><span class="line"></span><br><span class="line">                                     cmsLogMng.operating(request,<span class="string">"cmsGroup.log.save"</span>, <span class="string">"id="</span> + bean.getId()</span><br><span class="line"></span><br><span class="line">                                                        +<span class="string">";name="</span> + bean.getName());</span><br><span class="line"></span><br><span class="line">                                     body=<span class="string">"&#123;\"id\":"</span>+<span class="string">"\""</span>+bean.getId()+<span class="string">"\"&#125;"</span>;</span><br><span class="line"></span><br><span class="line">                                     message =Constants.API_MESSAGE_SUCCESS;</span><br><span class="line"></span><br><span class="line">                                     code= ResponseCode.API_CODE_CALL_SUCCESS;</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   ApiResponseapiResponse = <span class="keyword">new</span> ApiResponse(request, body, message, code);</span><br><span class="line"></span><br><span class="line">                   ResponseUtils.renderApiJson(response,request, apiResponse);</span><br><span class="line"></span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-2-3SpringMVC扩展配置"><a href="#3-2-2-3SpringMVC扩展配置" class="headerlink" title="3.2.2.3SpringMVC扩展配置"></a>3.2.2.3SpringMVC扩展配置</h4><p><code>jeecms-servlet-admin-api.xml后台Spring国际化、拦截器、SpringMVC视图解析器配置</code></p>
+<p><code>jeecms-servlet-front.xml前台Spring国际化、拦截器、SpringMVC视图解析器配置</code></p>
+<p><code>jeecms-servlet-admin-api-action.xml 后台action配置文件</code></p>
+<p><code>jeecms-servlet-front-action.xml前台action配置文件</code></p>
+<p>配置action bean</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"ftpApiAct"</span><span class="attr">class</span>=<span class="string">"com.mi.cms.api.admin.main.FtpApiAct"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-3逻辑层"><a href="#3-3逻辑层" class="headerlink" title="3.3逻辑层"></a>3.3逻辑层</h2><h3 id="3-3-1类存放包介绍"><a href="#3-3-1类存放包介绍" class="headerlink" title="3.3.1类存放包介绍"></a>3.3.1类存放包介绍</h3><p><code>com.mi.cms.manager.main.impl核心service层</code></p>
+<p><code>com.mi.cms.manager.assist.impl 辅助service层</code></p>
+<p><code>com.mi.cms.service 采集、栏目、内容、流量公用service包</code></p>
+<h3 id="3-3-2service类代码编写样例"><a href="#3-3-2service类代码编写样例" class="headerlink" title="3.3.2service类代码编写样例"></a>3.3.2service类代码编写样例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CmsConfigMngImplimplements</span> <span class="title">CmsConfigMng</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">         <span class="meta">@Transactional</span>(readOnly= <span class="keyword">true</span>)</span><br><span class="line"></span><br><span class="line">         <span class="function">publicCmsConfig <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                   CmsConfigentity = dao.findById(<span class="number">1</span>);</span><br><span class="line">                   returnentity;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="function">publicvoid <span class="title">updateCountCopyTime</span><span class="params">(Date d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   dao.findById(<span class="number">1</span>).setCountCopyTime(d);</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">         <span class="function">publicvoid <span class="title">updateCountClearTime</span><span class="params">(Date d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   dao.findById(<span class="number">1</span>).setCountClearTime(d);</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">         <span class="function">publicCmsConfig <span class="title">update</span><span class="params">(CmsConfig bean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   Updater&lt;CmsConfig&gt;updater = <span class="keyword">new</span> Updater&lt;CmsConfig&gt;(bean);</span><br><span class="line"></span><br><span class="line">                   CmsConfigentity = dao.updateByUpdater(updater);</span><br><span class="line"></span><br><span class="line">                  entity.blankToNull();</span><br><span class="line"></span><br><span class="line">                   returnentity;</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="function">publicMarkConfig <span class="title">updateMarkConfig</span><span class="params">(MarkConfig mark)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   get().setMarkConfig(mark);</span><br><span class="line"></span><br><span class="line">                   returnmark;</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="function">publicvoid <span class="title">updateMemberConfig</span><span class="params">(MemberConfig memberConfig)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   get().getAttr().putAll(memberConfig.getAttr());</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line">         privateCmsConfigDao dao;</span><br><span class="line"></span><br><span class="line">         <span class="comment">//自动装配dao层</span></span><br><span class="line"></span><br><span class="line">         <span class="meta">@Autowired</span></span><br><span class="line"></span><br><span class="line">         <span class="function">publicvoid <span class="title">setDao</span><span class="params">(CmsConfigDao dao)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">this</span>.dao= dao;</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要<code>@Service@Transactional</code></p>
+<p>注解标志该类为业务逻辑层，所有的service层均采用接口开发模式</p>
+<p><code>@Transactional(readOnly = true)只读事物</code></p>
+<h3 id="3-3-3配置service-bean"><a href="#3-3-3配置service-bean" class="headerlink" title="3.3.3配置service bean"></a>3.3.3配置service bean</h3><p>jeecms-context.xml中增加servicebean的配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span>   <span class="attr">id</span>=<span class="string">"cmsConfigMng"</span><span class="attr">class</span>=<span class="string">"com.mi.cms.manager.main.impl.CmsConfigMngImpl"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-4持久层"><a href="#3-4持久层" class="headerlink" title="3.4持久层"></a>3.4持久层</h2><h3 id="3-4-1Hibernate4简介"><a href="#3-4-1Hibernate4简介" class="headerlink" title="3.4.1Hibernate4简介"></a>3.4.1Hibernate4简介</h3><p>Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，使得Java程序员可以随心所欲的使用对象编程思维来操作数据库。 Hibernate可以应用在任何使用JDBC的场合，既可以在Java的客户端程序使用，也可以在Servlet/JSP的Web应用中使用</p>
+<h3 id="3-4-2DAO类代码编写样例"><a href="#3-4-2DAO类代码编写样例" class="headerlink" title="3.4.2DAO类代码编写样例"></a>3.4.2DAO类代码编写样例</h3><p>持久层采用Hibernate4，缓存采用Ehcache</p>
+<p><code>com.mi.cms.dao.main.impl 核心DAO层</code></p>
+<p><code>com.mi.cms.dao.assist.impl 辅助DAO层</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CmsConfigDaoImplextends</span> <span class="title">HibernateBaseDao</span>&lt;<span class="title">CmsConfig</span>, <span class="title">Integer</span>&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">                   <span class="title">implementsCmsConfigDao</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">         <span class="function">publicCmsConfig <span class="title">findById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   CmsConfigentity = get(id);</span><br><span class="line"></span><br><span class="line">                   returnentity;</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="comment">//重写getEntityClass方法</span></span><br><span class="line"></span><br><span class="line">         <span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line">         <span class="function">protectedClass&lt;CmsConfig&gt; <span class="title">getEntityClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                   returnCmsConfig.class;</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Repository注解标志该类是DAO层组件，可以选择继承HibernateBaseDao基础类，需要实现接口。</p>
+<h3 id="3-4-3配置DAO-bean"><a href="#3-4-3配置DAO-bean" class="headerlink" title="3.4.3配置DAO bean"></a>3.4.3配置DAO bean</h3><p>jeecms-context.xml中增加dao bean的配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beanid="cmsConfigDao"class="com.mi.cms.dao.main.impl.CmsConfigDaoImpl"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-4-4POJO"><a href="#3-4-4POJO" class="headerlink" title="3.4.4POJO"></a>3.4.4POJO</h3><p><code>com.mi.cms.entity.main核心功能包的pojo</code></p>
+<p><code>com.mi.cms.entity.main.base 辅助功能包的pojo基础类</code></p>
+<p><code>com.mi.cms.entity.main.hbm 辅助功能包Hibernate实体映射文件</code></p>
+<p><code>com.mi.cms.entity.assist辅助功能包的pojo</code></p>
+<p><code>com.mi.cms.entity.assist.base辅助功能包的pojo基础类</code></p>
+<p><code>com.mi.cms.entity.assist.hbm辅助功能包Hibernate实体映射文件</code></p>
+<h2 id="3-5自定义标签"><a href="#3-5自定义标签" class="headerlink" title="3.5自定义标签"></a>3.5自定义标签</h2><h3 id="3-5-1定义标签类"><a href="#3-5-1定义标签类" class="headerlink" title="3.5.1定义标签类"></a>3.5.1定义标签类</h3><p>​         自定义标签类所属包com.mi.cms.action.directive</p>
+<p>​         标签类需要实现Freemarker内置接口TemplateDirectiveModel     </p>
+<p>​         获取标签参数可以用DirectiveUtils工具类获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> classChannelDirective implements TemplateDirectiveModel &#123;</span><br><span class="line"></span><br><span class="line">         <span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">          * 输入参数，栏目ID。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line"></span><br><span class="line">         publicstatic <span class="keyword">final</span> String PARAM_ID = <span class="string">"id"</span>;</span><br><span class="line"></span><br><span class="line">         <span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">          * 输入参数，栏目路径。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String PARAM_PATH =<span class="string">"path"</span>;</span><br><span class="line"></span><br><span class="line">         <span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">          * 输入参数，站点ID。存在时，获取该站点栏目，不存在时获取当前站点栏目。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line"></span><br><span class="line">         publicstatic <span class="keyword">final</span> String PARAM_SITE_ID = <span class="string">"siteId"</span>;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">         <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line"></span><br><span class="line">         <span class="function">publicvoid <span class="title">execute</span><span class="params">(Environment env, Map params, TemplateModel[] loopVars,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">                            TemplateDirectiveBodybody)</span> <span class="keyword">throws</span> TemplateException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">                   CmsSitesite = FrontUtils.getSite(env);</span><br><span class="line"></span><br><span class="line">                   <span class="comment">//getrequired params from directive</span></span><br><span class="line"></span><br><span class="line">                   Integerid = DirectiveUtils.getInt(PARAM_ID, params);</span><br><span class="line"></span><br><span class="line">                   Channelchannel;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(id != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                            channel= channelMng.findById(id);</span><br><span class="line"></span><br><span class="line">                   &#125;<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                            Stringpath = DirectiveUtils.getString(PARAM_PATH, params);</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span>(StringUtils.isBlank(path)) &#123;</span><br><span class="line"></span><br><span class="line">                                     <span class="comment">//如果path不存在，那么id必须存在。</span></span><br><span class="line"></span><br><span class="line">                                     <span class="function">thrownew <span class="title">ParamsRequiredException</span><span class="params">(PARAM_ID)</span></span>;</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            IntegersiteId = DirectiveUtils.getInt(PARAM_SITE_ID, params);</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span>(siteId == <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                                     siteId= site.getId();</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            channel= channelMng.findByPathForTag(path, siteId);</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">                   Map&lt;String,TemplateModel&gt; paramWrap = <span class="keyword">new</span> HashMap&lt;String, TemplateModel&gt;(</span><br><span class="line"></span><br><span class="line">                                     params);</span><br><span class="line"></span><br><span class="line">                   <span class="comment">//putresult to view</span></span><br><span class="line"></span><br><span class="line">                   paramWrap.put(OUT_BEAN,DEFAULT_WRAPPER.wrap(channel));</span><br><span class="line"></span><br><span class="line">                   Map&lt;String,TemplateModel&gt; origMap = DirectiveUtils</span><br><span class="line"></span><br><span class="line">                                     .addParamsToVariable(env,paramWrap);         </span><br><span class="line"></span><br><span class="line">                   <span class="comment">//render result to response</span></span><br><span class="line"></span><br><span class="line">                   body.render(env.getOut());</span><br><span class="line"></span><br><span class="line">                   DirectiveUtils.removeParamsFromVariable(env,paramWrap, origMap);</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="comment">//装配所需service</span></span><br><span class="line"></span><br><span class="line">         <span class="meta">@Autowired</span></span><br><span class="line"></span><br><span class="line">         privateChannelMng channelMng;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-5-2配置标签"><a href="#3-5-2配置标签" class="headerlink" title="3.5.2配置标签"></a>3.5.2配置标签</h3><p>1.jeecms-context.xml配置Spring bean</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span>       <span class="attr">id</span>=<span class="string">"cms_content_list"</span><span class="attr">class</span>=<span class="string">"com.mi.cms.action.directive.ContentListDirective"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.jeecms-context 文件中jeecms.properties文件中引入自定义标签bean</p>
+<p>directive.cms_channel_list=cms_channel_list</p>
+<h3 id="3-5-3标签应用"><a href="#3-5-3标签应用" class="headerlink" title="3.5.3标签应用"></a>3.5.3标签应用</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[@cms_content_list count='9'titLen='15' orderBy='8' channelOption='1' channelId='1']</span><br><span class="line"></span><br><span class="line">                  [#list tag_list as a]</span><br><span class="line"></span><br><span class="line">                  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">ahref="$&#123;a.url&#125;"</span> <span class="attr">title</span>=<span class="string">"$&#123;a.title&#125;"</span><span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>[@text_cut s=a.title len=titLenappend=append/]<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                  [/#list]</span><br><span class="line"></span><br><span class="line"> [/@cms_content_list]</span><br></pre></td></tr></table></figure>
+<p>cms_content_list标签名称count、titLen、orderBy、channelOption、channelId标签参数</p>
+<p>tag_list标签结果</p>
+<p>a循环变量</p>
+<p>${a.url}输出a对象的url属性</p>
+<h1 id="4-后台管理页面vue工程开发"><a href="#4-后台管理页面vue工程开发" class="headerlink" title="4.后台管理页面vue工程开发"></a>4.后台管理页面vue工程开发</h1><h2 id="4-1环境准备"><a href="#4-1环境准备" class="headerlink" title="4.1环境准备"></a>4.1环境准备</h2><p>Vue简介</p>
+<p>Vue.js提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：</p>
+<p>推荐查阅官方文档<a href="https://cn.vuejs.org/v2/guide/installation.html" target="_blank" rel="noopener">https://cn.vuejs.org/v2/guide/installation.html</a></p>
+<p>1、安装必要环境Node.js   下载地址 <a href="http://nodejs.cn/" target="_blank" rel="noopener">http://nodejs.cn/</a>.   </p>
+<p>安装最新版本Npm（最新版node自带）</p>
+<p>2、开发环境安装和启动</p>
+<p>使用命令行执行以下命令   执行安装node包</p>
+<p>cd  项目路径（vue工程路径）</p>
+<p>npminstall （推荐使用cnpm  install，<a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a>  加快依赖下载速度）</p>
+<p>npmrun dev; </p>
+<h2 id="4-2工程包介绍"><a href="#4-2工程包介绍" class="headerlink" title="4.2工程包介绍"></a>4.2工程包介绍</h2><p>目录结构：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms010.png" alt="img"></p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms012.png" alt="img"></p>
+<p>一级目录说明：</p>
+<p>build webpack打包配置文件</p>
+<p>config  全局配置文件api域名 appid配置</p>
+<pre><code> node_modules:node依赖文件夹
+
+    src项目源代码
+static 全局资源文件夹（css images js）
+</code></pre><p>index.html 入口文件</p>
+<p>二级目录说明:</p>
+<p>\1. config／dev.env.js   开发环境配置文件，修改源代码时会读取此文件中的配置项</p>
+<p>  config／prod.env.js   生产环境配置文件，打包完成时会读取使用此文件中的配置项</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms014.png" alt="img"></p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms016.png" alt="img"></p>
+<p>以上图（config／dev.env.js）为例，定义了6个属性</p>
+<p>  NODE_ENV :标识当前环境 （当前环境为开发者环境）</p>
+<p>  BaseUrl：项目的api资源 地址</p>
+<p>  Appid：项目的appid </p>
+<p>  aesKey：项目的aesKey (加密用)</p>
+<p>  ivKey：项目的ivKey (加密用)</p>
+<p>  appKey：项目的appKey (加密用)</p>
+<p>配置好相应的属性 即可在任意js文件中使用该变量，调用方式为</p>
+<p>process.env.xxx</p>
+<p>process.env.baseUrl</p>
+<p> <img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms018.png" alt="img"></p>
+<p>2.</p>
+<p>src/api  api以及全局拦截器</p>
+<p>src/assets  源码中的资源文件（JS,CSS,iamges）</p>
+<p>src/components  自定义组件目录</p>
+<p>src/directive  自定义指令目录</p>
+<p>src/mixins   自定义混合目录</p>
+<p>src/plugs   第三方插件目录（jquery相关的插件可存放在此）</p>
+<p>src/router    路由，角色目录</p>
+<p>src/store    vuex 定义目录</p>
+<p>src/untils  全局方法，签名，加密函数存放目录</p>
+<p>src/views   功能页面目录</p>
+<p>src/APP.vue  根组件（无需修改）</p>
+<p>src/config.js  项目路径配置文件</p>
+<p>src/main.js   页面入口文件</p>
+<p>src/permissions.js   全局路由钩子配置文件</p>
+<h2 id="4-3新增功能模块讲解"><a href="#4-3新增功能模块讲解" class="headerlink" title="4.3新增功能模块讲解"></a>4.3新增功能模块讲解</h2><h3 id="4-3-1新增页面"><a href="#4-3-1新增页面" class="headerlink" title="4.3.1新增页面"></a>4.3.1新增页面</h3><p>后台管理页面采用单页组件化开发</p>
+<p>功能模块统一存放在src／views目录下，推荐以导航树层级管理页面，例如下图</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms020.png" alt="img"></p>
+<p>1功能某块统一以单文件组件的形式构造，命名以.vue结尾，单文件组件开发详情查看<a href="https://cn.vuejs.org/v2/guide/single-file-components.html" target="_blank" rel="noopener">https://cn.vuejs.org/v2/guide/single-file-components.html</a></p>
+<p>2.页面基础样式框架基于element-ui2.x版本</p>
+<p>3.页面详解：</p>
+<p>此处以用户列表功能为事例说明</p>
+<p>用户功能列表路径为src/views/userMange/list.vue</p>
+<h3 id="4-3-2数据交互"><a href="#4-3-2数据交互" class="headerlink" title="4.3.2数据交互"></a>4.3.2数据交互</h3><p>后台数据交互采用axios,更多</p>
+<p><a href="https://www.npmjs.com/package/axios" target="_blank" rel="noopener">https://www.npmjs.com/package/axios</a>（推荐）</p>
+<p><a href="https://www.kancloud.cn/yunye/axios/234845" target="_blank" rel="noopener">https://www.kancloud.cn/yunye/axios/234845</a>（汉化文档）</p>
+<p>1.创建数据请求方法 (请求方法统一存放在src/api.js文件下)</p>
+<p>2.将所有的接口地址统一存放在src/api.js下如图</p>
+<p> <img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms022.png" alt="img"><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms024.png" alt="img"></p>
+<p> 如图：api.js 定义了一个setAdminApi函数 用于拼接重复的api地址</p>
+<p> api文档中以/api/admin/为路径的则可使用该函数 ，否则直接填写完整路径</p>
+<p>例如  bsaeUpload:’/api/member/upload/o_upload’,//普通文件上传</p>
+<p>3．数据请求示例 </p>
+<p>   1.普通未封装请求接口示例</p>
+<p>   <code>在页面的&lt;script&gt;下引用 axios</code></p>
+<pre><code>![img](http://ovi3ob9p4.bkt.clouddn.com/cms/cms026.png)         
+</code></pre><p>然后在需要的方法中调用axios请求 此处以created方法中调用为示例 （具体功能，请根据自身情况修改使用）     </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">axios.post(<span class="keyword">this</span>.$api.memberList,<span class="keyword">this</span>.params)</span><br><span class="line"></span><br><span class="line">     .then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;~!</span><br><span class="line"></span><br><span class="line">       <span class="comment">//此处为请求成功的回调</span></span><br><span class="line"></span><br><span class="line">     &#125;)</span><br><span class="line"></span><br><span class="line">     .catch(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//此处为请求失败的回调 </span></span><br><span class="line"></span><br><span class="line">     &#125;)</span><br></pre></td></tr></table></figure>
+<p>说明：<em>axios.post()方法可以发送一个post 请求，其他请求类型有 get ，put ，delete等，具体参考axios文档</em></p>
+<p><em>this.$api.memberList  此参数为api地址 在页面中使用 this.​$api.XXX 即可调用src</em>/api中的 地址变量   </p>
+<p>此方法为获取所有用户列表信息，传递了一个参数对象params: {//只需要业务参数</p>
+<p>​       </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">queryUsername: <span class="string">""</span>,</span><br><span class="line"></span><br><span class="line">       queryEmail: <span class="string">""</span>,</span><br><span class="line"></span><br><span class="line">       queryGroupId: <span class="string">""</span>,</span><br><span class="line"></span><br><span class="line">       queryStatus: <span class="string">""</span>,</span><br><span class="line"></span><br><span class="line">       pageNo: <span class="string">""</span>,</span><br><span class="line"></span><br><span class="line">       pageSize: <span class="string">""</span></span><br><span class="line"></span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>在成功的回调函数中，可以将列表数据赋值给自定义的一个变量，在页面中调用该变量即可，</p>
+<p>2 列表封装接口示例</p>
+<p>  本系统封装了一个list和一个form 混合</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms028.png" alt="img"></p>
+<p>此类文件的作用为 将一些公用的方法和变量插入页面组件中，在页面则可直接使用该变量以及方法</p>
+<p>以src/views/userMange/list.vue为例</p>
+<p><code>在页面&lt;script&gt;&lt;/script&gt;中引入mixins</code></p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms030.png" alt="img">      </p>
+<p>此处引入了 list.js 此文件预先定义了基础列表所需要的变量以及方法，简单的列表查询及操作，可直接使用该混合文件，具体变量及方法，查看文件内注释</p>
+<p>在页面中的created方法中 调用了</p>
+<p><code>created(){</code></p>
+<p><code>this.initTableData(this.$api.memberList,this.params);</code></p>
+<p>  <code>}</code></p>
+<p>该方法为混合方法，作用为初始化列表信息，第一个参数传递的为api接口地址，第二个参数为自定义参数对象，调用该函数后会自动初始化列表以及赋值，在页面上直接使用tableData属性即可</p>
+<p>数据加密方法介绍</p>
+<p>如业务参数需要加密，则需要在页面组件中引用src/untils/aes.js</p>
+<p>调用示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Encrypt &#125; from &quot;../untils/aes&quot;;</span><br><span class="line"></span><br><span class="line">  let aesKey = this.$store.state.aesKey</span><br><span class="line"></span><br><span class="line">    letivKey = this.$store.state.ivKey;</span><br><span class="line"></span><br><span class="line">               letaesPassword = Encrypt(this.params.pwd, aesKey, ivKey);</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-3将组件添加至路由表"><a href="#4-3-3将组件添加至路由表" class="headerlink" title="4.3.3将组件添加至路由表"></a>4.3.3将组件添加至路由表</h3><p>页面编写完成后需要将组件注册到路由中</p>
+<p>关于路由采用的是vue-router，更多详细：<a href="https://router.vuejs.org/zh-cn/index.html" target="_blank" rel="noopener">https://router.vuejs.org/zh-cn/index.html</a> </p>
+<p>路由表文件为src/router/routes.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    path:<span class="string">'/'</span>,</span><br><span class="line"></span><br><span class="line">    name:<span class="string">'用户管理'</span>, <span class="comment">//用户管理</span></span><br><span class="line"></span><br><span class="line">    component: body,</span><br><span class="line"></span><br><span class="line">    iconCls: <span class="string">'icon-user'</span>,</span><br><span class="line"></span><br><span class="line">    meta:&#123;</span><br><span class="line"></span><br><span class="line">      isLink: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    children: [&#123;</span><br><span class="line"></span><br><span class="line">      path:<span class="string">'/user'</span>,</span><br><span class="line"></span><br><span class="line">      name:<span class="string">'会员管理'</span>, <span class="comment">//会员管理</span></span><br><span class="line"></span><br><span class="line">      component: childView,</span><br><span class="line"></span><br><span class="line">      isParent: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">      redirect: <span class="string">'/user/list'</span>,</span><br><span class="line"></span><br><span class="line">      children: [&#123;</span><br><span class="line"></span><br><span class="line">         path: <span class="string">'/user/list'</span>, <span class="comment">//会员列表</span></span><br><span class="line"></span><br><span class="line">         name: <span class="string">'会员列表'</span>,</span><br><span class="line"></span><br><span class="line">         component:<span class="function"><span class="params">resolve</span> =&gt;</span> &#123; <span class="built_in">require</span>([<span class="string">'@/views/user/userMange/list.vue'</span>], resolve) &#125;,</span><br><span class="line"></span><br><span class="line">       &#125;,</span><br><span class="line"></span><br><span class="line">       &#123;</span><br><span class="line"></span><br><span class="line">         path: <span class="string">'/user/save'</span>, <span class="comment">//会员添加</span></span><br><span class="line"></span><br><span class="line">         name: <span class="string">'会员添加'</span>,</span><br><span class="line"></span><br><span class="line">         component:<span class="function"><span class="params">resolve</span> =&gt;</span> &#123; <span class="built_in">require</span>([<span class="string">'@/views/user/userMange/add.vue'</span>], resolve) &#125;,</span><br><span class="line"></span><br><span class="line">         hidden: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">       &#125;,</span><br><span class="line"></span><br><span class="line">       &#123;</span><br><span class="line"></span><br><span class="line">         path: <span class="string">'/user/update'</span>, <span class="comment">//会员添加</span></span><br><span class="line"></span><br><span class="line">         name: <span class="string">'会员修改'</span>,</span><br><span class="line"></span><br><span class="line">         component:<span class="function"><span class="params">resolve</span> =&gt;</span> &#123; <span class="built_in">require</span>([<span class="string">'@/views/user/userMange/edit.vue'</span>], resolve) &#125;,</span><br><span class="line"></span><br><span class="line">         hidden: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">      ]</span><br><span class="line"></span><br><span class="line">    &#125;, &#123;</span><br></pre></td></tr></table></figure>
+<p><code>path：访问地址（唯一不可重复）</code></p>
+<p>meta：{role:’xxxx’}角色权限名,不可重复，而且不同板块前缀要不同，比如用户模块叫user   另外会员管理叫userMember  这样是不行的   </p>
+<p><code>name:’路由名称’,  【也就是菜单名】</code></p>
+<p><code>component:  component:resolve =&gt; { require([&#39;@/views/user/userMange/list.vue&#39;], resolve) },</code></p>
+<p><code>懒加载页面组件，在点击该功能时才加载文件</code></p>
+<p><code>children:子路由</code></p>
+<h3 id="4-3-4权限控制"><a href="#4-3-4权限控制" class="headerlink" title="4.3.4权限控制"></a>4.3.4权限控制</h3><p>权限文件为src/routers/roles.js</p>
+<p>角色权限编是一个按照路由层级来构造的json对象（自定义添加时，也保持同样的规则）</p>
+<p>以用户列表角色为例 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  name:<span class="string">'用户管理'</span>,</span><br><span class="line"></span><br><span class="line">  role:<span class="string">'userlist'</span>,</span><br><span class="line"></span><br><span class="line">  api:[</span><br><span class="line"></span><br><span class="line">    <span class="string">'/api/admin/user/list'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'/api/admin/user/get'</span></span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  children: [&#123;</span><br><span class="line"></span><br><span class="line">    name:<span class="string">'添加'</span>,</span><br><span class="line"></span><br><span class="line">    role:<span class="string">'useradd'</span>,</span><br><span class="line"></span><br><span class="line">    api:[</span><br><span class="line"></span><br><span class="line">      <span class="string">'/api/admin/user/save'</span></span><br><span class="line"></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">    name:<span class="string">'修改'</span>,</span><br><span class="line"></span><br><span class="line">    role:<span class="string">'useredit'</span>,</span><br><span class="line"></span><br><span class="line">    api:[<span class="string">'/api/admin/user/update'</span>],</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">    name:<span class="string">'删除'</span>,</span><br><span class="line"></span><br><span class="line">    role:<span class="string">'userdelete'</span>,</span><br><span class="line"></span><br><span class="line">    api:[</span><br><span class="line"></span><br><span class="line">      <span class="string">'/api/admin/user/delete'</span></span><br><span class="line"></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+<p>name：角色权限名称（角色管理中树状结构的名字）</p>
+<p>role：页面显示权限（就是路由表中的meta：{role:’xxxx’}）</p>
+<p>api：页面组件所拥有的调用后台api的地址</p>
+<h3 id="4-3-5-组件使用"><a href="#4-3-5-组件使用" class="headerlink" title="4.3.5 组件使用"></a>4.3.5 组件使用</h3><p>vue是一个组件化开发的js 一切皆为组件</p>
+<p>在本系统中页面基础组件采用了element2.0组件库 (页面中以el-xxxx开头)</p>
+<p>自定义组件为自行封装（页面中以cms-xxxx开头）</p>
+<p>自定义组件存放在</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms032.png" alt="img"></p>
+<p>开发中，一些公用的功能可以封装为自定义组件</p>
+<p>此处以cms-input组件为例</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms034.png" alt="img"></p>
+<p>组件页面与功能页面结构完全相同</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">&lt; </span><br><span class="line">template&gt;</span><br><span class="line"></span><br><span class="line">    &lt;divclass=<span class="string">"cms-inline-input"</span>&gt;</span><br><span class="line"></span><br><span class="line">        &lt;labelfor=<span class="string">""</span><span class="class"><span class="keyword">class</span></span>=<span class="string">"cms-inline-label"</span>&gt;&#123;&#123;label&#125;&#125;:<span class="xml"><span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">         &lt;el-input  :value=<span class="string">"currentValue"</span>@input=<span class="string">"handleInput"</span></span><br><span class="line"></span><br><span class="line">         :style=<span class="string">"&#123;width:width+'px'&#125;"</span></span><br><span class="line"></span><br><span class="line">         &gt;<span class="xml"><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">exportdefault &#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    name:'cms-input',</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    props:&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">         value:'',</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">         label:&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">          type:String,</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">            default:'label'</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">         &#125;,</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">         width:&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">              type:Number,</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">              default:160</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">         &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &#125;,</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    data()&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        return&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">          currentValue:this.value</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &#125;,</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    methods:&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    handleInput(value)&#123;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">       this.$emit('input',value);/</span><span class="regexp">/触发input 事件，并传入新值</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt; </span><br><span class="line"></span><br><span class="line">&lt;stylescoped lang=<span class="string">"scss"</span>&gt;</span><br><span class="line"></span><br><span class="line">    .cms-inline-input&#123;</span><br><span class="line"></span><br><span class="line">        display:inline-block;</span><br><span class="line"></span><br><span class="line">        position:relative;</span><br><span class="line"></span><br><span class="line">        margin-left:<span class="number">12</span>px;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .cms-inline-label&#123;</span><br><span class="line"></span><br><span class="line">        font-size:<span class="number">14</span>px;</span><br><span class="line"></span><br><span class="line">        color:#5a5e66;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/style&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此处封装了一个标签和输入框，对外props 暴露了3个属性 value  label width</p>
+<p>在页面上使用方法为   </p>
+<p><code>&lt;cms-inputlabel=’标签名’ width=’120’  v-model=’xxx’&gt;&lt;/cms-input&gt;</code></p>
+<p><code>通过this.$emit(&#39;input&#39;,value);//触发input 事件，并传入新值</code></p>
+<p> <code>向使用者传递返回值</code> </p>
+<h2 id="4-4-后台页面发布"><a href="#4-4-后台页面发布" class="headerlink" title="4.4 后台页面发布"></a>4.4 后台页面发布</h2><p>后台源码的开发文件不可直接运行在浏览器中，需要通过命令打包将源码生成为静态文件</p>
+<p>1.使用命令行工具进入 工程目录</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms036.png" alt="img"></p>
+<ol start="2">
+<li>项目工程中如果没有node_modules文件夹，则执行</li>
+</ol>
+<p>npminstall （推荐使用cnpm  install，<a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a>  加快依赖下载速度）</p>
+<p>如果有则忽略此步骤</p>
+<p>3.执行命令npm run build</p>
+<p>出现building for production 则成功执行，等待命令完成完成后会出现下图</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms038.png" alt="img"></p>
+<p>出现上图，说明打包编译完成，在项目中会有一个dist文件夹</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms040.png" alt="img"></p>
+<p>dist文件夹中有两个文件</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms042.png" alt="img"></p>
+<p>4、将index.html改名为index.do后，将index.do和static文件夹放到ROOT下的/jeeadmin/jeecms文件夹下，eclipse下放到/WebContent/jeeadmin/jeecms下</p>
+<h2 id="4-5修改后台地址"><a href="#4-5修改后台地址" class="headerlink" title="4.5修改后台地址"></a>4.5修改后台地址</h2><p>1.带部署路径和端口的此类情况无须修改，如下</p>
+<p><a href="http://xxx.jeecms.com/jeeadmin/jeecms/index.do" target="_blank" rel="noopener">http://xxx.jeecms.com/jeeadmin/jeecms/index.do</a></p>
+<p><a href="http://xxx.jeecms.com/project/jeeadmin/jeecms/index.do" target="_blank" rel="noopener">http://xxx.jeecms.com/project/jeeadmin/jeecms/index.do</a></p>
+<p>\2. 需要调整后台路径此类情况须要修改</p>
+<p><a href="http://xxx.jeecms.com/admin/jeecms/index.do" target="_blank" rel="noopener">http://xxx.jeecms.com/admin/jeecms/index.do</a></p>
+<p><a href="http://xxx.jeecms.com/project/admin/jeecms/index.do" target="_blank" rel="noopener">http://xxx.jeecms.com/project/admin/jeecms/index.do</a></p>
+<p>此处修改源码工程中的src/config.js </p>
+<p> <img src="http://ovi3ob9p4.bkt.clouddn.com/cms/cms044.png" alt="img"></p>
+<p>  将jeeadmin文件夹重命名为admin即可</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#cms" >
+    <span class="tag-code">cms</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/12277.html">
+        <span class="nav-arrow">← </span>
+        
+          数据交互axios的使用
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/51267.html">
+        
+          API开发规范
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-系统架构概述"><span class="toc-nav-text">1. 系统架构概述</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-1分层架构模型"><span class="toc-nav-text">1.1分层架构模型</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-2数据流转模型-前端"><span class="toc-nav-text">1.2数据流转模型(前端)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-框架目录介绍"><span class="toc-nav-text">2.框架目录介绍</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1Cms包介绍"><span class="toc-nav-text">2.1Cms包介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2Common包介绍"><span class="toc-nav-text">2.2Common包介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-3Core包介绍"><span class="toc-nav-text">2.3Core包介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-4页面资源介绍"><span class="toc-nav-text">2.4页面资源介绍</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3-开发流程指导"><span class="toc-nav-text">3. 开发流程指导</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1展现层"><span class="toc-nav-text">3.1展现层</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-1Freemarer介绍"><span class="toc-nav-text">3.1.1Freemarer介绍</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-2后台页面"><span class="toc-nav-text">3.1.2后台页面</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-3前台模版页面"><span class="toc-nav-text">3.1.3前台模版页面</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-2控制层"><span class="toc-nav-text">3.2控制层</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-1SpringMVC简介"><span class="toc-nav-text">3.2.1SpringMVC简介</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-2控制层实现"><span class="toc-nav-text">3.2.2控制层实现</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-2-2-1配置SpringMVC支持"><span class="toc-nav-text">3.2.2.1配置SpringMVC支持</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-2-2-2Spring-Controller"><span class="toc-nav-text">3.2.2.2Spring Controller</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-2-2-3SpringMVC扩展配置"><span class="toc-nav-text">3.2.2.3SpringMVC扩展配置</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-3逻辑层"><span class="toc-nav-text">3.3逻辑层</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-3-1类存放包介绍"><span class="toc-nav-text">3.3.1类存放包介绍</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-3-2service类代码编写样例"><span class="toc-nav-text">3.3.2service类代码编写样例</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-3-3配置service-bean"><span class="toc-nav-text">3.3.3配置service bean</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-4持久层"><span class="toc-nav-text">3.4持久层</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-4-1Hibernate4简介"><span class="toc-nav-text">3.4.1Hibernate4简介</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-4-2DAO类代码编写样例"><span class="toc-nav-text">3.4.2DAO类代码编写样例</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-4-3配置DAO-bean"><span class="toc-nav-text">3.4.3配置DAO bean</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-4-4POJO"><span class="toc-nav-text">3.4.4POJO</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-5自定义标签"><span class="toc-nav-text">3.5自定义标签</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-5-1定义标签类"><span class="toc-nav-text">3.5.1定义标签类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-5-2配置标签"><span class="toc-nav-text">3.5.2配置标签</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-5-3标签应用"><span class="toc-nav-text">3.5.3标签应用</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#4-后台管理页面vue工程开发"><span class="toc-nav-text">4.后台管理页面vue工程开发</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-1环境准备"><span class="toc-nav-text">4.1环境准备</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-2工程包介绍"><span class="toc-nav-text">4.2工程包介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-3新增功能模块讲解"><span class="toc-nav-text">4.3新增功能模块讲解</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-1新增页面"><span class="toc-nav-text">4.3.1新增页面</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-2数据交互"><span class="toc-nav-text">4.3.2数据交互</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-3将组件添加至路由表"><span class="toc-nav-text">4.3.3将组件添加至路由表</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-4权限控制"><span class="toc-nav-text">4.3.4权限控制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-5-组件使用"><span class="toc-nav-text">4.3.5 组件使用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-4-后台页面发布"><span class="toc-nav-text">4.4 后台页面发布</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-5修改后台地址"><span class="toc-nav-text">4.5修改后台地址</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/48599.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "cms开发资料",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      细说软件产品和业务、业务过程(流程)、业务逻辑 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>细说软件产品和业务、业务过程(流程)、业务逻辑</h2>
+  <p class="post-date">2018-02-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0114.jpg" alt="image"></p>
+<p>作为一名程序猿，需要懂产品，不懂产品的程序猿不是好程序猿猴。而业务逻辑是软件产品的支柱，所以，要懂产品，就必须懂业务逻辑。<br><a id="more"></a></p>
+<p>介绍业务逻辑之前，先介绍下相关的一些概念。</p>
+<h4 id="什么叫业务？"><a href="#什么叫业务？" class="headerlink" title="什么叫业务？"></a>什么叫业务？</h4><p>从企业的角度来讲，业务是企业运用科学方法和生产工艺生产出可交付用户使用的产品与服务，并以此为企业带来利益的行为。</p>
+<p>举例：</p>
+<p>对服装企业来说，业务一般是生产服装；对银行企业来说，业务可以是办理贷款；对软件公司来说，业务可以是开发某种类型的软件，比如开发防火墙软件；对医院来说，业务可以是提供医疗服务。</p>
+<h4 id="什么叫业务过程？"><a href="#什么叫业务过程？" class="headerlink" title="什么叫业务过程？"></a>什么叫业务过程？</h4><p>“业务流程”和“业务过程”是两个经常出现的词，含义相似，但有轻微区别，这里暂且不做区分，都统一叫做业务过程。</p>
+<ol>
+<li><p>1）业务过程开始于客户需求，终止于客户需求的满足，为客户创造价值。</p>
+</li>
+<li><p>2）业务过程是为了产生产品或服务而设计的一系列步骤，一些过程的结果可能是由组织外的客户所接受的产品或服务，称为主要过程；另一些过程的产出不为外部客户所见，但是有效管理所必须的，称为支持过程。</p>
+</li>
+</ol>
+<p>举例：</p>
+<p>业务过程，对于服装工厂来说，可以是产出可穿戴衣物的一系列活动；对医院来说，可以是提供医疗服务的一系列活动；对软件公司来说，可以是开发出满足客户需求的软件产品的一系列活动。</p>
+<p>软件产品和业务过程</p>
+<p>软件产品具有它的特殊性，通常情况下，企业提供的软件产品、服务，主要用于外部组织、用户实现其业务过程。</p>
+<p>举例：</p>
+<p>假设有两家公司,A公司和B公司。A公司的业务是提供医疗服务；B公司是开发医疗相关的软件。A公司找到B公司说，我需要你们帮忙开发一个系统，实现XXX功能。这时，B公司考虑的不仅是自己的业务过程：产品，设计，测试，开发，运维等怎么配合去做这件事情，而且还要考虑A公司的业务过程：病人挂号，就诊，住院，缴费结算等等。</p>
+<h4 id="什么是业务逻辑？"><a href="#什么是业务逻辑？" class="headerlink" title="什么是业务逻辑？"></a>什么是业务逻辑？</h4><p>业务逻辑是系统架构中体现核心价值的部分，典型的三层结构模型中（如下图），介于表现层和数据访问层之间。</p>
+<p>通俗的讲，业务逻辑就是个“怎么做”的问题，是产品的灵魂，它的关注点主要集中在业务流程的实现，业务规则的定制等与业务过程相关的。</p>
+<h4 id="细说业务逻辑"><a href="#细说业务逻辑" class="headerlink" title="细说业务逻辑"></a>细说业务逻辑</h4><ol>
+<li>业务实体</li>
+<li>业务实体完整性约束</li>
+<li>业务流程(业务过程)</li>
+<li>业务规则</li>
+</ol>
+<h5 id="业务实体"><a href="#业务实体" class="headerlink" title="业务实体"></a>业务实体</h5><p>关键业务相关的动态的概念性对象</p>
+<p>比如，电商企业，业务过程中的买家，商品，就是业务实体，软件实现过程中先将其抽象为概念模型(通常用E-R图表示)，然后对其建立结构模型，展现在计算机世界中，可能表现为买家表中或商品表中的一条表记录。</p>
+<h5 id="实体业务完整性约束（Validation）"><a href="#实体业务完整性约束（Validation）" class="headerlink" title="实体业务完整性约束（Validation）"></a>实体业务完整性约束（Validation）</h5><p>业务实体完整性约束简单说就是对业务实体的约束，比如对商品实体，商品编号必须唯一</p>
+<p>注：关于业务实体和业务实体完整性约束，可以看下数据库的相关资料，理解会比较深刻一点</p>
+<h5 id="业务流程-业务过程"><a href="#业务流程-业务过程" class="headerlink" title="业务流程(业务过程)"></a>业务流程(业务过程)</h5><p>如果把产品比作一个人，那么这个业务过程就是产品的骨架。产品只有实现了这个流程，用户才能用它来实现业务。</p>
+<p>例子：购物网站为例子</p>
+<p>购买者登录网站 -&gt; 浏览商品 -&gt;下单 -&gt; 结算 -&gt; 确认收货 -&gt; 评价</p>
+<p>例：以学校申请助学金为例子</p>
+<p>学生登陆终端 -&gt; 提交申请 -&gt; 班主任审批 -&gt; 分院负责人审批 -&gt; 学工处审批 -&gt; 资领处审批</p>
+<h5 id="业务规则"><a href="#业务规则" class="headerlink" title="业务规则"></a>业务规则</h5><p>定义1：业务规则是与特定行业中的特定业务功能有关的决策逻辑的表示形式</p>
+<p>定义2：业务规则是对业务的某些方面进行定义和约束的声明</p>
+<p>例1：以学校申请助学金为例子</p>
+<p>“申请助学金的学生必须是贫困生”，这便是一条业务规则，对申请助学金的做了一个前提申明。</p>
+<p>那又为何说是决策逻辑呢？程序中，实现经常会这样：</p>
+<p>if 学生 is not 平困生</p>
+<p>then 拒绝申请</p>
+<p>例2：以购物网站为例子</p>
+<p>未登录顾客点击购买商品时，提示先登录</p>
+<p>例3：以购物网站为例子</p>
+<p>买家下单后，通知卖家商品被拍下。</p>
+<p>从上面的例子可以看出，业务规则它不会告诉你怎么做，仅是“决策”，告诉你要做什么，而不会告诉你怎么做。比如，上面的贫困生的例子，它不会告诉你怎么申请贫困生，但是会告诉你要去申请贫困生，再如，上面购物网站的例子，它约定说要去通知卖家，但是不会告诉你怎么通知卖家(通过邮件、电话、短信还是其它？？)</p>
+<h4 id="小知识点："><a href="#小知识点：" class="headerlink" title="小知识点："></a>小知识点：</h4><p>一般做系统，都避免不了数据验证，完整性约束是业务逻辑的一部分，按理应该放在业务层。但是实际不然，不提倡在“表示层的服务端”放置过多完整性验证。因为，表示层的职责应该仅仅是接收数据并传递给业务层，不应对数据是否合法负责。过多的数据验证，不但令表示层代码臃肿，而且使得表示层职责变得不明确。</p>
+<p>可以在“表示层的服务端”放置一些简单的验证，如空值验证，两次输入密码是否一致等，但业务关系紧密的验证，最好放在业务层，甚至有些验证只能在业务层验证，如“当前用户名不能与已有用户名重复”，这种验证需要访问持久化数据，需要由业务层完成。</p>
+<p>这里之所以强调“表示层的服务端”，是因为一般在B/S系统中，都会在JavaScript里加入一些基本的数据验证，如空值检查，格式正则匹配 等。这主要是为了减轻服务器负担，将大多数显然包含不合法数据的请求拒绝掉，而不发给服务端验证。当然，因为可能会出现JS被屏蔽或黑客恶意攻击行为，所以，所有验证不论JS中是否验证过，服务端（可能是表示层的服务端部分或业务层）一定要再进行验证。</p>
+<h4 id="难题：什么是业务逻辑？"><a href="#难题：什么是业务逻辑？" class="headerlink" title="难题：什么是业务逻辑？"></a>难题：<strong>什么是业务逻辑</strong>？</h4><p>业务是指一个实体单元向另一个实体单元提供的服务。<br>逻辑是指根据已有的信息推出合理的结论的规律。</p>
+<p>业务逻辑是指一个实体单元为了向另一个实体单元提供服务，应该具备的规则与流程。</p>
+<p>就像你家的规矩–“吃饭前必须洗手”“有客人来要起立”“睡觉前各自说晚安”-就是业务逻辑的生活化实例。</p>
+<h4 id="软件系统架构一般分为三个层次"><a href="#软件系统架构一般分为三个层次" class="headerlink" title="软件系统架构一般分为三个层次"></a>软件系统架构一般分为三个层次</h4><p>表示层、业务逻辑层和数据访问层：</p>
+<ul>
+<li>表示层：负责界面和交互；</li>
+<li>业务逻辑层：负责定义业务逻辑（规则、工作流、数据完整性等），接收来自表示层的数据请求，逻辑判断后，向数据访问层提交请求，并传递数据访问结果，业务逻辑层实际上是一个中间件，起着承上启下的重要作用；</li>
+<li>数据访问层：负责数据读取。</li>
+</ul>
+<h4 id="业务逻辑的内容包括四部分"><a href="#业务逻辑的内容包括四部分" class="headerlink" title="业务逻辑的内容包括四部分"></a>业务逻辑的内容包括四部分</h4><ul>
+<li>领域实体：定义了业务中的对象，对象有属性和行为；</li>
+<li>业务规则：定义了需要完成一个动作，必须满足的条件；</li>
+<li>数据完整性：某些数据不可少；</li>
+<li>工作流：定义了领域实体之间的交互关系。</li>
+</ul>
+<h4 id="以大毛网购裤子为例"><a href="#以大毛网购裤子为例" class="headerlink" title="以大毛网购裤子为例"></a>以大毛网购裤子为例</h4><ul>
+<li>领域实体：大毛、资金账户、订单、裤子、发货单</li>
+<li>业务规则：大毛点击购买就会生成订单，但必须付了钱，才会发货，生成发货单。</li>
+<li>数据完整性：淘宝网下订单必须登录账号，没有账号就不能成功购买。</li>
+<li>工作流：搜索裤子-找到合意裤子-下单购买-付账-收货。</li>
+</ul>
+<ol>
+<li><p>业务逻辑：搜索“裤子”-找到合意裤子-下单-必须登录账号-结算-付账-收货。</p>
+<p>当当必须登录账号才能下单成功，亚马逊就不需要，今天发现淘宝也不需要登录账号就能购买商品了，所以每个网站的规则的不同，就形成了不同的业务逻辑，业务逻辑不仅仅包括规则，还包括实体、数据完整性、工作流。如图：</p>
+</li>
+<li><p>业务逻辑图：业务逻辑也需要画图，叫做业务逻辑图，它跟业务流程图有什么区别呢？</p>
+<p>业务流（工作流）是业务逻辑的一部分，它定义了对象之间的交互关系，但不涉及到规则的制定，数据的完整性方面。<br>其实，我们平常画的业务流程图多数是业务逻辑图。</p>
+</li>
+<li><p>表示层</p>
+<p>分层是为了实现“<a href="http://baike.baidu.com/view/292136.htm" target="_blank" rel="noopener">高内聚</a>，低耦合”。采用“分而治之”的思想，把问题划分开来各个解决，易于控制，延展和分配资源。</p>
+</li>
+</ol>
+<p>所谓的三层开发就是将系统的整个业务应用划分为<a href="http://baike.baidu.com/view/239615.htm" target="_blank" rel="noopener">表示层</a>，业务逻辑层和数据访问层，这样有利于系统的开发、维护、部署和扩展。</p>
+<p>分层是为了实现“<a href="http://baike.baidu.com/view/292136.htm" target="_blank" rel="noopener">高内聚</a>，低耦合”。采用“分而治之”的思想，把问题划分开来各个解决，易于控制，延展和分配资源。</p>
+<p>业务逻辑层负责系统领域业务的处理，负责逻辑性数据的生成、处理及转换。对所输入的逻辑性数据的正确性及有效性负责，但对输出的逻辑性数 据及用户性数据的正确性不负责，对数据的呈现样式不负责。</p>
+<p>JavaEE三层架构MVC，把视图控制器模型分开来</p>
+<p>那么在这里业务逻辑就是M。</p>
+<p>但是什么样的算是业务逻辑如：上传一个文件，上传代码算是一个业务逻辑吗？</p>
+<p>数据库操作增加时需要判断，和一些其它这算业务逻辑吗？（我觉得算）</p>
+<p>但是hibernate又提供了一个离线查询对象（DetachedCriter），提供这个接口的意思我想是在外面处理业务逻辑。</p>
+<p>但是三层架构不是独立的吗？互相不干涉吗？在service层出现sql，hql，criter不是又把dao与service连在一起了吗？</p>
+<p>DTO（VO），POJO，BO这些是什么，POJO对应数据库，BO对应业务逻辑，DTO对应页面的传输与显示。</p>
+<p>业务逻辑就是处理数据的逻辑啦。</p>
+<h4 id="后台代码分三层"><a href="#后台代码分三层" class="headerlink" title="后台代码分三层"></a>后台代码分三层</h4><ul>
+<li>action(controller) service DAO （这里的三层不是MVC）</li>
+</ul>
+<p>比如 我得到用户名 但是在存入数据库的时候 用户名字段应该是前台的用户名加上当前日期拼成的字符串</p>
+<ul>
+<li><p>action或者controller层是第一层 一般是用来及接受数据并且做数据的非空啊 格式是否正确的验证</p>
+<p>如用户名是否为空 是不是安全字符串之类的</p>
+</li>
+<li><p>service层一般是用来做一个业务逻辑的实现</p>
+<p>这时候 userName = userName + new Date();</p>
+</li>
+<li><p>DAO层 就是与数据库交互层</p>
+<p>也就是读写数据库 将逻辑层得到的新的userName插入到数据库</p>
+</li>
+</ul>
+<p>MVC和三层架构并没有可比性</p>
+<p>三层架构是指将程序分为数据访问、业务处理、界面三个层次，是软件整体架构</p>
+<p>MVC是仅仅是界面架构，也就是它其实只是三层架构的界面部分</p>
+<ul>
+<li>M是指实体模型或者实体模型的一个代理，而非领域模型</li>
+<li>C是指控制器，仅仅是做转向，不应该包含任何业务逻辑</li>
+<li>V就是视图</li>
+</ul>
+<p>至于那些个什么什么O，都是实体在不同层的映射。另外值得一提的是，MVC在一些小的程序中也经常被当做软件整体架构，那个时候M往往就是实体模型了，但是这种时候，V就对M产生了直接引用，也就是界面对实体产生依赖，这是很不好的（但小程序问题不大），此时可以尝试使用MVP模式解耦。至于业务，看你怎么定义领域模型了，一般像上传文件这种操作并不会牵扯企业的业务，那就不应该当做一个业务，但如果这个上传是在工作流或者一些特殊处理中，则有可能上升到业务。怎么做，要看具体问题。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Document" >
+    <span class="tag-code">Document</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/13930.html">
+        <span class="nav-arrow">← </span>
+        
+          数据库设计规范
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/36961.html">
+        
+          产品设计-产品架构和业务逻辑
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#什么叫业务？"><span class="toc-nav-text">什么叫业务？</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#什么叫业务过程？"><span class="toc-nav-text">什么叫业务过程？</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#什么是业务逻辑？"><span class="toc-nav-text">什么是业务逻辑？</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#细说业务逻辑"><span class="toc-nav-text">细说业务逻辑</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#业务实体"><span class="toc-nav-text">业务实体</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#实体业务完整性约束（Validation）"><span class="toc-nav-text">实体业务完整性约束（Validation）</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#业务流程-业务过程"><span class="toc-nav-text">业务流程(业务过程)</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#业务规则"><span class="toc-nav-text">业务规则</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#小知识点："><span class="toc-nav-text">小知识点：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#难题：什么是业务逻辑？"><span class="toc-nav-text">难题：什么是业务逻辑？</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#软件系统架构一般分为三个层次"><span class="toc-nav-text">软件系统架构一般分为三个层次</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#业务逻辑的内容包括四部分"><span class="toc-nav-text">业务逻辑的内容包括四部分</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#以大毛网购裤子为例"><span class="toc-nav-text">以大毛网购裤子为例</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#后台代码分三层"><span class="toc-nav-text">后台代码分三层</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/16499.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "细说软件产品和业务、业务过程(流程)、业务逻辑",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

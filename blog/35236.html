@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      定时任务框架 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>定时任务框架</h2>
+  <p class="post-date">2017-12-13</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0018.jpg" alt="image"></p>
+<p>ScheduleIterator接口 import java.util.Date;public interface ScheduleIterator {    public Date next();//获取下一个触发的时间点} Scheduler类 import java.<br><a id="more"></a></p>
+<p>定时任务框架代码。<br>整个框架就3个类： </p>
+<ul>
+<li>ScheduleIterator.java </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ScheduleIterator</span> </span>&#123;</span><br><span class="line">	<span class="function">Date <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Scheduler.java </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Scheduler</span> </span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">SchedulerTimerTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> SchedulerTask schedulerTask;</span><br><span class="line">		<span class="keyword">private</span> ScheduleIterator iterator;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">SchedulerTimerTask</span><span class="params">(SchedulerTask schedulerTask, ScheduleIterator iterator)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.schedulerTask = schedulerTask;</span><br><span class="line">			<span class="keyword">this</span>.iterator = iterator;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			schedulerTask.run();</span><br><span class="line">			reschedule(schedulerTask, iterator);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Scheduler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		timer.cancel();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(SchedulerTask schedulerTask, ScheduleIterator iterator)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		Date time = iterator.next();</span><br><span class="line">		<span class="keyword">if</span> (time == <span class="keyword">null</span>) &#123;</span><br><span class="line">			schedulerTask.cancel();</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (schedulerTask.lock) &#123;</span><br><span class="line">				<span class="keyword">if</span> (schedulerTask.state != SchedulerTask.VIRGIN) &#123;</span><br><span class="line">					<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Task already scheduled or cancelled"</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				schedulerTask.state = SchedulerTask.SCHEDULED;</span><br><span class="line">				schedulerTask.timerTask = <span class="keyword">new</span> SchedulerTimerTask(schedulerTask, iterator);</span><br><span class="line">				timer.schedule(schedulerTask.timerTask, time);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reschedule</span><span class="params">(SchedulerTask schedulerTask, ScheduleIterator iterator)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		Date time = iterator.next();</span><br><span class="line">		<span class="keyword">if</span> (time == <span class="keyword">null</span>) &#123;</span><br><span class="line">			schedulerTask.cancel();</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (schedulerTask.lock) &#123;</span><br><span class="line">				<span class="keyword">if</span> (schedulerTask.state != SchedulerTask.CANCELLED) &#123;</span><br><span class="line">					schedulerTask.timerTask = <span class="keyword">new</span> SchedulerTimerTask(schedulerTask, iterator);</span><br><span class="line">					timer.schedule(schedulerTask.timerTask, time);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SchedulerTask.java </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">SchedulerTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">final</span> Object lock = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> state = VIRGIN;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIRGIN = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SCHEDULED = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">	TimerTask timerTask;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="title">SchedulerTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">			<span class="keyword">if</span> (timerTask != <span class="keyword">null</span>) &#123;</span><br><span class="line">				timerTask.cancel();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">boolean</span> result = (state == SCHEDULED);</span><br><span class="line">			state = CANCELLED;</span><br><span class="line">			<span class="keyword">return</span> result;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">scheduledExecutionTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">			<span class="keyword">return</span> timerTask == <span class="keyword">null</span> ? <span class="number">0</span> : timerTask.scheduledExecutionTime();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自己写的ScheduleIterator  实现类 以及一个测试类 </p>
+<ul>
+<li>SimpleScheduleIterator.java </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.GregorianCalendar;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.jeecms.common.task.scheduling.ScheduleIterator;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 时间进度迭代器 &lt;li&gt;返回 月/周/天/小时/分钟/秒 计划的下一次执行时间&lt;/li&gt; &lt;li&gt;约定：参数以逗号分隔,*号表示无值&lt;/li&gt; &lt;li&gt;</span></span><br><span class="line"><span class="comment"> * 参数解释： &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 第一位：每个月的第几周&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 第二位：每周的第几天&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 第三位：天(几号)&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 第四位：小时(24小时制)&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 第五位：分钟&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 第六位：秒&lt;/br&gt;&lt;/li&gt; &lt;li&gt;参数样例： &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 1,6,4,15,20,30 表示 从今天的15:20:30开始，每隔一个月执行一次,即下次执行时间是 下个月的第一周的第6天的15:20:30&lt;/br&gt;</span></span><br><span class="line"><span class="comment"> * &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * *,6,4,15,20,30 表示 从今天的15:20:30开始，每隔一周执行一次,即下次执行时间是 下一周的第6天的15:20:30&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * *,*,4,15,20,30 表示 从今天的15:20:30开始，每隔一天执行一次,即下次执行时间是 下一天的15:20:30&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * *,*,*,15,20,30 表示 从今天的15:20:30开始，每隔一小时执行一次,即下次执行时间是 16:20:30&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * *,*,*,*,20,30 表示 从这个小时的20:30开始，每隔一分钟执行一次,即下次执行时间是 *:21:30&lt;/br&gt; &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * *,*,*,*,*,30 表示 从当前时间的30秒开始，每隔一秒执行一次,即下次执行时间是 *:*:31&lt;/br&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> javacoo</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2011-11-03</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleScheduleIterator</span> <span class="keyword">implements</span> <span class="title">ScheduleIterator</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> ScheduleParamBean scheduleParamBean;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Calendar calendar = Calendar.getInstance();</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Calendar orginCalendar = Calendar.getInstance();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleScheduleIterator</span><span class="params">(<span class="keyword">final</span> ScheduleParamBean scheduleParamBean)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>(scheduleParamBean, <span class="keyword">new</span> Date());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleScheduleIterator</span><span class="params">(<span class="keyword">final</span> ScheduleParamBean scheduleParamBean, Date date)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.scheduleParamBean = scheduleParamBean;</span><br><span class="line"></span><br><span class="line">		orginCalendar.setTime(date);</span><br><span class="line">		calendar.setTime(date);</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getWeekOfMonth()) &#123;</span><br><span class="line">			calendar.set(Calendar.WEEK_OF_MONTH, scheduleParamBean.getWeekOfMonth());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 如果设置了每周的第几天和一个月的第几天，则忽略一个月的第几天</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfWeek()) &#123;</span><br><span class="line">			calendar.set(Calendar.DAY_OF_WEEK, scheduleParamBean.getDayOfWeek());</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfMonth()) &#123;</span><br><span class="line">			calendar.set(Calendar.DAY_OF_MONTH, scheduleParamBean.getDayOfMonth());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getHourOfDay()) &#123;</span><br><span class="line">			calendar.set(Calendar.HOUR_OF_DAY, scheduleParamBean.getHourOfDay());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getMinute()) &#123;</span><br><span class="line">			calendar.set(Calendar.MINUTE, scheduleParamBean.getMinute());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getSecond()) &#123;</span><br><span class="line">			calendar.set(Calendar.SECOND, scheduleParamBean.getSecond());</span><br><span class="line">		&#125;</span><br><span class="line">		calendar.set(Calendar.MILLISECOND, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (!calendar.getTime().before(date)) &#123;</span><br><span class="line">			System.out.println(calendar.getTime() + <span class="string">"大于当前时间："</span> + date);</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getWeekOfMonth()) &#123;</span><br><span class="line">				calendar.add(Calendar.MONTH, -<span class="number">1</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfWeek()) &#123;</span><br><span class="line">				calendar.add(Calendar.DAY_OF_WEEK, -<span class="number">6</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfMonth()) &#123;</span><br><span class="line">				calendar.add(Calendar.DAY_OF_MONTH, -<span class="number">1</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getHourOfDay()) &#123;</span><br><span class="line">				calendar.add(Calendar.HOUR_OF_DAY, -<span class="number">1</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getMinute()) &#123;</span><br><span class="line">				calendar.add(Calendar.MINUTE, -<span class="number">1</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getSecond()) &#123;</span><br><span class="line">				calendar.add(Calendar.SECOND, -<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(calendar.getTime() + <span class="string">"小于当前时间："</span> + date);</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfMonth()) &#123;</span><br><span class="line">				calendar.add(Calendar.DAY_OF_MONTH, orginCalendar.get(Calendar.DAY_OF_MONTH) - scheduleParamBean.getDayOfMonth());</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getHourOfDay()) &#123;</span><br><span class="line">				calendar.add(Calendar.HOUR_OF_DAY, orginCalendar.get(Calendar.HOUR_OF_DAY) - scheduleParamBean.getHourOfDay());</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getMinute()) &#123;</span><br><span class="line">				calendar.add(Calendar.MINUTE, orginCalendar.get(Calendar.MINUTE) - scheduleParamBean.getMinute());</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getSecond()) &#123;</span><br><span class="line">				calendar.add(Calendar.SECOND, orginCalendar.get(Calendar.SECOND) - scheduleParamBean.getSecond());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Date <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getWeekOfMonth()) &#123;</span><br><span class="line">			calendar.add(Calendar.MONTH, <span class="number">1</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfWeek()) &#123;</span><br><span class="line">			calendar.add(Calendar.DAY_OF_WEEK, <span class="number">6</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getDayOfMonth()) &#123;</span><br><span class="line">			calendar.add(Calendar.DAY_OF_MONTH, <span class="number">1</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getHourOfDay()) &#123;</span><br><span class="line">			calendar.add(Calendar.HOUR_OF_DAY, <span class="number">1</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getMinute()) &#123;</span><br><span class="line">			calendar.add(Calendar.MINUTE, <span class="number">1</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">null</span> != scheduleParamBean.getSecond()) &#123;</span><br><span class="line">			calendar.add(Calendar.SECOND, <span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"下次执行时间:"</span> + calendar.getTime());</span><br><span class="line">		<span class="keyword">return</span> calendar.getTime();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ScheduleParamBean.java </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 时间计划参数bean</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> javacoo</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2011-11-04</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduleParamBean</span> </span>&#123;</span><br><span class="line">	<span class="comment">/** 每个月的第几周,每周的第几天,每个月的第几天,小时(24小时制),分钟,秒 */</span></span><br><span class="line">	<span class="keyword">private</span> Integer weekOfMonth, dayOfWeek, dayOfMonth, hourOfDay, minute, second;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ScheduleParamBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ScheduleParamBean</span><span class="params">(Integer weekOfMonth, Integer dayOfWeek, Integer dayOfMonth, Integer hourOfDay, Integer minute, Integer second)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.weekOfMonth = weekOfMonth;</span><br><span class="line">		<span class="keyword">this</span>.dayOfWeek = dayOfWeek;</span><br><span class="line">		<span class="keyword">this</span>.dayOfMonth = dayOfMonth;</span><br><span class="line">		<span class="keyword">this</span>.hourOfDay = hourOfDay;</span><br><span class="line">		<span class="keyword">this</span>.minute = minute;</span><br><span class="line">		<span class="keyword">this</span>.second = second;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getWeekOfMonth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> weekOfMonth;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWeekOfMonth</span><span class="params">(Integer weekOfMonth)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.weekOfMonth = weekOfMonth;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getDayOfWeek</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> dayOfWeek;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDayOfWeek</span><span class="params">(Integer dayOfWeek)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.dayOfWeek = dayOfWeek;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getDayOfMonth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> dayOfMonth;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDayOfMonth</span><span class="params">(Integer dayOfMonth)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.dayOfMonth = dayOfMonth;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getHourOfDay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> hourOfDay;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHourOfDay</span><span class="params">(Integer hourOfDay)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.hourOfDay = hourOfDay;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getMinute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> minute;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMinute</span><span class="params">(Integer minute)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.minute = minute;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getSecond</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> second;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSecond</span><span class="params">(Integer second)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.second = second;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"ScheduleParamBean [dayOfMonth="</span> + dayOfMonth + <span class="string">", dayOfWeek="</span> + dayOfWeek + <span class="string">", hourOfDay="</span> + hourOfDay + <span class="string">", minute="</span> + minute</span><br><span class="line">				+ <span class="string">", second="</span> + second + <span class="string">", weekOfMonth="</span> + weekOfMonth + <span class="string">"]"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TestSchedule.java </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> javacoo</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2011-11-03</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestSchedule</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Scheduler scheduler = <span class="keyword">new</span> Scheduler();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> ScheduleParamBean scheduleParamBean;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TestSchedule</span><span class="params">(<span class="keyword">final</span> ScheduleParamBean scheduleParamBean)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.scheduleParamBean = scheduleParamBean;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		scheduler.schedule(<span class="keyword">new</span> SchedulerTask() &#123;</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				execute();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				System.out.println(<span class="string">"任务执行"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, <span class="keyword">new</span> SimpleScheduleIterator(scheduleParamBean));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		ScheduleParamBean scheduleParamBean = <span class="keyword">new</span> ScheduleParamBean();</span><br><span class="line">		scheduleParamBean.setWeekOfMonth(<span class="number">1</span>);</span><br><span class="line">		scheduleParamBean.setDayOfWeek(<span class="number">6</span>);</span><br><span class="line">		scheduleParamBean.setDayOfMonth(<span class="number">4</span>);</span><br><span class="line">		scheduleParamBean.setHourOfDay(<span class="number">16</span>);</span><br><span class="line">		scheduleParamBean.setMinute(<span class="number">22</span>);</span><br><span class="line">		scheduleParamBean.setSecond(<span class="number">0</span>);</span><br><span class="line">		TestSchedule test = <span class="keyword">new</span> TestSchedule(scheduleParamBean);</span><br><span class="line">		test.start();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以下是整合到JEECMS采集器多线程版的代码片段 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 开始执行采集任务 </span></span><br><span class="line"><span class="comment"> */</span> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">start</span><span class="params">(Integer id)</span> </span>&#123; </span><br><span class="line">CmsAcquisition acqu = cmsAcquisitionMng.findById(id); </span><br><span class="line"><span class="keyword">if</span> (acqu == <span class="keyword">null</span> || acqu.getStatus() == CmsAcquisition.START) &#123; </span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>; </span><br><span class="line">&#125; </span><br><span class="line">TaskSchedulerManage taskManage = <span class="keyword">new</span> TaskSchedulerManage(<span class="keyword">this</span>,acqu); </span><br><span class="line">taskManage.start(); </span><br><span class="line"><span class="keyword">return</span> <span class="keyword">true</span>; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskSchedulerManage</span> </span>&#123; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Scheduler scheduler = <span class="keyword">new</span> Scheduler(); </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> MultiThreadAcquisitionSvcImpl multiThreadAcquisitionSvc; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> CmsAcquisition acqu; </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">TaskSchedulerManage</span><span class="params">(MultiThreadAcquisitionSvcImpl multiThreadAcquisitionSvc,CmsAcquisition acqu)</span> </span>&#123; </span><br><span class="line"><span class="keyword">this</span>.multiThreadAcquisitionSvc = multiThreadAcquisitionSvc; </span><br><span class="line"><span class="keyword">this</span>.acqu = acqu; </span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123; </span><br><span class="line">scheduler.schedule(<span class="keyword">new</span> SchedulerTask() &#123; </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123; </span><br><span class="line">processer(); </span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processer</span><span class="params">()</span> </span>&#123; </span><br><span class="line">System.out.println(<span class="string">"============开始执行计划任务================="</span>); </span><br><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> MainThreadProcesser(multiThreadAcquisitionSvc,acqu)).start(); </span><br><span class="line">&#125; </span><br><span class="line">&#125;, <span class="keyword">new</span> SimpleScheduleIterator(<span class="keyword">new</span> ScheduleParamBean(<span class="number">1</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">17</span>,<span class="number">24</span>,<span class="number">30</span>))); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：关键是 ScheduleIterator实现类了，框架有多强大 完全取决于你的ScheduleIterator实现类了。 </p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#cms" >
+    <span class="tag-code">cms</span>
+  </a>
+
+  <a href="/tags#java" >
+    <span class="tag-code">java</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/11881.html">
+        <span class="nav-arrow">← </span>
+        
+          北方的空地
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/61929.html">
+        
+          Java Listener实现在线统计人数和总访问量
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="nav">none</ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/35236.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "定时任务框架",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

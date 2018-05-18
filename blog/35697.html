@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      面向对象设计和编程 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>面向对象设计和编程</h2>
+  <p class="post-date">2018-02-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0148.jpg" alt="image"></p>
+<p>Java面试笔记<br><a id="more"></a></p>
+<h1 id="S-O-L-I-D"><a href="#S-O-L-I-D" class="headerlink" title="S.O.L.I.D"></a>S.O.L.I.D</h1><p>S.O.L.I.D 是面向对象设计和编程 (OOD&amp;OOP) 中几个重要编码原则 (Programming Priciple) 的首字母缩写。</p>
+<table>
+<thead>
+<tr>
+<th>简写</th>
+<th>全拼</th>
+<th>中文翻译</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRP</td>
+<td>The Single Responsibility Principle</td>
+<td>单一责任原则</td>
+</tr>
+<tr>
+<td>OCP</td>
+<td>The Open Closed Principle</td>
+<td>开放封闭原则</td>
+</tr>
+<tr>
+<td>LSP</td>
+<td>The Liskov Substitution Principle</td>
+<td>里氏替换原则</td>
+</tr>
+<tr>
+<td>ISP</td>
+<td>The Interface Segregation Principle</td>
+<td>接口分离原则</td>
+</tr>
+<tr>
+<td>DIP</td>
+<td>The Dependency Inversion Principle</td>
+<td>依赖倒置原则</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-单一责任原则"><a href="#1-单一责任原则" class="headerlink" title="1. 单一责任原则"></a>1. 单一责任原则</h2><p>当需要修改某个类的时候原因有且只有一个。换句话说就是让一个类只做一种类型责任，当这个类需要承当其他类型的责任的时候，就需要分解这个类。</p>
+<h2 id="2-开放封闭原则"><a href="#2-开放封闭原则" class="headerlink" title="2. 开放封闭原则"></a>2. 开放封闭原则</h2><p>软件实体应该是可扩展，而不可修改的。也就是说，对扩展是开放的，而对修改是封闭的。</p>
+<h2 id="3-里氏替换原则"><a href="#3-里氏替换原则" class="headerlink" title="3. 里氏替换原则"></a>3. 里氏替换原则</h2><p>当一个子类的实例应该能够替换任何其超类的实例时，它们之间才具有 is-a 关系。</p>
+<h2 id="4-接口分离原则"><a href="#4-接口分离原则" class="headerlink" title="4. 接口分离原则"></a>4. 接口分离原则</h2><p>不能强迫用户去依赖那些他们不使用的接口。换句话说，使用多个专门的接口比使用单一的总接口总要好。</p>
+<h2 id="5-依赖倒置原则"><a href="#5-依赖倒置原则" class="headerlink" title="5. 依赖倒置原则"></a>5. 依赖倒置原则</h2><ol>
+<li>高层模块不应该依赖于低层模块，二者都应该依赖于抽象</li>
+<li>抽象不应该依赖于细节，细节应该依赖于抽象</li>
+</ol>
+<h1 id="封装、继承、多态"><a href="#封装、继承、多态" class="headerlink" title="封装、继承、多态"></a>封装、继承、多态</h1><p>封装、继承、多态是面向对象的三大特性。</p>
+<h2 id="1-封装"><a href="#1-封装" class="headerlink" title="1. 封装"></a>1. 封装</h2><p>利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体，数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外接口使之与外部发生联系。用户是无需知道对象内部的细节，但可以通过该对象对外的提供的接口来访问该对象。</p>
+<p>封装有三大好处：</p>
+<ol>
+<li>良好的封装能够减少耦合。</li>
+<li>类内部的结构可以自由修改。</li>
+<li>可以对成员进行更精确的控制。</li>
+<li>隐藏信息，实现细节。</li>
+</ol>
+<p>以下 Person 类封装 name、gender、age 等属性，外界只能通过 get() 方法获取一个 Person 对象的 name 属性和 gender 属性，而无法获取 age 属性，但是 age 属性可以供 work() 方法使用。</p>
+<p>注意到 gender 属性使用 int 数据类型进行存储，封装使得用户注意不到这种实现细节。并且在需要修改使用的数据类型时，也可以在不影响客户端代码的情况下进行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> gender;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getGender</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gender == <span class="number">0</span> ? <span class="string">"man"</span> : <span class="string">"woman"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">work</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">18</span> &lt;= age &amp;&amp; age &lt;= <span class="number">50</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">" is working very hard!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(name + <span class="string">" can't work!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-继承"><a href="#2-继承" class="headerlink" title="2. 继承"></a>2. 继承</h2><p>继承实现了 <strong>is-a</strong> 关系，例如 Cat 和 Animal 就是一种 is-a 关系，因此可以将 Cat 继承自 Animal，从而获得 Animal 非 private 的属性和方法。</p>
+<p>Cat 可以当做 Animal 来使用，也就是可以使用 Animal 引用 Cat 对象，这种子类转换为父类称为 <strong>向上转型</strong>。</p>
+<p>继承应该遵循里氏替换原则：当一个子类的实例应该能够替换任何其超类的实例时，它们之间才具有 is-a 关系。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Animal animal = <span class="keyword">new</span> Cat();</span><br></pre></td></tr></table></figure>
+<h2 id="3-多态"><a href="#3-多态" class="headerlink" title="3. 多态"></a>3. 多态</h2><p>多态分为编译时多态和运行时多态。编译时多态主要指方法的重装，运行时多态指程序中定义的对象引用所指向的具体类型在运行期间才确定。</p>
+<p>多态有三个条件：1. 继承；2. 覆盖父类方法；3. 向上转型。</p>
+<p>下面的代码中，乐器类（Instrument）有两个子类：Wind 和 Percussion，它们都覆盖了 play() 方法，并且在 main() 方法中使用父类 Instrument 来引用 Wind 和 Percussion 对象。在 Instrument 引用调用 play() 方法时，会执行实际引用对象所在类的 play() 方法，而不是 Instrument 类的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Instument is playing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wind</span> <span class="keyword">extends</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Wind is playing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Percussion</span> <span class="keyword">extends</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Percussion is playing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Music</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Instrument&gt; instruments = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        instruments.add(<span class="keyword">new</span> Wind());</span><br><span class="line">        instruments.add(<span class="keyword">new</span> Percussion());</span><br><span class="line">        <span class="keyword">for</span>(Instrument instrument : instruments) &#123;</span><br><span class="line">            instrument.play();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><h2 id="1-类图"><a href="#1-类图" class="headerlink" title="1. 类图"></a>1. 类图</h2><p><strong>1.1 继承相关</strong></p>
+<p>继承有两种形式 : 泛化（generalize）和实现（realize），表现为 is-a 关系。</p>
+<p>① 泛化关系 (generalization)</p>
+<p>从具体类中继承</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/29badd92-109f-4f29-abb9-9857f5973928.png" alt=""></p>
+<p>② 实现关系 (realize)</p>
+<p>从抽象类或者接口中继承</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/4b16e1d3-3a60-472c-9756-2f31b1c48abe.png" alt=""></p>
+<p><strong>1.2 整体和部分</strong></p>
+<p>① 聚合关系 (aggregation)</p>
+<p>表示整体由部分组成，但是整体和部分不是强依赖的，整体不存在了部分还是会存在。以下表示 B 由 A 组成：</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/34259bb8-ca3a-4872-8771-9e946782d9c3.png" alt=""></p>
+<p>② 组合关系 (composition)</p>
+<p>和聚合不同，组合中整体和部分是强依赖的，整体不存在了部分也不存在了。比如公司和部门，公司没了部门就不存在了。但是公司和员工就属于聚合关系了，因为公司没了员工还在。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/7dda050d-ac35-4f47-9f51-18f18ed6fa9a.png" alt=""></p>
+<p><strong>1.3 相互联系</strong></p>
+<p>① 关联关系 (association)</p>
+<p>表示不同类对象之间有关联，这是一种静态关系，与运行过程的状态无关，在最开始就可以确定。因此也可以用 1 对 1、多对 1、多对多这种关联关系来表示。比如学生和学校就是一种关联关系，一个学校可以有很多学生，但是一个学生只属于一个学校，因此这是一种多对一的关系，在运行开始之前就可以确定。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/4ccd294c-d6b2-421b-839e-d88336ff5fb7.png" alt=""></p>
+<p>② 依赖关系 (dependency)</p>
+<p>和关联关系不同的是 , 依赖关系是在运行过程中起作用的。一般依赖作为类的构造器或者方法的参数传入。双向依赖时一种不好的设计。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/47ca2614-509f-476e-98fc-50ec9f9d43c0.png" alt=""></p>
+<h2 id="2-时序图"><a href="#2-时序图" class="headerlink" title="2. 时序图"></a>2. 时序图</h2><p><strong>2.1 定义</strong></p>
+<p>时序图描述了对象之间传递消息的时间顺序，它用来表示用例的行为顺序。它的主要作用是通过对象间的交互来描述用例（注意是对象），从而寻找类的操作。</p>
+<p><strong>2.2 赤壁之战时序图</strong></p>
+<p>从虚线从上往下表示时间的推进。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/80c5aff8-fc46-4810-aeaa-215b5c60a003.png" alt=""></p>
+<p>可见，通过时序图可以知道每个类具有以下操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">publc <span class="class"><span class="keyword">class</span> 刘备 </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span> 应战 ();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">publc <span class="class"><span class="keyword">class</span>  孔明 </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span>  拟定策略 ();</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span>  联合孙权 ();</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> 借东风火攻 ();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 关羽 </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span>  防守荊州 ();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 张飞 </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span>  防守荆州前线 ();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 孙权 </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span>  领兵相助 ();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2.3 活动图、时序图之间的关系</strong></p>
+<p>活动图示从用户的角度来描述用例；</p>
+<p>时序图是从计算机的角度（对象间的交互）描述用例。</p>
+<p><strong>2.4 类图与时序图的关系</strong></p>
+<p>类图描述系统的静态结构，时序图描述系统的动态行为。</p>
+<p><strong>2.5 时序图的组成</strong></p>
+<p>① 对象</p>
+<p>有三种表现形式</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/25b8adad-2ef6-4f30-9012-c306b4e49897.png" alt=""></p>
+<p>在画图时，应该遵循以下原则：</p>
+<ol>
+<li><p>把交互频繁的对象尽可能地靠拢。</p>
+</li>
+<li><p>把初始化整个交互活动的对象（有时是一个参与者）放置在最左边。</p>
+</li>
+</ol>
+<p>② 生命线</p>
+<p>生命线从对象的创建开始到对象销毁时终止</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/b7b0eac6-e7ea-4fb6-8bfb-95fec6f235e2.png" alt=""></p>
+<p>③ 消息</p>
+<p>对象之间的交互式通过发送消息来实现的。</p>
+<p>消息有 4 种类型：</p>
+<p>1. 简单消息，不区分同步异步。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/a13b62da-0fa8-4224-a615-4cadacc08871.png" alt=""></p>
+<p>2. 同步消息，发送消息之后需要暂停活动来等待回应。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/33821037-dc40-4266-901c-e5b38e618426.png" alt=""></p>
+<p>3. 异步消息，发送消息之后不需要等待。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/dec6c6cc-1b5f-44ed-b8fd-464fcf849dac.png" alt=""></p>
+<p>4. 返回消息，可选。</p>
+<p>④ 激活</p>
+<p>生命线上的方框表示激活状态，其它时间处于休眠状态。</p>
+<p><img src="http://ovi3ob9p4.bkt.clouddn.com/Interview/6ab5de9b-1c1e-4118-b2c3-fb6c7ed7de6f.png" alt=""></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>Java 编程思想</li>
+<li><a href="http://www.cnblogs.com/shanyou/archive/2009/09/21/1570716.html" target="_blank" rel="noopener"> 面向对象设计的 SOLID 原则 </a></li>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html#generalization" target="_blank" rel="noopener"> 看懂 UML 类图和时序图 </a></li>
+<li><a href="http://www.cnblogs.com/wolf-sun/p/UML-Sequence-diagram.html" target="_blank" rel="noopener">UML 系列——时序图（顺序图）sequence diagram</a></li>
+<li><a href="http://blog.csdn.net/jianyuerensheng/article/details/51602015" target="_blank" rel="noopener"> 面向对象编程三大特性 —— 封装、继承、多态 </a></li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Interview" >
+    <span class="tag-code">Interview</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/60876.html">
+        <span class="nav-arrow">← </span>
+        
+          算法分析
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/29283.html">
+        
+          算法思想
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#S-O-L-I-D"><span class="toc-nav-text">S.O.L.I.D</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-单一责任原则"><span class="toc-nav-text">1. 单一责任原则</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-开放封闭原则"><span class="toc-nav-text">2. 开放封闭原则</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-里氏替换原则"><span class="toc-nav-text">3. 里氏替换原则</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-接口分离原则"><span class="toc-nav-text">4. 接口分离原则</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-依赖倒置原则"><span class="toc-nav-text">5. 依赖倒置原则</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#封装、继承、多态"><span class="toc-nav-text">封装、继承、多态</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-封装"><span class="toc-nav-text">1. 封装</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-继承"><span class="toc-nav-text">2. 继承</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-多态"><span class="toc-nav-text">3. 多态</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#UML"><span class="toc-nav-text">UML</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-类图"><span class="toc-nav-text">1. 类图</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-时序图"><span class="toc-nav-text">2. 时序图</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#参考资料"><span class="toc-nav-text">参考资料</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/35697.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "面向对象设计和编程",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

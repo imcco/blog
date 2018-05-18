@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Spring Batch 4.0.0批处理框架 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Spring Batch 4.0.0批处理框架</h2>
+  <p class="post-date">2017-12-04</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0021.jpg" alt="image"></p>
+<p>Spring Batch 4.0.0  已发布，Spring Batch 是一个轻量级的，完全面向 Spring 的批处理框架，可以应用于企业级大量的数据处理系统。Spring Batch 以 POJO 和  Spring 框架为基础，使开发者更容易的访问和利用企业级服务。Spring Batch 可以提供大量的，可重复的数据处理功能，包括日志记录/跟踪，事务管理，作业处理统计工作重新启动、跳过，和资源管理等重要功能。<br><a id="more"></a><br>Spring Batch 4.0 是自2014年 3.0 发布以来的又一个主要版本。3.0 发布至今，Spring 生态系统发生了很大变化，4.0 版本旨在让 Spring Batch 更新这些变化。</p>
+<p>New Baseline</p>
+<p>Spring Batch 3 基于 Spring Framework 4 ，Spring Batch 4 重新审视了它的依赖关系树，将它与即将到来的 Spring Boot 2 依赖关系树进行了更新，包括将 Spring Framework 5 和 Java 8 作为基线要求。</p>
+<h3 id="改进的-Java-配置"><a href="#改进的-Java-配置" class="headerlink" title="改进的 Java 配置"></a>改进的 Java 配置</h3><p>如前所述，Spring Batch 4 是 Spring Boot 发布以来的第一个主要版本。在这个版本中，改善了让用户的 Java 配置体验。所有 ItemReader 和 ItemWriter 实现现在都可以使用构建器。使用 Spring Batch 3 的 Java 配置功能，将需要如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FlatFileItemReader&lt;Foo&gt; <span class="title">reader</span><span class="params">(Resource resource)</span> </span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        FlatFileItemReader&lt;Foo&gt; reader = <span class="keyword">new</span> FlatFileItemReader&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        reader.setName(“fooReader”);</span><br><span class="line">        reader.setResource(resource);</span><br><span class="line"></span><br><span class="line">        BeanWrapperFieldSetMapper&lt;Foo&gt; fieldSetMapper = </span><br><span class="line">            <span class="keyword">new</span> BeanWrapperFieldSetMapper&lt;&gt;();</span><br><span class="line">        fieldSetMapper.setTargetType(Foo.class);</span><br><span class="line">        fieldSetMapper.afterPropertiesSet();</span><br><span class="line"></span><br><span class="line">        DelimitedLineTokenizer tokenizer = <span class="keyword">new</span> DelimitedLineTokenizer();</span><br><span class="line">        tokenizer.setNames(<span class="keyword">new</span> String[] &#123;“first”, “second”, “third”&#125;);</span><br><span class="line">        tokenizer.afterPropertiesSet();</span><br><span class="line"></span><br><span class="line">        DefaultLineMapper lineMapper = <span class="keyword">new</span> DefaultLineMapper();</span><br><span class="line">        lineMapper.setLineTokenizer(tokenizer);</span><br><span class="line">        lineMapper.setFieldSetMapper(fieldSetMapper);</span><br><span class="line"></span><br><span class="line">        reader.setLineMapper(lineMapper);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> reader;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>使用 Spring Batch 4，配置简化如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FlatFileItemReader&lt;Foo&gt; <span class="title">reader</span><span class="params">(Resource resource)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FlatFileItemReaderBuilder&lt;Foo&gt;()</span><br><span class="line">            .name(“fooReader”)</span><br><span class="line">            .resource(resource)</span><br><span class="line">            .delimited()</span><br><span class="line">            .names(<span class="keyword">new</span> String[]&#123;“first”, “second”, “third”&#125;)</span><br><span class="line">            .targetType(Foo.class)</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="创建批处理服务"><a href="#创建批处理服务" class="headerlink" title="创建批处理服务"></a>创建批处理服务</h3><pre><code>本指南将引导您完成创建基本批处理驱动解决方案的过程。
+</code></pre><h3 id="你要建什么"><a href="#你要建什么" class="headerlink" title="你要建什么"></a>你要建什么</h3><pre><code>您将构建一个服务，该服务从CSV电子表格中导入数据，用自定义代码对其进行转换，并将最终结果存储在数据库中。
+</code></pre><h3 id="你需要什么"><a href="#你需要什么" class="headerlink" title="你需要什么"></a>你需要什么</h3><pre><code>大约15分钟
+</code></pre><h3 id="最喜欢的文本编辑器或IDE"><a href="#最喜欢的文本编辑器或IDE" class="headerlink" title="最喜欢的文本编辑器或IDE"></a>最喜欢的文本编辑器或IDE</h3><pre><code>JDK 1.8或以后
+
+Gradle 2.3或Maven 3.0+
+
+您还可以直接将代码导入IDE中：
+
+Spring Tool Suite (STS)
+
+IntelliJ IDEA
+</code></pre><h3 id="如何完成本指南"><a href="#如何完成本指南" class="headerlink" title="如何完成本指南"></a>如何完成本指南</h3><pre><code>像大多数Spring一样入门指南，您可以从头开始并完成每个步骤，也可以绕过您已经熟悉的基本设置步骤。无论哪种方式，你最终都会得到工作代码。
+</code></pre><p>到白手兴家，继续前进用Gradle建造…</p>
+<p>到跳过基础，做以下工作：</p>
+<p>下载并解压缩本指南的源存储库，或用Git:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/spring-guides/gs-batch-processing.git</span><br></pre></td></tr></table></figure></p>
+<p>cd into gs-batch-processing/initial</p>
+<p>跳到创建一个business类…</p>
+<p>当你完成中的代码检查结果，gs-batch-processing/complete.</p>
+<h3 id="用Gradle创建"><a href="#用Gradle创建" class="headerlink" title="用Gradle创建"></a>用Gradle创建</h3><p>首先，您设置了一个基本的构建脚本。在使用Spring构建应用程序时，您可以使用任何您喜欢的构建系统，但是您需要使用的代码用Gradle和Maven包括在这里。如果您对这两种情况都不熟悉，请参阅用Gradle构建Java项目或使用Maven构建Java项目…</p>
+<h4 id="创建目录结构"><a href="#创建目录结构" class="headerlink" title="创建目录结构"></a>创建目录结构</h4><p>在您选择的项目目录中，创建以下子目录结构；例如，使用mkdir-p src/main/java/hello关于*nix系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">└── src</span><br><span class="line">    └── main</span><br><span class="line">        └── java</span><br><span class="line">            └── hello</span><br></pre></td></tr></table></figure>
+<p>创建一个Gradle构建文件<br>下面是initial Gradle build file….</p>
+<p><strong>build.gradle</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">buildscript&#123;repositories&#123;mavenCentral()</span><br><span class="line">    &#125;dependencies&#123;classpath(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;apply plugin: <span class="string">'java'</span>apply plugin: <span class="string">'eclipse'</span>apply plugin: <span class="string">'idea'</span>apply plugin: <span class="string">'org.springframework.boot'</span>jar&#123;baseName= <span class="string">'gs-batch-processing'</span>version=  <span class="string">'0.1.0'</span></span><br><span class="line">&#125;repositories&#123;mavenCentral()</span><br><span class="line">&#125;sourceCompatibility= <span class="number">1.8</span>targetCompatibility= <span class="number">1.8</span>dependencies&#123;compile(<span class="string">"org.springframework.boot:spring-boot-starter-batch"</span>)compile(<span class="string">"org.hsqldb:hsqldb"</span>)testCompile(<span class="string">"junit:junit"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Spring-Boot-gradle-plugin提供了许多方便的功能："><a href="#Spring-Boot-gradle-plugin提供了许多方便的功能：" class="headerlink" title="Spring Boot gradle plugin提供了许多方便的功能："></a>Spring Boot gradle plugin提供了许多方便的功能：</h4><ul>
+<li>它收集类路径上的所有JAR，并构建一个可运行的“über-jar”，这使得执行和传输服务更加方便。</li>
+<li>它搜索public static void main()方法标记为可运行的类。</li>
+<li>它提供了一个内置的依赖项解析器，它将版本号设置为匹配。Spring Boot dependencies您可以覆盖任何版本，但它将默认为Boot所选的一组版本。</li>
+</ul>
+<h2 id="用Maven构建"><a href="#用Maven构建" class="headerlink" title="用Maven构建"></a>用Maven构建</h2><p>首先，您设置了一个基本的构建脚本。在使用Spring构建应用程序时，您可以使用任何您喜欢的构建系统，但是您需要使用的代码马文包括在这里。如果您不熟悉Maven，请参阅使用Maven构建Java项目…</p>
+<p>创建目录结构<br>在您选择的项目目录中，创建以下子目录结构；例如，使用mkdir-p src/main/java/hello关于*nix系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">└── src</span><br><span class="line">    └── main</span><br><span class="line">        └── java</span><br><span class="line">            └── hello</span><br></pre></td></tr></table></figure>
+<p><strong>pom.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0"encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>gs-batch-processing<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-batch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hsqldb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hsqldb<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="大Spring-Boot-Maven插件提供了许多方便的功能："><a href="#大Spring-Boot-Maven插件提供了许多方便的功能：" class="headerlink" title="大Spring Boot Maven插件提供了许多方便的功能："></a>大Spring Boot Maven插件提供了许多方便的功能：</h4><ul>
+<li><p>它收集类路径上的所有JAR，并构建一个可运行的“über-jar”，这使得执行和传输服务更加方便。</p>
+</li>
+<li><p>它搜索public static void main()方法标记为可运行的类。</p>
+</li>
+<li><p>它提供了一个内置的依赖项解析器，它将版本号设置为匹配。Spring Boot dependencies您可以覆盖任何版本，但它将默认为Boot所选的一组版本。</p>
+<h2 id="用IDE构建"><a href="#用IDE构建" class="headerlink" title="用IDE构建"></a>用IDE构建</h2></li>
+</ul>
+<p>阅读如何将本指南直接导入Spring Tool Suite…</p>
+<p>阅读如何使用本指南IntelliJ IDEA…</p>
+<h3 id="业务数据"><a href="#业务数据" class="headerlink" title="业务数据"></a>业务数据</h3><p>通常，您的客户或业务分析师提供电子表格。在这种情况下，你自己编出来的。</p>
+<p><strong>SRC/Main/Resources/Sample-data.csv</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Jill,Doe</span><br><span class="line">Joe,Doe</span><br><span class="line">Justin,Doe</span><br><span class="line">Jane,Doe</span><br><span class="line">John,Doe</span><br></pre></td></tr></table></figure>
+<p>此电子表格包含每行的名称和姓氏，以逗号分隔。正如您所看到的，这是Spring处理的一个非常常见的模式。</p>
+<p>接下来，编写一个SQL脚本来创建一个表来存储数据。</p>
+<p><strong>SRC/main/resources/schema-all.sql</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> people <span class="keyword">IF</span> <span class="keyword">EXISTS</span>;<span class="keyword">CREATE</span> <span class="keyword">TABLE</span> people(person_id <span class="built_in">BIGINT</span> <span class="keyword">IDENTITY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,first_name <span class="built_in">VARCHAR</span>(<span class="number">20</span>),last_name <span class="built_in">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<pre><code>Spring Boot模式schema-@@platform@@.sql启动时自动。-all是所有平台的默认设置。
+</code></pre><h3 id="创建一个business类"><a href="#创建一个business类" class="headerlink" title="创建一个business类"></a>创建一个business类</h3><p>现在您已经看到了数据输入和输出的格式，您可以编写代码来表示一行数据.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">packagehello;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> StringlastName;</span><br><span class="line">    <span class="keyword">private</span> StringfirstName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(StringfirstName, StringlastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName=firstName;</span><br><span class="line">        <span class="keyword">this</span>.lastName=lastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">voidsetFirstName</span><span class="params">(StringfirstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName=firstName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StringgetFirstName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        returnfirstName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StringgetLastName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        returnlastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">voidsetLastName</span><span class="params">(StringlastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lastName=lastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StringtoString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"firstName: "</span> +firstName+ <span class="string">", lastName: "</span> +lastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>您可以实例化person通过构造函数，或通过设置属性，使用姓和名初始化。</p>
+<h3 id="创建中间处理器（-intermediate-processor）"><a href="#创建中间处理器（-intermediate-processor）" class="headerlink" title="创建中间处理器（ intermediate processor）"></a>创建中间处理器（ intermediate processor）</h3><p>批处理中的一个常见范例是摄取数据，转换数据，然后将其输送到其他地方。在这里，您将编写一个简单的转换器，将名称转换为大写。</p>
+<p><strong>SRC/main/java/hello/PersonItemProcessor.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">packagehello;</span><br><span class="line"></span><br><span class="line">importorg.slf4j.Logger;</span><br><span class="line">importorg.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">importorg.springframework.batch.item.ItemProcessor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonItemProcessor</span> <span class="keyword">implements</span> <span class="title">ItemProcessor</span>&lt;<span class="title">Person</span>, <span class="title">Person</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Loggerlog= LoggerFactory.getLogger(PersonItemProcessor.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Personprocess</span><span class="params">(<span class="keyword">final</span> Personperson)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> StringfirstName=person.getFirstName().toUpperCase();</span><br><span class="line">        <span class="keyword">final</span> StringlastName=person.getLastName().toUpperCase();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> PersontransformedPerson= <span class="keyword">new</span> Person(firstName,lastName);log.info(<span class="string">"Converting ("</span> +person+ <span class="string">") into ("</span> +transformedPerson+ <span class="string">")"</span>);</span><br><span class="line"></span><br><span class="line">        returntransformedPerson;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>PersonItemProcessor器实现Spring批处理ItemProcessor接口。这使代码很容易连接到一个批处理作业中，您可以在本指南中进一步对其进行定义。根据接口，您将收到一个传入的person对象，然后将其转换upper-cased Person.</p>
+<pre><code>不需要输入和输出类型相同。事实上，在读取一个数据源之后，有时应用程序的数据流需要不同的数据类型。
+</code></pre><h3 id="把一批工作放在一起"><a href="#把一批工作放在一起" class="headerlink" title="把一批工作放在一起"></a>把一批工作放在一起</h3><p>现在，您将实际的批处理作业组合在一起。SpringBatch提供了许多实用程序类，这些类减少了编写自定义代码的需要。相反，您可以专注于业务逻辑。</p>
+<p><strong>SRC/main/java/hello/BatchConfiguration.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">packagehello;</span><br><span class="line"></span><br><span class="line">importjavax.sql.DataSource;</span><br><span class="line"></span><br><span class="line">importorg.springframework.batch.core.Job;</span><br><span class="line">importorg.springframework.batch.core.JobExecutionListener;</span><br><span class="line">importorg.springframework.batch.core.Step;</span><br><span class="line">importorg.springframework.batch.core.configuration.annotation.EnableBatchProcessing;</span><br><span class="line">importorg.springframework.batch.core.configuration.annotation.JobBuilderFactory;</span><br><span class="line">importorg.springframework.batch.core.configuration.annotation.StepBuilderFactory;</span><br><span class="line">importorg.springframework.batch.core.launch.support.RunIdIncrementer;</span><br><span class="line">importorg.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;</span><br><span class="line">importorg.springframework.batch.item.database.JdbcBatchItemWriter;</span><br><span class="line">importorg.springframework.batch.item.file.FlatFileItemReader;</span><br><span class="line">importorg.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;</span><br><span class="line">importorg.springframework.batch.item.file.mapping.DefaultLineMapper;</span><br><span class="line">importorg.springframework.batch.item.file.transform.DelimitedLineTokenizer;</span><br><span class="line">importorg.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">importorg.springframework.context.annotation.Bean;</span><br><span class="line">importorg.springframework.context.annotation.Configuration;</span><br><span class="line">importorg.springframework.core.io.ClassPathResource;</span><br><span class="line">importorg.springframework.jdbc.core.JdbcTemplate;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableBatchProcessing</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BatchConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">public</span> JobBuilderFactoryjobBuilderFactory;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">public</span> StepBuilderFactorystepBuilderFactory;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">public</span> DataSourcedataSource;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// tag::readerwriterprocessor[]</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> FlatFileItemReader&lt;Person&gt;reader() &#123;</span><br><span class="line">        FlatFileItemReader&lt;Person&gt;reader= <span class="keyword">new</span> FlatFileItemReader&lt;Person&gt;();reader.setResource(<span class="keyword">new</span> ClassPathResource(<span class="string">"sample-data.csv"</span>));reader.setLineMapper(<span class="keyword">new</span> DefaultLineMapper&lt;Person&gt;() &#123;&#123;setLineTokenizer(<span class="keyword">new</span> DelimitedLineTokenizer() &#123;&#123;setNames(<span class="keyword">new</span> String[] &#123; <span class="string">"firstName"</span>, <span class="string">"lastName"</span> &#125;);</span><br><span class="line">            &#125;&#125;);setFieldSetMapper(<span class="keyword">new</span> BeanWrapperFieldSetMapper&lt;Person&gt;() &#123;&#123;setTargetType(Person.class);</span><br><span class="line">            &#125;&#125;);</span><br><span class="line">        &#125;&#125;);</span><br><span class="line">        returnreader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PersonItemProcessorprocessor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PersonItemProcessor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> JdbcBatchItemWriter&lt;Person&gt;writer() &#123;</span><br><span class="line">        JdbcBatchItemWriter&lt;Person&gt;writer= <span class="keyword">new</span> JdbcBatchItemWriter&lt;Person&gt;();writer.setItemSqlParameterSourceProvider(<span class="keyword">new</span> BeanPropertyItemSqlParameterSourceProvider&lt;Person&gt;());writer.setSql(<span class="string">"INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)"</span>);writer.setDataSource(dataSource);</span><br><span class="line">        returnwriter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// end::readerwriterprocessor[]</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// tag::jobstep[]</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JobimportUserJob</span><span class="params">(JobCompletionNotificationListenerlistener)</span> </span>&#123;</span><br><span class="line">        returnjobBuilderFactory.get(<span class="string">"importUserJob"</span>)</span><br><span class="line">                .incrementer(<span class="keyword">new</span> RunIdIncrementer())</span><br><span class="line">                .listener(listener)</span><br><span class="line">                .flow(step1())</span><br><span class="line">                .end()</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Stepstep1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        returnstepBuilderFactory.get(<span class="string">"step1"</span>)</span><br><span class="line">                .&lt;Person, Person&gt;chunk(<span class="number">10</span>)</span><br><span class="line">                .reader(reader())</span><br><span class="line">                .processor(processor())</span><br><span class="line">                .writer(writer())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// end::jobstep[]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  首先，@EnableBatchProcessing注释添加了许多支持作业的关键bean，并为您节省了大量的腿工作。此示例使用基于内存的数据库(由@EnableBatchProcessing)，这意味着当它完成时，数据就会消失。</p>
+<p>把它分解：</p>
+<p><strong>SRC/main/java/hello/BatchConfiguration.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> FlatFileItemReader&lt;Person&gt;reader() &#123;</span><br><span class="line">    FlatFileItemReader&lt;Person&gt;reader= <span class="keyword">new</span> FlatFileItemReader&lt;Person&gt;();reader.setResource(<span class="keyword">new</span> ClassPathResource(<span class="string">"sample-data.csv"</span>));reader.setLineMapper(<span class="keyword">new</span> DefaultLineMapper&lt;Person&gt;() &#123;&#123;setLineTokenizer(<span class="keyword">new</span> DelimitedLineTokenizer() &#123;&#123;setNames(<span class="keyword">new</span> String[] &#123; <span class="string">"firstName"</span>, <span class="string">"lastName"</span> &#125;);</span><br><span class="line">        &#125;&#125;);setFieldSetMapper(<span class="keyword">new</span> BeanWrapperFieldSetMapper&lt;Person&gt;() &#123;&#123;setTargetType(Person.class);</span><br><span class="line">        &#125;&#125;);</span><br><span class="line">    &#125;&#125;);</span><br><span class="line">    returnreader;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">PersonItemProcessorprocessor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonItemProcessor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> JdbcBatchItemWriter&lt;Person&gt;writer() &#123;</span><br><span class="line">    JdbcBatchItemWriter&lt;Person&gt;writer= <span class="keyword">new</span> JdbcBatchItemWriter&lt;Person&gt;();writer.setItemSqlParameterSourceProvider(<span class="keyword">new</span> BeanPropertyItemSqlParameterSourceProvider&lt;Person&gt;());writer.setSql(<span class="string">"INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)"</span>);writer.setDataSource(dataSource);</span><br><span class="line">    returnwriter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个代码块定义输入、处理器和输出。—reader()创建ItemReader.它查找一个名为sample-data.csv并使用足够的信息解析每一行项，从而将其转换为person…processor()创建我们的PersonItemProcessor您在前面定义，目的是大写数据。—write(DataSource)创建ItemWriter。此对象针对JDBC目标，并自动获取由@EnableBatchProcessing它包括插入单个person由Javabean属性驱动。</p>
+<p>下一部分重点关注实际的作业配置。<br><strong>SRC/main/java/hello/BatchConfiguration.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">JobimportUserJob</span><span class="params">(JobCompletionNotificationListenerlistener)</span> </span>&#123;</span><br><span class="line">    returnjobBuilderFactory.get(<span class="string">"importUserJob"</span>)</span><br><span class="line">            .incrementer(<span class="keyword">new</span> RunIdIncrementer())</span><br><span class="line">            .listener(listener)</span><br><span class="line">            .flow(step1())</span><br><span class="line">            .end()</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Stepstep1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    returnstepBuilderFactory.get(<span class="string">"step1"</span>)</span><br><span class="line">            .&lt;Person, Person&gt;chunk(<span class="number">10</span>)</span><br><span class="line">            .reader(reader())</span><br><span class="line">            .processor(processor())</span><br><span class="line">            .writer(writer())</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个方法定义作业，三定义一个步骤。作业是由步骤构建的，每个步骤都可以包含一个阅读器、一个处理器和一个编写器。</p>
+<p>在此作业定义中，您需要一个增量器，因为作业使用数据库来维护执行状态。然后列出每个步骤，其中此作业只有一个步骤。作业结束，JavaAPI生成一个配置完美的作业。</p>
+<p>在步骤定义中，定义一次写入多少数据。在这种情况下，它一次最多写十条记录。接下来，使用前面注入的位来配置读取器、处理器和写入器。</p>
+<pre><code>chunk()是前缀&lt;Person,Person&gt;因为这是一个通用的方法。这表示处理的每个“块”的输入和输出类型，并与ItemReader和ItemWriter...
+</code></pre><p><strong>SRC/main/java/hello/JobCompletionNotificationListener.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">packagehello;</span><br><span class="line"></span><br><span class="line">importjava.sql.ResultSet;</span><br><span class="line">importjava.sql.SQLException;</span><br><span class="line">importjava.util.List;</span><br><span class="line"></span><br><span class="line">importorg.slf4j.Logger;</span><br><span class="line">importorg.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">importorg.springframework.batch.core.BatchStatus;</span><br><span class="line">importorg.springframework.batch.core.JobExecution;</span><br><span class="line">importorg.springframework.batch.core.listener.JobExecutionListenerSupport;</span><br><span class="line">importorg.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">importorg.springframework.jdbc.core.JdbcTemplate;</span><br><span class="line">importorg.springframework.jdbc.core.RowMapper;</span><br><span class="line">importorg.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JobCompletionNotificationListener</span> <span class="keyword">extends</span> <span class="title">JobExecutionListenerSupport</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Loggerlog= LoggerFactory.getLogger(JobCompletionNotificationListener.class);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> JdbcTemplatejdbcTemplate;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">JobCompletionNotificationListener</span><span class="params">(JdbcTemplatejdbcTemplate)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.jdbcTemplate=jdbcTemplate;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">voidafterJob</span><span class="params">(JobExecutionjobExecution)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(jobExecution.getStatus() == BatchStatus.COMPLETED) &#123;log.info(<span class="string">"!!! JOB FINISHED! Time to verify the results"</span>);</span><br><span class="line"></span><br><span class="line">			List&lt;Person&gt;results=jdbcTemplate.query(<span class="string">"SELECT first_name, last_name FROM people"</span>, <span class="keyword">new</span> RowMapper&lt;Person&gt;() &#123;</span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="title">PersonmapRow</span><span class="params">(ResultSetrs, introw)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">					<span class="keyword">return</span> <span class="keyword">new</span> Person(rs.getString(<span class="number">1</span>),rs.getString(<span class="number">2</span>));</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> (Personperson:results) &#123;log.info(<span class="string">"Found &lt;"</span> +person+ <span class="string">"&gt; in the database."</span>);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此代码监听作业为BatchStatus.COMPLETED，然后使用JdbcTemplate检查结果。</p>
+<h3 id="使应用程序可执行"><a href="#使应用程序可执行" class="headerlink" title="使应用程序可执行"></a>使应用程序可执行</h3><p>虽然批处理可以嵌入到Web应用程序和WAR文件中，但下面演示的更简单的方法创建了一个独立的应用程序。您将所有东西打包到一个可执行的JAR文件中，该文件由一个好的旧Java驱动。main()方法。</p>
+<p><strong>src/main/java/hello/Application.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">packagehello;</span><br><span class="line"></span><br><span class="line">importorg.springframework.boot.SpringApplication;</span><br><span class="line">importorg.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">voidmain</span><span class="params">(String[]args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SpringApplication.run(Application.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@SpringBootApplication是一个方便的注释，它添加了以下所有内容：</p>
+<ul>
+<li>@Configuration将类标记为应用程序上下文的bean定义的源。</li>
+<li>@EnableAutoConfiguration告诉SpringBoot根据类路径设置、其他bean和各种属性设置开始添加bean。</li>
+<li>通常你会添加@EnableWebMvc对于SpringMVC应用程序，但是SpringBoot在看到Springwebmvc在类路径上。这会将应用程序标记为web应用程序，并激活关键行为，例如设置DispatcherServlet…</li>
+<li>@ComponentScan告诉Spring在hello包，让它找到控制器。</li>
+</ul>
+<p>main()方法使用SpringBoot的SpringApplication.run()方法来启动应用程序。您注意到没有一行XML吗？不web.xml也要归档。这个Web应用程序是100%纯Java，您不必处理配置任何管道或基础设施的问题。</p>
+<p>出于演示目的，有一些代码可以创建一个JdbcTemplate，查询数据库，并打印批处理作业插入的人员的名称。</p>
+<p>构建一个可执行的JAR<br>您可以使用Gradle或Maven从命令行运行应用程序。或者，您可以构建一个包含所有必需的依赖项、类和资源的单个可执行JAR文件，并运行该文件。这使得在整个开发生命周期、跨不同环境等将服务作为应用程序进行发布、版本和部署变得非常容易。</p>
+<h5 id="如果使用Gradle"><a href="#如果使用Gradle" class="headerlink" title="如果使用Gradle"></a>如果使用Gradle</h5><p>则可以使用./gradlew bootRun.或者您可以使用以下方法构建JAR文件./gradlew build然后可以运行JAR文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar build/libs/gs-batch-processing-0.1.0.jar</span><br></pre></td></tr></table></figure>
+<h5 id="如果您使用的是Maven"><a href="#如果您使用的是Maven" class="headerlink" title="如果您使用的是Maven"></a>如果您使用的是Maven</h5><p>则可以使用./mvnw Spring-boot：运行.或者您可以用./mvnw clean package然后可以运行JAR文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar target/gs-batch-processing-0.1.0.jar</span><br></pre></td></tr></table></figure>
+<pre><code>上面的过程将创建一个可运行的JAR。你也可以选择构建一个经典的WAR文件相反。
+</code></pre><p>该职务为每个被转换的人打印一行。作业运行后，还可以看到查询数据库的输出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Converting (firstName: Jill, lastName: Doe) into (firstName: JILL, lastName: DOE)</span><br><span class="line">Converting (firstName: Joe, lastName: Doe) into (firstName: JOE, lastName: DOE)</span><br><span class="line">Converting (firstName: Justin, lastName: Doe) into (firstName: JUSTIN, lastName: DOE)</span><br><span class="line">Converting (firstName: Jane, lastName: Doe) into (firstName: JANE, lastName: DOE)</span><br><span class="line">Converting (firstName: John, lastName: Doe) into (firstName: JOHN, lastName: DOE)</span><br><span class="line">Found  in the database.</span><br><span class="line">Found  in the database.</span><br><span class="line">Found  in the database.</span><br><span class="line">Found  in the database.</span><br><span class="line">Found  in the database.</span><br></pre></td></tr></table></figure>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>恭喜你！您构建了一个批处理作业，该作业从电子表格中摄取数据，并对其进行处理，并将其写入数据库。</p>
+<p>See also</p>
+<ul>
+<li><p>The following guides may also be helpful:</p>
+</li>
+<li><p>Building an Application with Spring Boot</p>
+</li>
+<li><p>Accessing Data with GemFire</p>
+</li>
+<li><p>Accessing Data with JPA</p>
+</li>
+<li><p>Accessing Data with MongoDB</p>
+</li>
+<li><p>Accessing data with MySQL</p>
+</li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Spring Batch" >
+    <span class="tag-code">Spring Batch</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/54997.html">
+        <span class="nav-arrow">← </span>
+        
+          穷忙族的人生
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/44114.html">
+        
+          三目运算详解
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#改进的-Java-配置"><span class="toc-nav-text">改进的 Java 配置</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#开始"><span class="toc-nav-text">开始</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建批处理服务"><span class="toc-nav-text">创建批处理服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#你要建什么"><span class="toc-nav-text">你要建什么</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#你需要什么"><span class="toc-nav-text">你需要什么</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最喜欢的文本编辑器或IDE"><span class="toc-nav-text">最喜欢的文本编辑器或IDE</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#如何完成本指南"><span class="toc-nav-text">如何完成本指南</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#用Gradle创建"><span class="toc-nav-text">用Gradle创建</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#创建目录结构"><span class="toc-nav-text">创建目录结构</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Spring-Boot-gradle-plugin提供了许多方便的功能："><span class="toc-nav-text">Spring Boot gradle plugin提供了许多方便的功能：</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#用Maven构建"><span class="toc-nav-text">用Maven构建</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#大Spring-Boot-Maven插件提供了许多方便的功能："><span class="toc-nav-text">大Spring Boot Maven插件提供了许多方便的功能：</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#用IDE构建"><span class="toc-nav-text">用IDE构建</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#业务数据"><span class="toc-nav-text">业务数据</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建一个business类"><span class="toc-nav-text">创建一个business类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建中间处理器（-intermediate-processor）"><span class="toc-nav-text">创建中间处理器（ intermediate processor）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#把一批工作放在一起"><span class="toc-nav-text">把一批工作放在一起</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#使应用程序可执行"><span class="toc-nav-text">使应用程序可执行</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#如果使用Gradle"><span class="toc-nav-text">如果使用Gradle</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#如果您使用的是Maven"><span class="toc-nav-text">如果您使用的是Maven</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#摘要"><span class="toc-nav-text">摘要</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/31932.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Spring Batch 4.0.0批处理框架",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

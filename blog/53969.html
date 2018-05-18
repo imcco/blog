@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      CAS Client集群环境的问题及解决方案 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>CAS Client集群环境的问题及解决方案</h2>
+  <p class="post-date">2018-01-20</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0092.jpg" alt="image"></p>
+<p>为了描述方便，假设有如下一个单点登录系统。一套CASServer，两套CAS Client系统。为了描述的方便，省略CAS Server调用用户系统完成登录，以及CASClient从用户系统读取用户详细信息的过程。<br><a id="more"></a></p>
+<h1 id="1-单点登录的过程"><a href="#1-单点登录的过程" class="headerlink" title="1 单点登录的过程"></a><strong>1 单点登录的过程</strong></h1><p>为了描述方便，假设有如下一个单点登录系统。一套CASServer，两套CAS Client系统。为了描述的方便，省略CAS Server调用用户系统完成登录，以及CASClient从用户系统读取用户详细信息的过程。</p>
+<h2 id="1-1-多应用情况下Session信息"><a href="#1-1-多应用情况下Session信息" class="headerlink" title="1.1 多应用情况下Session信息"></a><strong>1.1 多应用情况下Session信息</strong></h2><p>假定有两个CAS Client应用，一个CAS Server。应用的部署，可能在不同的服务器，也可能有不同的访问IP或域名，即使是同一个浏览器，在各个应用中的Session信息也是不相同的。</p>
+<p>浏览器中，每个应用有一个独立的JSESSIONIDCookie。某一个应用，不可能读取到浏览器在其他应用中的Cookie信息。</p>
+<p>假定用户首先访问CAS Client 01，系统提醒用户进行一次登录；然后用户访问CAS Client2，不会再提示登录而是直接登录成功。</p>
+<h2 id="1-2-第一次访问CAS-Client-01"><a href="#1-2-第一次访问CAS-Client-01" class="headerlink" title="1.2 第一次访问CAS Client 01"></a><strong>1.2 第一次访问CAS Client 01</strong></h2><p>用户打开浏览器后第一次访问，重定向到单点登录后，会提示用户输入账号密码登录。登录成功之后，再跳转回CAS Client。</p>
+<h2 id="1-3-第一次访问CAS-Client-02"><a href="#1-3-第一次访问CAS-Client-02" class="headerlink" title="1.3 第一次访问CAS Client 02"></a><strong>1.3 第一次访问CAS Client 02</strong></h2><p>当用户浏览器已经登录系统，切换到另一个CASClient时，跟第一次访问有所不同，因为已经登录成功，就不会再提醒输入账号密码登录了。</p>
+<h2 id="1-4-再次访问CAS-Clients"><a href="#1-4-再次访问CAS-Clients" class="headerlink" title="1.4 再次访问CAS Clients"></a><strong>1.4 再次访问CAS Clients</strong></h2><p>当用户已经访问过CAS Client后，当用户再次访问，系统不会再跳转到CAS Server做认证。</p>
+<h2 id="1-5-CASClient配置"><a href="#1-5-CASClient配置" class="headerlink" title="1.5 CASClient配置"></a><strong>1.5 CASClient配置</strong></h2><p>为了实现前述的单点登录过程，以Java WEB项目为例，需要在 web.xml 中进行相应的配置。（为了排版，没有填写Filter的完整class名，请自行查阅补充。）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS AuthenticationFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>*.AuthenticationFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS Validation Filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>*.Cas10TicketValidationFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS HttpServletRequest WrapperFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>*.HttpServletRequestWrapperFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS Validation Filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS AuthenticationFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS HttpServletRequest WrapperFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>仔细看一下配置过滤器可以发现，三个过滤器正好对应流程图中三次访问CAS Client。</p>
+<ul>
+<li>Authentication Filter：负责将未登录用户跳转到登录界面</li>
+<li>Authentication Filter：负责验证Service Ticket</li>
+<li>HttpServletRequest WrapperFilter：负责将用户信息封装到request和session中。</li>
+</ul>
+<h1 id="2-统一注销的过程"><a href="#2-统一注销的过程" class="headerlink" title="2 统一注销的过程"></a><strong>2 统一注销的过程</strong></h1><h2 id="2-1-不能实现统一注销会有什么问题"><a href="#2-1-不能实现统一注销会有什么问题" class="headerlink" title="2.1 不能实现统一注销会有什么问题"></a><strong>2.1 不能实现统一注销会有什么问题</strong></h2><p>当用户访问系统后从系统注销，如何能够从每个应用中都注销？注意前面1.4部分的描述，如果用户注销时，并没有注销CASClient 02中的会话信息，如果用户在浏览器中直接访问这个应用，因为Session存在，并不会提醒用户重新登录。</p>
+<p>这会带来两个潜在的隐患：</p>
+<ol>
+<li>用户注销user1后换账号user2重新登录，进入CAS Client 02之后，当前身份其实还是user1，并没有如用户预期一样使用user2身份。</li>
+<li>用户user1点击注销后离开，没有关闭浏览器。这时候其他用户直接打开CAS Client 02，能够直接盗用user1的身份进行操作。</li>
+</ol>
+<h2 id="2-2基本概念：Service、TGT和ST"><a href="#2-2基本概念：Service、TGT和ST" class="headerlink" title="2.2基本概念：Service、TGT和ST"></a><strong>2.2基本概念：Service、TGT和ST</strong></h2><p>CAS已经考虑到统一注销的问题。</p>
+<p>这里有三个重要的概念TGT、ST和Service，需要着重介绍一下，因为它们同后续统一注销的方案息息相关。</p>
+<h3 id="2-2-1-Service"><a href="#2-2-1-Service" class="headerlink" title="2.2.1  Service"></a><strong>2.2.1  Service</strong></h3><p>这是用户第一次访问CAS Client的URL。假设一个CAS Client应用部署在域名oa.company.com，使用HTTP协议，应用首页是index.htm。当用户第一次访问这个应用时，对应的URL地址是 <a href="http://oa.company.com/index.htm" target="_blank" rel="noopener">http://oa.company.com/index.htm</a> 。这个URL，对CAS Server来说，就是一个service。</p>
+<p>当用户第一次跳转到CAS Server的时候，可以看到传了一个参数service，就是这个值。当CASServer生成Ticket重定向到CAS Client的时候，实际就是在这个service 中添加了一个参数 ticket 。</p>
+<h3 id="2-2-2-TGT：Ticket-Grangting-Ticket"><a href="#2-2-2-TGT：Ticket-Grangting-Ticket" class="headerlink" title="2.2.2   TGT：Ticket Grangting Ticket"></a><strong>2.2.2   TGT：Ticket Grangting Ticket</strong></h3><p>TGT是CAS Server为每一个登录用户创建的登录令牌。在CASServer上拥有了TGT，用户就可以证明自己在CASServer成功登录过。TGT封装了SessionCookie值以及此Cookie值对应的用户信息。当HTTP请求到来时，CAS以此Cookie值为key查询缓存中有无TGT ，如果有的话，则相信用户已登录过。</p>
+<h3 id="2-2-3-ST：Service-Ticket"><a href="#2-2-3-ST：Service-Ticket" class="headerlink" title="2.2.3  ST：Service Ticket"></a><strong>2.2.3  ST：Service Ticket</strong></h3><p>ST是CAS Server为用户签发的访问某一service的认证令牌。用户访问service时，service发现用户没有ST，浏览器会跳转到CASServer去获取ST。CAS Server发现用户有TGT，则签发一个ST，返回给用户。用户使用ST作为ticket参数去访问service，service拿ST去CAS Server验证，验证通过后，得到当前登录用户的登录名。</p>
+<p>注意TGT和ST，是一对多的关系。一个TGT会维护一个 services 列表，每当为用户创建一个ST并认证通过后，会将这个ST添加到TGT的services列表中。这样，在CASServer端，这个services列表实际维护了一个用户登录过的所有CASClient。这就为实现统一注销打下了基础。</p>
+<h2 id="2-3-CAS-Client的统一注销配置"><a href="#2-3-CAS-Client的统一注销配置" class="headerlink" title="2.3 CAS Client的统一注销配置"></a><strong>2.3 CAS Client的统一注销配置</strong></h2><p>CAS Client，为了实现统一注销，除了第一张介绍的三个登录过程的过滤器之外，还需要添加一个统一注销过滤器。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS Single Sign OutFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>*.SingleSignOutFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CAS Single Sign OutFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>*.SingleSignOutHttpSessionListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-4-CAS-Server注销过程"><a href="#2-4-CAS-Server注销过程" class="headerlink" title="2.4 CAS Server注销过程"></a><strong>2.4 CAS Server注销过程</strong></h2><p>用户在浏览器中点击“注销”链接，实际浏览器会访问CASServer的注销页面。收到注销请求后，CAS Server会读取到TGT，并检查当前用户登录过的所有service，并依次发送注销请求。</p>
+<h2 id="2-5-CAS-Client注销过程"><a href="#2-5-CAS-Client注销过程" class="headerlink" title="2.5 CAS Client注销过程"></a><strong>2.5 CAS Client注销过程</strong></h2><p>CAS Client的注销，核心代码是SingleSignOutFilter，它的关键代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">voiddoFilter</span><span class="params">(servletRequest, servletResponse, filterChain)</span></span>&#123;</span><br><span class="line">         HttpServletRequest request =(HttpServletRequest)servletRequest;</span><br><span class="line">         <span class="keyword">if</span> (handler.isTokenRequest(request)) &#123;</span><br><span class="line">                   handler.recordSession(request);</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (handler.isLogoutRequest(request)) &#123;</span><br><span class="line">                   handler.destroySession(request);</span><br><span class="line">                   <span class="keyword">return</span>;</span><br><span class="line">         &#125;</span><br><span class="line">         filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中handler是SingleSignOutHandler的实例，这个对象完成用户在CASClient端登录信息的维护和注销工作。</p>
+<p>至此，CAS完整的登录和注销过程就完成。</p>
+<h2 id="2-6-思考：什么情况统一注销会失败"><a href="#2-6-思考：什么情况统一注销会失败" class="headerlink" title="2.6 思考：什么情况统一注销会失败"></a><strong>2.6 思考：什么情况统一注销会失败</strong></h2><p>统一注销的实现，需要CAS Server通过HttpClient访问CAS Client的service。如果这个访问过程失败，就会导致统一注销失败。列了几种情况，不详述。</p>
+<ol>
+<li>开发调试阶段，使用localhost访问CAS Client。</li>
+<li>CAS Server部署在外网，CAS Client部署在内网。</li>
+<li>网络安全设置，不允许CASServer访问CAS Client。</li>
+</ol>
+<h1 id="3-CAS-Client集群的影响"><a href="#3-CAS-Client集群的影响" class="headerlink" title="3 CAS Client集群的影响"></a><strong>3 CAS Client集群的影响</strong></h1><p>前面的论述，一直假定所有的CAS Client都是单点部署，没有集群。如果集群，会有什么影响，应该如何来解决？</p>
+<h2 id="3-1-Client集群对登录的影响"><a href="#3-1-Client集群对登录的影响" class="headerlink" title="3.1 Client集群对登录的影响"></a><strong>3.1 Client集群对登录的影响</strong></h2><p>假设使用nginx做集群前端，后面部署两台CAS Client 01的实例。我们看看对登录过程会有什么影响。</p>
+<p>为了描述方便，CAS Client登录过程会有三次请求（对应三个过滤器），我们依次命名为Authentication Request / Validation Request / Wrapper Request。</p>
+<p>Nginx缺省的分发规则，并不是sticky模式，同一个浏览器的请求，会按照nginx自身某种规则进行分发。我们曾经测试过，在双点集群环境下，Authentication Request和ValidationRequest会恰好被分发到两台服务器，这就会导致登录过程死循环。</p>
+<p>出现登录死循环的原因，主要在于nginx分发时，没有使用sticky策略，也就是同一个浏览器的请求，永远分发给同一台CAS Client实例。缺省nginx的分发策略，可以根据用户IP分发，实现的是同一个IP永远分发到同一台Client，这样就能解决死循环的问题。</p>
+<h2 id="3-2-Client集群对注销的影响"><a href="#3-2-Client集群对注销的影响" class="headerlink" title="3.2 Client集群对注销的影响"></a><strong>3.2 Client集群对注销的影响</strong></h2><p>当nginx实现了sitcky转发，同一个浏览器的访问会分发到同一个Client1实例，该用户的会话信息也一直保存在Client1实例中。</p>
+<p>当用户统一注销时，由CAS Server向Client发送注销请求，这时候nginx无法确保按当前用户进行分发，因此可能会被分发到Client2。这时候，实际效果是注销失败。</p>
+<p>这个问题，在我们当前的环境中真实存在，还没有合理的解决方法。初步分析，大概有几个修改方向。</p>
+<h3 id="3-2-1-修改nginx分发策略"><a href="#3-2-1-修改nginx分发策略" class="headerlink" title="3.2.1  修改nginx分发策略"></a><strong>3.2.1  修改nginx分发策略</strong></h3><p>问题存在的原因，是因为nginx在分发注销策略时，不能准确分发。如果能在这个环节进行修改，系统代码和环境，基本不用做任何修改。</p>
+<p>这里有两种分发方法：</p>
+<ul>
+<li>CAS Server发送的注销请求，分发给对应的后台服务器。</li>
+</ul>
+<ul>
+<li>CAS Server发送的注销请求，广播到所有的后台服务器。</li>
+</ul>
+<p>初步结论：同架构组进行了沟通，这两种方案都很难实现，特别是广播的方案，没在网络上找到类似成功的案例。</p>
+<h3 id="3-2-2-集群的节点实现Session同步"><a href="#3-2-2-集群的节点实现Session同步" class="headerlink" title="3.2.2  集群的节点实现Session同步"></a><strong>3.2.2  集群的节点实现Session同步</strong></h3><p>如果能实现集群Session的同步：同步创建、同步注销，主要在一个Client上实现了注销，其他Client也就同步注销。</p>
+<p>这个会对Tomcat性能有影响。</p>
+<h3 id="3-2-3-集群节点使用redis保存会话信息"><a href="#3-2-3-集群节点使用redis保存会话信息" class="headerlink" title="3.2.3  集群节点使用redis保存会话信息"></a><strong>3.2.3  集群节点使用redis保存会话信息</strong></h3><p>即使是多个节点，它们的会话信息只有一份。一旦失效，则所有节点都失效。这只是一个设想，没有做技术调研，不知能够实现。</p>
+<p>这有两种修改方法：</p>
+<ul>
+<li>修改Tomcat的配置文件，使用redis保存Tomcat的会话信息。</li>
+</ul>
+<ul>
+<li>修改代码而不是Tomcat，使用redis保存会话信息。</li>
+</ul>
+<p>初步结论：架构组不允许修改生产环境的Tomcat，否定了第一种方法。我们只能尝试修改代码并利用redis保存会话。</p>
+<h3 id="3-2-4-每次请求验证用户是否注销"><a href="#3-2-4-每次请求验证用户是否注销" class="headerlink" title="3.2.4  每次请求验证用户是否注销"></a><strong>3.2.4  每次请求验证用户是否注销</strong></h3><p>首先，在CAS Server中实现一个接口，用于判断某一个ST对应的TGT是否还有效。</p>
+<p>在SingleSignOutFilter中，每次访问都调用CAS Server的这个新接口，判断用户是否已经注销。如果已经注销，则立刻注销本实例中的会话信息。</p>
+<p>这个方法是比较安全的解决办法，但每次请求都会调用CASServer接口，会对性能造成巨大影响。完全不建议用这种方案。</p>
+<h3 id="3-2-5-几种策略的初步调研"><a href="#3-2-5-几种策略的初步调研" class="headerlink" title="3.2.5  几种策略的初步调研"></a><strong>3.2.5  几种策略的初步调研</strong></h3><p>对前面提到的几种方案做了初步调研之后：</p>
+<ul>
+<li>技术实现困难，否定了方案1</li>
+<li>性能考虑以及架构组的策略，否定方案2</li>
+<li>架构组的策略，否定方案3中的第一种做法。</li>
+<li>性能考虑，否定方案4。</li>
+</ul>
+<p>因此，可能的做法是修改代码，使用redis保存会话信息。</p>
+<h1 id="4-使用redis保存会话"><a href="#4-使用redis保存会话" class="headerlink" title="4 使用redis保存会话"></a>4 使用redis保存会话</h1><p>在目前的生产环境的限制下，我们只能采用修改代码来实现redis保存会话的实现方案。</p>
+<h2 id="4-1-Request和Session缺省怎么实现"><a href="#4-1-Request和Session缺省怎么实现" class="headerlink" title="4.1 Request和Session缺省怎么实现"></a><strong>4.1 Request和Session缺省怎么实现</strong></h2><p>在Tomcat缺省的实现中，Session信息都是保存在JVM中，所以不能跨JVM共享。</p>
+<p>要想将所有的session都保存到redis中，一种能想到的简单办法是自己写一个CustomSession，将会话信息保存到这个自定义的Session中，并且利用redis等进行保存。但这样做，会带来很大的代码改动，所有涉及到session读写操作的地方可能都需要修改。</p>
+<p>我们希望找到更优雅的解决方案，能够修改更少的代码。</p>
+<h2 id="4-2-WEB请求的执行过程"><a href="#4-2-WEB请求的执行过程" class="headerlink" title="4.2 WEB请求的执行过程"></a><strong>4.2 WEB请求的执行过程</strong></h2><p>Request 和Session什么时候创建？如何传递？</p>
+<p>Filter的调用入口函数是doFilter，传入的主要参数是request和response。在此之前，Tomcat已经创建好request。通常情况下，业务代码不需要关心request和session等对象如何创建的问题，只需要使用即可。每个过滤器的实现，当需要继续流程的时候，只需要将得到的request和response传递给下一个filter就行。</p>
+<p>但这仅仅是缺省做法，并不表示我们不能修改或重写一个request对象。我们想修改Session的保存位置，如果能在所有的Filter之前插入一个自定义过滤器，定义一个新的Request传递给后面的Filter，并且让后面的Filter和Servlet感受不到变化，就可以实现这个目标。</p>
+<h2 id="4-3-如何定制Request"><a href="#4-3-如何定制Request" class="headerlink" title="4.3 如何定制Request"></a><strong>4.3 如何定制Request</strong></h2><h3 id="4-3-1-增加过滤器"><a href="#4-3-1-增加过滤器" class="headerlink" title="4.3.1  增加过滤器"></a><strong>4.3.1  增加过滤器</strong></h3><p>在所有的Filter之前，插入一个新的Filter。</p>
+<p>HttpServletRequest可以重写吗？</p>
+<h3 id="4-3-2-Tomcat的Request实现"><a href="#4-3-2-Tomcat的Request实现" class="headerlink" title="4.3.2  Tomcat的Request实现"></a><strong>4.3.2  Tomcat的Request实现</strong></h3><h3 id="4-3-3-改写之后的Request实现"><a href="#4-3-3-改写之后的Request实现" class="headerlink" title="4.3.3  改写之后的Request实现"></a><strong>4.3.3  改写之后的Request实现</strong></h3><p>在Session重写一个RedisSessionRequest，继承自HttpServletRequestWrapper，并包含原request(RequestFacade)的引用。但需要读取Form参数时，直接调用oriRequest取值。当需要拿到Session对象进行会话信息访问时，调用重载后的函数。</p>
+<p>这样就实现了request的封装，在后续的filter和servlet中通过request获取到的session，都是放在redis中的会话数据，不再是缺省保存在JVM中的数据。</p>
+<h3 id="4-3-4-集群环境的session读写"><a href="#4-3-4-集群环境的session读写" class="headerlink" title="4.3.4  集群环境的session读写"></a><strong>4.3.4  集群环境的session读写</strong></h3><p>当nginx将同一个浏览器的请求分发给不同的Tomcat时，都会根据SessionId从redis中读取Session。因为同一个浏览器发送请求的SessionID相同，所以在不同的Tomcat实例中，会读取到同一个Session对象。</p>
+<h2 id="4-4-使用Spring-Session实现"><a href="#4-4-使用Spring-Session实现" class="headerlink" title="4.4 使用Spring Session实现"></a><strong>4.4 使用Spring Session实现</strong></h2><p>根据前面的分析，在项目中自定义Request，就可以实现需求。Spring Session已经是一个成熟的开源实现，并且后端实现了将会话保存在redis、mongodb、jdbc等多种实现，我们没必要自己发明轮子。</p>
+<p>Spring提供的例子代码很简洁，跟我们已经实现的业务系统稍微有点不同。在现有系统中，已经定义了bean jedisConnectionFactory，可以直接使用。</p>
+<h3 id="4-4-1-修改pom-xml"><a href="#4-4-1-修改pom-xml" class="headerlink" title="4.4.1  修改pom.xml"></a><strong>4.4.1  修改pom.xml</strong></h3><p>在pom.xml文件中，添加代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.session<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-session-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-4-2-修改redis配置文件"><a href="#4-4-2-修改redis配置文件" class="headerlink" title="4.4.2  修改redis配置文件"></a><strong>4.4.2  修改redis配置文件</strong></h3><p>在项目中已经有redis配置文件spring-redis.xml，在其中添加内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span><span class="tag">&lt;<span class="name">beans:beanclass="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-4-3-修改web-xml"><a href="#4-4-3-修改web-xml" class="headerlink" title="4.4.3  修改web.xml"></a><strong>4.4.3  修改web.xml</strong></h3><p>在所有的过滤器前面添加一个新的过滤器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line"> 	<span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>springSessionRepositoryFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"> 	<span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>springSessionRepositoryFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dispatcher</span>&gt;</span>REQUEST<span class="tag">&lt;/<span class="name">dispatcher</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dispatcher</span>&gt;</span>ERROR<span class="tag">&lt;/<span class="name">dispatcher</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-5-测试实现效果"><a href="#4-5-测试实现效果" class="headerlink" title="4.5 测试实现效果"></a><strong>4.5 测试实现效果</strong></h2><p>集成Spring Session后，经过初步测试，能够达到预想效果。（感谢同事瑞钊的实际测试并提供截图）</p>
+<h3 id="4-5-1-Session信息已经保存到redis中"><a href="#4-5-1-Session信息已经保存到redis中" class="headerlink" title="4.5.1  Session信息已经保存到redis中"></a><strong>4.5.1  Session信息已经保存到redis中</strong></h3><p>用户登录后查看redis中的数据，可以看到这些Session信息。</p>
+<h3 id="4-5-2-删除redis中会话的影响"><a href="#4-5-2-删除redis中会话的影响" class="headerlink" title="4.5.2  删除redis中会话的影响"></a><strong>4.5.2  删除redis中会话的影响</strong></h3><p>用户登录后继续访问系统，不会切换到CAS登录页面。</p>
+<p>如果手工删掉redis中的session，重新访问，可以看到需要重新做一个CAS认证的过程。</p>
+<h3 id="4-5-3-统一用户注销的测试"><a href="#4-5-3-统一用户注销的测试" class="headerlink" title="4.5.3  统一用户注销的测试"></a><strong>4.5.3  统一用户注销的测试</strong></h3><p>后续需要部署一套生产环境的集群环境，验证统一注销的效果。</p>
+<h2 id="5-问题："><a href="#5-问题：" class="headerlink" title="5 问题："></a>5 问题：</h2><p>问题在于，Cas Client中有一个实现类HashMapBackedSessionMappingStorage，这个类的作用，在于存储tiket和sessionId的映射<br>注销的时候，cas服务器会发来一个tiket，退出过滤器需要根据这个ticket找到对应的sessionId来清除session 而HashMapBackedSessionMappingStorage是存储在Map里的，也就是内存里的，而不是session里</p>
+<p>如果能保证nginx转发的路径是固定的，也就是一个访问者 固定访问一个tomcat，那固然没问题。<br>所以我觉得 你这个方案测试应该是没问题的。</p>
+<p>但是，如果这个tomcat挂掉了呢？</p>
+<p>靠谱的方式应该是把这个映射关系 也存在redis里。也就是自己实现一个RedisBackedSessionMappingStorage</p>
+<h4 id="链接：https-yq-aliyun-com-articles-49871"><a href="#链接：https-yq-aliyun-com-articles-49871" class="headerlink" title="链接：https://yq.aliyun.com/articles/49871"></a>链接：<a href="https://yq.aliyun.com/articles/49871" target="_blank" rel="noopener">https://yq.aliyun.com/articles/49871</a></h4><p>casclient源代码下载链接：<a href="https://github.com/apereo/java-cas-client" target="_blank" rel="noopener">https://github.com/apereo/java-cas-client</a></p>
+<p>cas官网链接：<a href="https://www.apereo.org/projects/cas" target="_blank" rel="noopener">https://www.apereo.org/projects/cas</a></p>
+<ol>
+<li>上面一篇引用别人的分析方案介绍，来描述了下项目中遇到的问题，现在介绍本人怎么解决的</li>
+<li>本人项目中用的是改造了tomcat 做的session 共享</li>
+<li>所以客户端请求退出，服务端根据TGT查看对应的ST进行请求客户端，通过nginx负载均衡，可能对应到另一台客户端服务器，但是我们的session是存入rediscluster，任意客户端可以根据sessionid取到这个，进行删除，这样session就没了。即在客户端配置的SingleSignOutFilter，需要在HashMapBackedSessionMappingStorage进行删除存入redis的session数据，这样就可以退出了，就是这个原理来处理这个退出登录问题</li>
+</ol>
+<h3 id="代码依赖jar包"><a href="#代码依赖jar包" class="headerlink" title="代码依赖jar包"></a>代码依赖jar包</h3><p>spring-data-redis-1.7.4.RELEASE.jar；jedis-2.9.0.jar；fastjson-1.2.31.jar；注意jar包版本</p>
+<h3 id="改造的HashMapBackedSessionMappingStorage类代码"><a href="#改造的HashMapBackedSessionMappingStorage类代码" class="headerlink" title="改造的HashMapBackedSessionMappingStorage类代码"></a>改造的HashMapBackedSessionMappingStorage类代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.jasig.cas.client.session;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">- agreements. See the NOTICE file distributed with this work</span></span><br><span class="line"><span class="comment">- for additional information regarding copyright ownership.</span></span><br><span class="line"><span class="comment">- Jasig licenses this file to you under the Apache License,</span></span><br><span class="line"><span class="comment">- Version 2.0 (the "License"); you may not use this file</span></span><br><span class="line"><span class="comment">- except in compliance with the License.  You may obtain a</span></span><br><span class="line"><span class="comment">- copy of the License at the following location:</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">- http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">- Unless required by applicable law or agreed to in writing,</span></span><br><span class="line"><span class="comment">- software distributed under the License is distributed on an</span></span><br><span class="line"><span class="comment">- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY</span></span><br><span class="line"><span class="comment">- KIND, either express or implied.  See the License for the</span></span><br><span class="line"><span class="comment">- specific language governing permissions and limitations</span></span><br><span class="line"><span class="comment">- under the License.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> javax.annotation.Resource;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpSession;</span><br><span class="line"><span class="keyword">import</span> org.jasig.cas.client.session.SessionMappingStorage;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.EnableMBeanExport;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">- HashMap backed implementation of SessionMappingStorage.</span></span><br><span class="line"><span class="comment">- <span class="doctag">@author</span> Scott Battaglia</span></span><br><span class="line"><span class="comment">- <span class="doctag">@version</span> Revision Date</span></span><br><span class="line"><span class="comment">- <span class="doctag">@since</span> 3.1</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMapBackedSessionMappingStorage</span> <span class="keyword">implements</span> <span class="title">SessionMappingStorage</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">transient</span> Logger logger = LoggerFactory.getLogger(getClass());</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String CASCLIENT_PREFIX = <span class="string">"CASCLI:SESSIONID:"</span>;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String CASCLIENT_MAPID_PREFIX = <span class="string">"CASCLI:MAPID:"</span>;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> casTimeout=<span class="number">86400</span>;</span><br><span class="line">   <span class="keyword">private</span> RedisTemplate redisTemplate=<span class="keyword">new</span> RedisTemplate();</span><br><span class="line">  <span class="function"><span class="keyword">public</span> RedisTemplate <span class="title">getRedisTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> redisTemplate;</span><br><span class="line">  &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRedisTemplate</span><span class="params">(RedisTemplate redisTemplate)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">this</span>.redisTemplate = redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">HashMapBackedSessionMappingStorage</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	ApplicationContext ac =<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"classpath:schemeone/xml/spring-core.xml"</span>);</span><br><span class="line">    	setRedisTemplate((RedisTemplate)ac.getBean(<span class="string">"redisTemplate"</span>));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">addSessionById</span><span class="params">(String mappingId, HttpSession session)</span> </span>&#123;</span><br><span class="line">            logger.debug(<span class="string">"Adding ticket &#123;&#125;"</span>, session);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                String sessionRedisKey = <span class="keyword">this</span>.getCasSessionRedisKey(session.getId());</span><br><span class="line">                String mappingIdRedisKey = <span class="keyword">this</span>.getCasMappingIdRedisKey(mappingId);</span><br><span class="line">                <span class="keyword">this</span>.redisTemplate.boundValueOps(sessionRedisKey).set(mappingId, casTimeout, TimeUnit.SECONDS);</span><br><span class="line">                <span class="keyword">this</span>.redisTemplate.boundValueOps(mappingIdRedisKey).set(session.getId(), casTimeout, TimeUnit.SECONDS);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">                logger.error(<span class="string">"Failed Adding &#123;&#125;"</span>, session, e);</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">removeBySessionById</span><span class="params">(String sessionId)</span> </span>&#123;</span><br><span class="line">    	 logger.debug(<span class="string">"Attempting to remove Session=[&#123;&#125;]"</span>, sessionId);</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">final</span> String key =(String) <span class="keyword">this</span>.redisTemplate.boundValueOps(<span class="keyword">this</span>.getCasSessionRedisKey(sessionId)).get(); </span><br><span class="line">    </span><br><span class="line">            <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (key != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    logger.debug(<span class="string">"Found mapping for session.  Session Removed."</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    logger.debug(<span class="string">"No mapping for session found.  Ignoring."</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>.redisTemplate.delete(<span class="keyword">this</span>.getCasMappingIdRedisKey(key));</span><br><span class="line">            <span class="keyword">this</span>.redisTemplate.delete(<span class="keyword">this</span>.getCasSessionRedisKey(sessionId));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> HttpSession <span class="title">removeSessionByMappingId</span><span class="params">(String mappingId)</span> </span>&#123;</span><br><span class="line">    	<span class="comment">//先去取sessionid</span></span><br><span class="line">    	<span class="keyword">final</span> String sessionId=(String) <span class="keyword">this</span>.redisTemplate.boundValueOps(<span class="keyword">this</span>.getCasMappingIdRedisKey(mappingId)).get(); </span><br><span class="line">    	<span class="comment">//final HttpSession session = (HttpSession) this.redisTemplate.boundValueOps(sessionId).get();</span></span><br><span class="line">    	 <span class="keyword">this</span>.redisTemplate.delete(sessionId);</span><br><span class="line"><span class="comment">//	        if (session != null) &#123;</span></span><br><span class="line"><span class="comment">//	            removeBySessionById(session.getId());</span></span><br><span class="line"><span class="comment">//	        &#125;</span></span><br><span class="line"><span class="comment">//	        return session;</span></span><br><span class="line"></span><br><span class="line">    	 <span class="keyword">if</span> (sessionId != <span class="keyword">null</span>) &#123;</span><br><span class="line">                removeBySessionById(sessionId);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="function"><span class="keyword">private</span> String <span class="title">getCasSessionRedisKey</span><span class="params">( String sessionId)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> CASCLIENT_PREFIX + sessionId;</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="function"><span class="keyword">private</span> String <span class="title">getCasMappingIdRedisKey</span><span class="params">(String mappingId)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> CASCLIENT_MAPID_PREFIX + mappingId;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="redistemplteBean配置"><a href="#redistemplteBean配置" class="headerlink" title="redistemplteBean配置"></a>redistemplteBean配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:util</span>=<span class="string">"http://www.springframework.org/schema/util"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 扫描注解Bean --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.hivescm"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span> <span class="attr">proxy-target-class</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 开启AOP监听 只对当前配置文件有效 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span> <span class="attr">expose-proxy</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"propertyConfigurer"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"locations"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">          <span class="comment">&lt;!--&lt;value&gt;classpath:schemeone/properties/common/*.properties&lt;/value&gt; --&gt;</span></span><br><span class="line">    				<span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:schemeone/properties/common/redis.cluster.properties<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--     jedis 配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"poolConfig"</span> <span class="attr">class</span>=<span class="string">"redis.clients.jedis.JedisPoolConfig"</span> &gt;</span></span><br><span class="line"><span class="comment">&lt;!--         最大空闲数 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.maxIdle&#125;"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--         最大建立连接等待时间 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWaitMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.maxWait&#125;"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--         是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.testOnBorrow&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--     配置文件加载 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"resourcePropertySource"</span> <span class="attr">class</span>=<span class="string">"org.springframework.core.io.support.ResourcePropertySource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"redis.cluster.properties"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"resource"</span> <span class="attr">value</span>=<span class="string">"classpath:schemeone/properties/common/redis.cluster.properties"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--     redisCluster配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"redisClusterConfiguration"</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.connection.RedisClusterConfiguration"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"propertySource"</span> <span class="attr">ref</span>=<span class="string">"resourcePropertySource"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--     redis服务器中心 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span>  <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.connection.jedis.JedisConnectionFactory"</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"clusterConfig"</span> <span class="attr">ref</span>=<span class="string">"redisClusterConfiguration"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"poolConfig"</span> <span class="attr">ref</span>=<span class="string">"poolConfig"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.password&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeout"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.timeout&#125;"</span> &gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"redisTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.core.RedisTemplate"</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span> <span class="attr">ref</span>=<span class="string">"connectionFactory"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--         如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！！  --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"keySerializer"</span> &gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.StringRedisSerializer"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"valueSerializer"</span> &gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hashKeySerializer"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.StringRedisSerializer"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hashValueSerializer"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="redis-cluster-properties"><a href="#redis-cluster-properties" class="headerlink" title="redis.cluster.properties　"></a>redis.cluster.properties　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#redis\u4E2D\u5FC3</span><br><span class="line">#redis\u7684\u670D\u52A1\u5668\u5730\u5740</span><br><span class="line">redis.host=192.168.103.158</span><br><span class="line">#redis\u7684\u670D\u52A1\u7AEF\u53E3</span><br><span class="line">redis.port=6379</span><br><span class="line">#\u5BC6\u7801</span><br><span class="line">redis.password=</span><br><span class="line">#\u6700\u5927\u7A7A\u95F2\u6570</span><br><span class="line">redis.maxIdle=100</span><br><span class="line">#\u6700\u5927\u8FDE\u63A5\u6570</span><br><span class="line">redis.maxActive=300</span><br><span class="line">#\u6700\u5927\u5EFA\u7ACB\u8FDE\u63A5\u7B49\u5F85\u65F6\u95F4</span><br><span class="line">redis.maxWait=1000</span><br><span class="line">#\u5BA2\u6237\u7AEF\u8D85\u65F6\u65F6\u95F4\u5355\u4F4D\u662F\u6BEB\u79D2</span><br><span class="line">redis.timeout=100000</span><br><span class="line">redis.maxTotal=1000</span><br><span class="line">redis.minIdle=8</span><br><span class="line">#\u660E\u662F\u5426\u5728\u4ECE\u6C60\u4E2D\u53D6\u51FA\u8FDE\u63A5\u524D\u8FDB\u884C\u68C0\u9A8C,\u5982\u679C\u68C0\u9A8C\u5931\u8D25,\u5219\u4ECE\u6C60\u4E2D\u53BB\u9664\u8FDE\u63A5\u5E76\u5C1D\u8BD5\u53D6\u51FA\u53E6\u4E00\u4E2A</span><br><span class="line">redis.testOnBorrow=true</span><br><span class="line"></span><br><span class="line">#sentinel</span><br><span class="line">#spring.redis.sentinel.node1.host=127.0.0.1</span><br><span class="line">#spring.redis.sentinel.node2.host=127.0.0.1</span><br><span class="line">#spring.redis.sentinel.node3.host=127.0.0.1</span><br><span class="line">#spring.redis.sentinel.node1.port=26379</span><br><span class="line">#spring.redis.sentinel.node2.port=26479</span><br><span class="line">#spring.redis.sentinel.node3.port=26579</span><br><span class="line">#sentinel</span><br><span class="line"></span><br><span class="line">#jediscluster</span><br><span class="line">#cluster1.host.port=127.0.0.1:7000</span><br><span class="line">#cluster2.host.port=127.0.0.1:7001</span><br><span class="line">#cluster3.host.port=127.0.0.1:7002</span><br><span class="line">#cluster4.host.port=127.0.0.1:7003</span><br><span class="line">#cluster5.host.port=127.0.0.1:7004</span><br><span class="line">#cluster6.host.port=127.0.0.1:7005</span><br><span class="line">#cluster7.host.port=127.0.0.1:7006</span><br><span class="line">#cluster8.host.port=127.0.0.1:7007</span><br><span class="line">#jediscluster</span><br><span class="line"></span><br><span class="line">#rediscluster</span><br><span class="line">#spring.redis.cluster.nodes=192.168.103.158:6379</span><br><span class="line">spring.redis.cluster.nodes=192.168.103.174:6379,192.168.103.174:6389,192.168.103.174:6399,192.168.103.173:6379,192.168.103.173:6389,192.168.103.173:6399</span><br><span class="line">spring.redis.cluster.max-redirects=3</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#CAS" >
+    <span class="tag-code">CAS</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/36591.html">
+        <span class="nav-arrow">← </span>
+        
+          Java工具类总结
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/37416.html">
+        
+          输入网址到浏览器呈现发生了什么
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-单点登录的过程"><span class="toc-nav-text">1 单点登录的过程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-1-多应用情况下Session信息"><span class="toc-nav-text">1.1 多应用情况下Session信息</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-2-第一次访问CAS-Client-01"><span class="toc-nav-text">1.2 第一次访问CAS Client 01</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-3-第一次访问CAS-Client-02"><span class="toc-nav-text">1.3 第一次访问CAS Client 02</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-4-再次访问CAS-Clients"><span class="toc-nav-text">1.4 再次访问CAS Clients</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-5-CASClient配置"><span class="toc-nav-text">1.5 CASClient配置</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-统一注销的过程"><span class="toc-nav-text">2 统一注销的过程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1-不能实现统一注销会有什么问题"><span class="toc-nav-text">2.1 不能实现统一注销会有什么问题</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2基本概念：Service、TGT和ST"><span class="toc-nav-text">2.2基本概念：Service、TGT和ST</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-1-Service"><span class="toc-nav-text">2.2.1  Service</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-2-TGT：Ticket-Grangting-Ticket"><span class="toc-nav-text">2.2.2   TGT：Ticket Grangting Ticket</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-3-ST：Service-Ticket"><span class="toc-nav-text">2.2.3  ST：Service Ticket</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-3-CAS-Client的统一注销配置"><span class="toc-nav-text">2.3 CAS Client的统一注销配置</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-4-CAS-Server注销过程"><span class="toc-nav-text">2.4 CAS Server注销过程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-5-CAS-Client注销过程"><span class="toc-nav-text">2.5 CAS Client注销过程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-6-思考：什么情况统一注销会失败"><span class="toc-nav-text">2.6 思考：什么情况统一注销会失败</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3-CAS-Client集群的影响"><span class="toc-nav-text">3 CAS Client集群的影响</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1-Client集群对登录的影响"><span class="toc-nav-text">3.1 Client集群对登录的影响</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-2-Client集群对注销的影响"><span class="toc-nav-text">3.2 Client集群对注销的影响</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-1-修改nginx分发策略"><span class="toc-nav-text">3.2.1  修改nginx分发策略</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-2-集群的节点实现Session同步"><span class="toc-nav-text">3.2.2  集群的节点实现Session同步</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-3-集群节点使用redis保存会话信息"><span class="toc-nav-text">3.2.3  集群节点使用redis保存会话信息</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-4-每次请求验证用户是否注销"><span class="toc-nav-text">3.2.4  每次请求验证用户是否注销</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-5-几种策略的初步调研"><span class="toc-nav-text">3.2.5  几种策略的初步调研</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#4-使用redis保存会话"><span class="toc-nav-text">4 使用redis保存会话</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-1-Request和Session缺省怎么实现"><span class="toc-nav-text">4.1 Request和Session缺省怎么实现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-2-WEB请求的执行过程"><span class="toc-nav-text">4.2 WEB请求的执行过程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-3-如何定制Request"><span class="toc-nav-text">4.3 如何定制Request</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-1-增加过滤器"><span class="toc-nav-text">4.3.1  增加过滤器</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-2-Tomcat的Request实现"><span class="toc-nav-text">4.3.2  Tomcat的Request实现</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-3-改写之后的Request实现"><span class="toc-nav-text">4.3.3  改写之后的Request实现</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-4-集群环境的session读写"><span class="toc-nav-text">4.3.4  集群环境的session读写</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-4-使用Spring-Session实现"><span class="toc-nav-text">4.4 使用Spring Session实现</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-1-修改pom-xml"><span class="toc-nav-text">4.4.1  修改pom.xml</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-2-修改redis配置文件"><span class="toc-nav-text">4.4.2  修改redis配置文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-3-修改web-xml"><span class="toc-nav-text">4.4.3  修改web.xml</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-5-测试实现效果"><span class="toc-nav-text">4.5 测试实现效果</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-1-Session信息已经保存到redis中"><span class="toc-nav-text">4.5.1  Session信息已经保存到redis中</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-2-删除redis中会话的影响"><span class="toc-nav-text">4.5.2  删除redis中会话的影响</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-3-统一用户注销的测试"><span class="toc-nav-text">4.5.3  统一用户注销的测试</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-问题："><span class="toc-nav-text">5 问题：</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#链接：https-yq-aliyun-com-articles-49871"><span class="toc-nav-text">链接：https://yq.aliyun.com/articles/49871</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代码依赖jar包"><span class="toc-nav-text">代码依赖jar包</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#改造的HashMapBackedSessionMappingStorage类代码"><span class="toc-nav-text">改造的HashMapBackedSessionMappingStorage类代码</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#redistemplteBean配置"><span class="toc-nav-text">redistemplteBean配置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#redis-cluster-properties"><span class="toc-nav-text">redis.cluster.properties　</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/53969.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "CAS Client集群环境的问题及解决方案",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

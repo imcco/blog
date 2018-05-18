@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      JQuery中的DOM操作 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>JQuery中的DOM操作</h2>
+  <p class="post-date">2018-01-23</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0097.jpg" alt="image"></p>
+<p>　JQuery中的DOM操作主要对包括：建【新建】、增【添加】、删【删除】、改【修改】、查【查找】【像数据库操作】。下面的DOM操作将围绕上面的DOM树进行学习JQueryDOM操作。</p>
+<a id="more"></a>
+<h3 id="一、查–查找DOM节点"><a href="#一、查–查找DOM节点" class="headerlink" title="一、查–查找DOM节点"></a>一、查–查找DOM节点</h3><p>查找节点非常容易，使用选择器就能轻松完成各种查找工作。</p>
+<p>例：查找元素节点p返回p内的文本内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).text();</span><br></pre></td></tr></table></figure>
+<p>例：查找元素节点p的属性返回属性名称对应的属性值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).attr(<span class="string">"title"</span>)<span class="comment">//返回p的属性title的值。</span></span><br></pre></td></tr></table></figure>
+<h4 id="1、jQuery选择器：-‘-text’"><a href="#1、jQuery选择器：-‘-text’" class="headerlink" title="1、jQuery选择器：$(‘#text’)"></a>1、jQuery选择器：$(‘#text’)</h4><p>最基本的选择器，简化了js的getElementById\byClassNames，querySelectorAll()等方法。允许使用css选择器来对DOM元素进行选择。</p>
+<h4 id="2、子元素"><a href="#2、子元素" class="headerlink" title="2、子元素"></a>2、子元素</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(“.parent”).children();<span class="comment">//所有子元素的集合1</span></span><br></pre></td></tr></table></figure>
+<h4 id="3、parent-、parents-、closest"><a href="#3、parent-、parents-、closest" class="headerlink" title="3、parent()、parents()、closest()"></a>3、parent()、parents()、closest()</h4><p>parent()用于查找一级父元素，parents()查找所有父元素的集合，closest()查找最近的父元素<br>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li id=“a”&gt;<span class="xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line">    &lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line">var test = $(“#a”);</span><br><span class="line">test.parent();<span class="comment">//ul</span></span><br><span class="line">test.parents();<span class="comment">//ul,div..一直到html</span></span><br><span class="line">test.closest(“div”)<span class="comment">//div12345678910</span></span><br></pre></td></tr></table></figure>
+<h4 id="4、find"><a href="#4、find" class="headerlink" title="4、find()"></a>4、find()</h4><p>同js的[某元素].getElementById()，在某元素里面找元素</p>
+<h4 id="5、nextAll-、prevAll"><a href="#5、nextAll-、prevAll" class="headerlink" title="5、nextAll()、prevAll()"></a>5、nextAll()、prevAll()</h4><p>Ps:javaScript的对应方法 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firstChild(),lastChild,parent()….</span><br></pre></td></tr></table></figure>
+<h3 id="二、建–新建DOM节点"><a href="#二、建–新建DOM节点" class="headerlink" title="二、建–新建DOM节点"></a>二、建–新建DOM节点</h3><h4 id="1、创建元素节点"><a href="#1、创建元素节点" class="headerlink" title="1、创建元素节点"></a>1、创建元素节点</h4><p>创建元素节点并且把节点作为<ul>元素的子节点添加到DOM节点树上。先创建元素点，创建元素节点使用Jquery的工厂函数$()来完成，格式如下：$(html),该方法会根据传入的html字符串返回一个DOM对象，并将DOM对象包装成一个JQuery对象后返回。创建一个元素节点JQuery代码如下：</ul></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$li1=$(<span class="string">"&lt;li&gt;&lt;/li&gt;"</span>)</span><br></pre></td></tr></table></figure>
+<p>代码返回$li1就是一个由DOM对象包装成的JQuery对象。把新建节点添加到DOM树中JQuery代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul"</span>).append($li1);</span><br></pre></td></tr></table></figure>
+<p>添加后页面中只能看到<li>元素默认的”·”,由于没有为节点添加文本所以只显示默认符号，下面创建文本节点。<br>PS:append()方法是添加DOM节点方法详见增–添加DOM节点。 </li></p>
+<h4 id="2、创建文本节点"><a href="#2、创建文本节点" class="headerlink" title="2、创建文本节点"></a>2、创建文本节点</h4><p>使用JQuery的工厂函数$()同样能够创建文本节点，创建文本节点的JQuery代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$li2=$(<span class="string">"&lt;li&gt;苹果&lt;/li&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<p>代码返回$li2就是一个由DOM对象包装成JQuery对象，把新建的文本节点添加到DOM树中JQuery代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul"</span>).append($li2);</span><br></pre></td></tr></table></figure>
+<p>添加后页面中能看到”·苹果”，右键查看页面源码发现新加的文本节点没有title属性。下面方法创建带属性的节点。</p>
+<h4 id="3、创建属性节点"><a href="#3、创建属性节点" class="headerlink" title="3、创建属性节点"></a>3、创建属性节点</h4><p>创建属性节点同元素节点、文本节点一样使用JQuery的工厂函数完成。创建属性节点的JQuery代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$li3=$(<span class="string">"&lt;li title='榴莲'&gt;榴莲&lt;/li&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<p>代码返回$li3也是一个由DOM对象包装成JQuery对象，把新建的属性节点添加到DOM树中JQuery代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul"</span>).append($li3);</span><br></pre></td></tr></table></figure>
+<p>添加后页面中能看到”·榴莲”，右键查看页面源码发现新加的属性节点有title=’榴莲’属性。</p>
+<h3 id="三、增–添加DOM节点"><a href="#三、增–添加DOM节点" class="headerlink" title="三、增–添加DOM节点"></a>三、增–添加DOM节点</h3><p>动态新建元素不添加到文档中没有实际意义，将新建的节点插入到文档中有多个方法，如下：<code>append()、appendTo()、prepend()、prependTo()、after()、insertAfter()、before()、insertBefore()。</code></p>
+<h4 id="1、append-方法"><a href="#1、append-方法" class="headerlink" title="1、append()方法"></a>1、append()方法</h4><p>append()方法向匹配的元素内部追加内容，方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"target"</span>).append(element);</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul"</span>).append(<span class="string">"&lt;li title='香蕉'&gt;香蕉&lt;/li&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<p>该方法查找ul元素，然后向ul中添加新建的li元素。</p>
+<h4 id="2、appendTo-方法"><a href="#2、appendTo-方法" class="headerlink" title="2、appendTo()方法"></a>2、appendTo()方法</h4><p>appendTo()方法将所有匹配的元素追加到指定的元素中，该方法是append()方法的颠倒[操作主题的颠倒并非操作结果]操作。方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).appendTo(target);</span><br></pre></td></tr></table></figure>
+<p>例： </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"&lt;li title='荔枝'&gt;荔枝&lt;li&gt;"</span>).appendTo(<span class="string">"ul"</span>);</span><br></pre></td></tr></table></figure>
+<p>该方法新建元素li，然后把li添加到查找到的ul元素中。</p>
+<h4 id="3、prepend-方法"><a href="#3、prepend-方法" class="headerlink" title="3、prepend()方法"></a>3、prepend()方法</h4><p>prepend()方法将每匹配的元素内部前置要添加的元素，方法如下：$(target).prepend(element);例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul"</span>).prepend(<span class="string">"&lt;li title='芒果'&gt;芒果&lt;/li&gt;"</span>)</span><br></pre></td></tr></table></figure>
+<p>该方法将查找元素ul然后将新建的li元素作为ul子节点，且作为ul的第一个子节点插入到ul中。</p>
+<h4 id="4、prependTo-方法"><a href="#4、prependTo-方法" class="headerlink" title="4、prependTo()方法"></a>4、prependTo()方法</h4><p>　prependTo()方法将元素添加到每一个匹配的元素内部前置，方法如下：$(element).prependTo();例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"&lt;li title='西瓜’&gt;西瓜&lt;/li&gt;"</span>).prependTo(<span class="string">"ul"</span>);</span><br></pre></td></tr></table></figure>
+<p>该方法将新建的元素li插入到查找到的ul元素中作为ul的第一个子节元素。</p>
+<h4 id="5、after-方法"><a href="#5、after-方法" class="headerlink" title="5、after()方法"></a>5、after()方法</h4><p>after()方法向匹配的元素后面添加元素，新添加的元素做为目标元素后的紧邻的兄弟元素。方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(target).after(element);</span><br></pre></td></tr></table></figure>
+<p>例:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).after(<span class="string">"&lt;span&gt;新加段新加段新加段新加段新加段&lt;/span&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<p>方法将查找节点p，然后把新建的元素添加到span节点后面做为p的兄弟节点。</p>
+<h4 id="6、insertAfter-方法"><a href="#6、insertAfter-方法" class="headerlink" title="6、insertAfter()方法"></a>6、insertAfter()方法</h4><p>insertAfter()方法将新建的元素插入到查找到的目标元素后，做为目标元素的兄弟节点。方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).insertAfter(target);</span><br></pre></td></tr></table></figure>
+<p>例:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"&lt;p&gt;insertAfter操作&lt;/p&gt;"</span>).insertAfter(<span class="string">"span"</span>);</span><br></pre></td></tr></table></figure>
+<p>方法将新建的p元素添加到查找到目标元素span后面，做为目标元素后面的第一个兄弟节点。</p>
+<h4 id="7、before-方法"><a href="#7、before-方法" class="headerlink" title="7、before()方法"></a>7、before()方法</h4><p>before()方法在每一个匹配的元素之前插入，做为匹配元素的前一个兄弟节点。方法如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(target).before(element);</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).before(<span class="string">"&lt;span&gt;下面是个段落&lt;/span&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<p>before方法查找每个元素p，将新建的span元素插入到元素p之前做为p的前一个兄弟节点。</p>
+<h4 id="8、insertBefore-方法"><a href="#8、insertBefore-方法" class="headerlink" title="8、insertBefore()方法"></a>8、insertBefore()方法</h4><p>insertBefore()方法将新建元素添加到目标元素前，做为目标元素的前一个兄弟节点，方法如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).insertBefore(target);</span><br></pre></td></tr></table></figure>
+<p>例:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"&lt;a href='#'&gt;锚&lt;/a&gt;"</span>).insertBefore(<span class="string">"ul"</span>);</span><br></pre></td></tr></table></figure>
+<p>insertBefore()新建a元素，将新建的a元素添加到元素ul前，做为ul的前一个兄弟节点。</p>
+<p>增加元素的方法前四个是添加到元素内部，后四个是添加到元素外部的操作，有这些方法可以完成任何形式的元素添加。</p>
+<h3 id="四、删–删除DOM节点操作"><a href="#四、删–删除DOM节点操作" class="headerlink" title="四、删–删除DOM节点操作"></a>四、删–删除DOM节点操作</h3><p>如果想要删除文档中的某个元素JQuery提供了两种删除节点的方法：remove()和empty();</p>
+<h4 id="1、remove-方法"><a href="#1、remove-方法" class="headerlink" title="1、remove()方法"></a>1、remove()方法</h4><p>remove()方法删除所有匹配的元素，传入的参数用于筛选元素，该方法能删除元素中的所有子节点，当匹配的节点及后代被删除后，该方法返回值是指向被删除节点的引用，因此可以使用该引用，再使用这些被删除的元素。方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).remove();</span><br></pre></td></tr></table></figure>
+<p>例:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">span=(<span class="string">"span"</span>).remove();</span><br><span class="line">$span.insertAfter(<span class="string">"ul"</span>);</span><br></pre></td></tr></table></figure>
+<p>该示例中先删除所有的span元素，把删除后的元素使用$span接收，把删除后的元素添加到ul后面做为ul的兄弟节点。该操作相当于将所有的span元素以及后代元素移到ul后面。</p>
+<h4 id="2、empty-方法。"><a href="#2、empty-方法。" class="headerlink" title="2、empty()方法。"></a>2、empty()方法。</h4><p>empty()方法严格来讲并不是删除元素，该方法只是清空节点，它能清空元素中的所有子节点。方法如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).empty();</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul li:eq(0)"</span>).empty();</span><br></pre></td></tr></table></figure>
+<p>该示例使用empty方法清空ul中第一个li的文本值。只能下li标签默认符号”·“。</p>
+<h3 id="五、改–修改DOM节点操作"><a href="#五、改–修改DOM节点操作" class="headerlink" title="五、改–修改DOM节点操作"></a>五、改–修改DOM节点操作</h3><p>　修改文档中的元素节点可以使用多种方法:复制节点、替换节点、包裹节点。</p>
+<h4 id="1、复制节点-element-clone"><a href="#1、复制节点-element-clone" class="headerlink" title="1、复制节点$(element).clone()"></a>1、复制节点$(element).clone()</h4><p>　复制节点方法能够复制节点元素，并且能够根据参数决定是否复制节点元素的行为。方法如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).clone(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"ul li:eq(0)"</span>).clone(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>　该方法复制ul的第一个li元素，true参数决定复制元素时也复制元素行为，当不复制行为时没有参数。</p>
+<h4 id="2、替换节点-element-repalcewith-、-element-repalceAll"><a href="#2、替换节点-element-repalcewith-、-element-repalceAll" class="headerlink" title="2、替换节点$(element).repalcewith()、$(element).repalceAll()"></a>2、替换节点$(element).repalcewith()、$(element).repalceAll()</h4><p>　替换节点方法能够替换某个节点，有两种形式形式实现：replaceWith()和replaceAll().使用replaceWith方法使用后面的元素替换前面的元素，replaceAll方法使用前面的元素替换后面的元素，方法如下：$(oldelement).replaceWith(newelement);$(newelement).repalceAll(oldelement);例：　$(“p”).replaceWith(“<strong>我要留下</strong>“);该方法使用strong元素替换p元素。</p>
+<p>　　$(“</p><h3>替换strong</h3>“).repalceAll(“strong”);该例使用h3元素替换所有的strong元素。<p></p>
+<h4 id="3、包裹节点-element-wrap-、-element-wrapAll-、-element-wrapInner"><a href="#3、包裹节点-element-wrap-、-element-wrapAll-、-element-wrapInner" class="headerlink" title="3、包裹节点$(element).wrap()、$(element).wrapAll()、$(element).wrapInner()"></a>3、包裹节点$(element).wrap()、$(element).wrapAll()、$(element).wrapInner()</h4><p>　包裹节点方法使用其他标记包裹目标元素从而改变元素的显示形式等，并且该操作不会破坏原始文档的词义。包裹节点有三种实现形式：wrap();wrapAll();wrapInner();</p>
+<p>　wrap()方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(dstelement).wrap(tag);</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　$(<span class="string">"p"</span>).wrap(<span class="string">"&lt;b&gt;&lt;/b&gt;"</span>);<span class="comment">//该示例方法使用b标签包裹所有的p元素每个元素都使用b标签包裹。</span></span><br></pre></td></tr></table></figure>
+<p>　wrapAll()方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(dstelement).wrapAll(tag);</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　$(<span class="string">"p"</span>).wrapAll(<span class="string">"&lt;b&gt;&lt;/b&gt;"</span>);<span class="comment">//访示例方法使用b标签包裹所有的p元素，所有的p元素标签用一个b标签包裹。</span></span><br></pre></td></tr></table></figure>
+<p>　　wrapInner()方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(dstelement).wrapInner(tag);</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　$(<span class="string">"strong"</span>).wrapInner(<span class="string">"&lt;b&gt;&lt;/b&gt;"</span>);<span class="comment">//该示例使用b标签包裹每个一strong元素的子元素。</span></span><br></pre></td></tr></table></figure>
+<p>Dom元素的其他操作:属性操作、样式操作、设置和获取HTML,文本和值、遍历节点操作、Css-Dom操作。</p>
+<h4 id="1、属性操作attr-和removeAttr"><a href="#1、属性操作attr-和removeAttr" class="headerlink" title="1、属性操作attr()和removeAttr()"></a>1、属性操作attr()和removeAttr()</h4><p>attr()方法能够获取元素属性，也能能够设置元素属性。方法如下，当attr(para1)方法有个参数时候用于获得当前元素的para1的属性值，当attr(para1,attrValue)有两个参数时候设置当前元素的属性名为para1的属性值为attrValue;例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).attr(<span class="string">"title"</span>);<span class="comment">//该示例用于获得p元素的title属性值。</span></span><br><span class="line">$(<span class="string">"p"</span>).attr(<span class="string">"title"</span>,<span class="string">"//你最喜欢的水果"</span>);该示例设置p元素的title属性值为<span class="string">"你最喜欢的水果"</span>;</span><br></pre></td></tr></table></figure>
+<p>如果一次设置多个属性值可以使用“名/值”对形式，例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).attr(&#123;<span class="string">"title"</span>:<span class="string">"你最喜欢的水果"</span>,<span class="string">"name"</span>:<span class="string">"水果"</span>&#125;)<span class="comment">//。该示例一次设置两个属性值。</span></span><br></pre></td></tr></table></figure>
+<p>removeAttr()方法用于删除特定的属性，方法是在参数中指定属性名。例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).removeAttr(<span class="string">"name"</span>);<span class="comment">//该方法就是移除p元素的name属性。</span></span><br></pre></td></tr></table></figure>
+<h4 id="2、样式操作addClass-、removeClass-、toggleClass-和hasClass"><a href="#2、样式操作addClass-、removeClass-、toggleClass-和hasClass" class="headerlink" title="2、样式操作addClass()、removeClass()、toggleClass()和hasClass()"></a>2、样式操作addClass()、removeClass()、toggleClass()和hasClass()</h4><p>添加样式addClass()方法，使用该方法对目标元素添加相应的样式，方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).addClass();</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).addClass(<span class="string">"ul"</span>);<span class="comment">//该示例设置元素p的样式为ul。</span></span><br></pre></td></tr></table></figure>
+<p>移除样式removeClass()方法，使用该方法移除目标元素的指定样式，方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).removeClass();</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).removeClass(<span class="string">"ul"</span>);<span class="comment">//该救命去除掉p元素的ul类样式。</span></span><br></pre></td></tr></table></figure>
+<p>切换样式toggleClass()方法，使用该方法切换目标元素的样式，方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(element).toggleClass();</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).toggleClass(<span class="string">"ul"</span>);<span class="comment">//该方法来回切换【添加删除实现切换】元素p的样式ul.</span></span><br></pre></td></tr></table></figure>
+<p>判断元素是否使用了样式 $(element).hasClass(),方法如下：$(element).hasClass(class);例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert($(<span class="string">"p"</span>).hasClass(<span class="string">"ul"</span>));<span class="comment">//打印出p元素是否有ul样式。</span></span><br></pre></td></tr></table></figure>
+<p>PS:addClass()和attr()方法设置样式的不同，attr方法把元素的属性名对应的属性值设为方法中的参数值，addClass()则把属性值</p>
+<p>添加到属性名对应的属性值中。例：已有元素</p><p class="class1">元素样式</p>,使用attr()和addClass()分别添加新样式。<p></p>
+<h4 id="3、设置和获取HTML【html-】-文本【text-】和值【val-】"><a href="#3、设置和获取HTML【html-】-文本【text-】和值【val-】" class="headerlink" title="3、设置和获取HTML【html()】,文本【text()】和值【val()】"></a>3、设置和获取HTML【html()】,文本【text()】和值【val()】</h4><p>html()方法获得或设置某个元素的html元素。方法如下:$(selector).html();例:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> $(<span class="string">"p"</span>).html();该示例获得元素p的html内容。</span><br><span class="line"></span><br><span class="line">$(<span class="string">"p"</span>).html(<span class="string">"&lt;strong&gt;添加html内容&lt;/strong&gt;"</span>);该示例设置p的html内容为”&lt;strong&gt;添加html内容&lt;<span class="regexp">/strong&gt;“;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">PS：该方法可以用于XHTML文档，不能用于XML文档。</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">text()方法获得或设置某个元素的文本值。方法如下:$(selecotr).text();例：</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">$("p").text();该示例获得元素p的text文本内容。</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">$("p").text("重新设置的文本内容");该示例设置元素p的text文本为"重新设置的文本内容";</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">PS:该方法对html和XML文档都适用。</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">val()方法获得或设置某个元素的值，如果元素值是多选则以数组形式返回，方法如下：$(selector).val();例:文本元素 </span></span><br><span class="line"><span class="regexp">&lt;input type="text" id="userName" value="请输入用户名" /</span>&gt;</span><br><span class="line">$(<span class="string">"#userName"</span>).val();获得input元素的值。</span><br><span class="line">$(<span class="string">"#userName"</span>).val(<span class="string">'响马'</span>);设置input元素的值为<span class="string">'响马'</span>。</span><br><span class="line">val()方法的不仅能操作input，最重要的一个用途用于select【下拉列表框】、checkbox【多选框】、radio【单选框】。例：在下拉框下的多选赋值应用&lt;select id=<span class="string">"fruits"</span> multiple=<span class="string">"multiple"</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">option</span>&gt;</span>苹果<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><span class="xml"><span class="tag">&lt;<span class="name">option</span>&gt;</span>香蕉<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><span class="xml"><span class="tag">&lt;<span class="name">option</span>&gt;</span>西瓜<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">$(<span class="string">"#fruits"</span>).val([<span class="string">'苹果'</span>,<span class="string">'香蕉'</span>]);该示例使select中苹果和香蕉两项被选中。</span><br></pre></td></tr></table></figure>
+<h4 id="4、遍历节点操作children-、next-、prev-、siblings-和closest"><a href="#4、遍历节点操作children-、next-、prev-、siblings-和closest" class="headerlink" title="4、遍历节点操作children()、next()、prev()、siblings()和closest()"></a>4、遍历节点操作children()、next()、prev()、siblings()和closest()</h4><p>children()方法用于取得匹配元素的子元素集合，只匹配子元素不考虑任何后代元素。方法如下：$(selector).children();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　(<span class="string">"("</span>body<span class="string">").children().length;//该示例获得body元素的子元素个数；</span></span><br></pre></td></tr></table></figure>
+<p>next()方法用于匹配元素的下一个兄弟节点，方法如下:$(selector).next();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　$(<span class="string">"p"</span>).next().html();<span class="comment">//该示例获得p元素的下一个兄弟节点的html内容。</span></span><br></pre></td></tr></table></figure>
+<p>prev()方法用于匹配元素的上一个兄弟节点，方法如下：$(selector).prev();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　$(<span class="string">"ul"</span>).prev().text();<span class="comment">//该示例获得ul元素的上一个兄弟节点的文本内容。</span></span><br></pre></td></tr></table></figure>
+<p>siblings方法()用于匹配目标元素的所有兄弟元素，方法如下：$(selector).siblings();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).slibings();<span class="comment">//示例获得p元素的所有兄弟节点元素。</span></span><br></pre></td></tr></table></figure>
+<p>closest()方法()用来取得最近的匹配元素，首先检查当前元素是否匹配如果匹配则直接返回，否则继续向上查找父元素中符合条件的元素返回，如果没有匹配的元素则返回空JQuery对象。</p>
+<h4 id="5、CSS-Dom操作css-、offset-、position-、scrollTop-和scrollLeft"><a href="#5、CSS-Dom操作css-、offset-、position-、scrollTop-和scrollLeft" class="headerlink" title="5、CSS-Dom操作css()、offset()、position()、scrollTop()和scrollLeft()"></a>5、CSS-Dom操作css()、offset()、position()、scrollTop()和scrollLeft()</h4><p>css()方法用于获取、设置元素的一个或多个属性。方法如下：$(selector).css();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"p"</span>).css(<span class="string">"color"</span>,<span class="string">"red"</span>);<span class="comment">//该示例用于设置元素的颜色属性为红色;</span></span><br><span class="line">   $(<span class="string">"p"</span>).css(<span class="string">"color"</span>)<span class="comment">//该示例用于获得元素的color样式值;</span></span><br><span class="line">　$(<span class="string">"p"</span>).css(&#123;<span class="string">"font-size"</span>:<span class="string">"30px"</span>,<span class="string">"backgroundColor"</span>,<span class="string">"#888888"</span>&#125;);<span class="comment">//该示例用于设置元素的多个样式。</span></span><br></pre></td></tr></table></figure>
+<p>offset()方法用于获取元素相对当前窗体的偏移量，其返回对象包括两个属性：top和left。方法如下：$(selector).offset()</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　<span class="keyword">var</span> offset= $(<span class="string">"p"</span>).offset(); <span class="keyword">var</span> left=offset.left;<span class="keyword">var</span> top=offset.top;<span class="comment">//该示例用于获得元素p的偏移量。</span></span><br></pre></td></tr></table></figure>
+<p>PS:offset()只对可见元素有效。</p>
+<p>position()方法用于获取元素于最近的个position样式属性设置为relative或者absolute的祖交节点的相对偏移量。方法如下：$(selector).position();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　<span class="keyword">var</span> postion = $(<span class="string">"p"</span>).positon();<span class="keyword">var</span> left=positon.left;<span class="keyword">var</span> top=positon.top;<span class="comment">//该示例用于获得元素p的位置。</span></span><br></pre></td></tr></table></figure>
+<p>scrollTop()和scrollLeft()方法用于获取元素的滚动条距顶端的距离和距左侧的距离。方法如下:(selector).scrollTop();(selector).scrollLeft();例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scrollTop=(<span class="string">"p"</span>).scrollTop();<span class="keyword">var</span> scrollLeft=(<span class="string">"p"</span>).scrollLeft();<span class="comment">//该示例用于获得元素的滚动条的位置。</span></span><br></pre></td></tr></table></figure>
+<p>也可以添加参数将元素滚动到指定的位置。例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　(<span class="string">"textarea"</span>).scrollTop(<span class="number">300</span>);(<span class="string">"textarea"</span>).scrollLeft(<span class="number">300</span>);</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#JQuery" >
+    <span class="tag-code">JQuery</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/1360.html">
+        <span class="nav-arrow">← </span>
+        
+          后端程序员该做什么
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/47386.html">
+        
+          程序员的职业方向
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一、查–查找DOM节点"><span class="toc-nav-text">一、查–查找DOM节点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、jQuery选择器：-‘-text’"><span class="toc-nav-text">1、jQuery选择器：$(‘#text’)</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、子元素"><span class="toc-nav-text">2、子元素</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3、parent-、parents-、closest"><span class="toc-nav-text">3、parent()、parents()、closest()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4、find"><span class="toc-nav-text">4、find()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#5、nextAll-、prevAll"><span class="toc-nav-text">5、nextAll()、prevAll()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二、建–新建DOM节点"><span class="toc-nav-text">二、建–新建DOM节点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、创建元素节点"><span class="toc-nav-text">1、创建元素节点</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、创建文本节点"><span class="toc-nav-text">2、创建文本节点</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3、创建属性节点"><span class="toc-nav-text">3、创建属性节点</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三、增–添加DOM节点"><span class="toc-nav-text">三、增–添加DOM节点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、append-方法"><span class="toc-nav-text">1、append()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、appendTo-方法"><span class="toc-nav-text">2、appendTo()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3、prepend-方法"><span class="toc-nav-text">3、prepend()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4、prependTo-方法"><span class="toc-nav-text">4、prependTo()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#5、after-方法"><span class="toc-nav-text">5、after()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6、insertAfter-方法"><span class="toc-nav-text">6、insertAfter()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7、before-方法"><span class="toc-nav-text">7、before()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#8、insertBefore-方法"><span class="toc-nav-text">8、insertBefore()方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四、删–删除DOM节点操作"><span class="toc-nav-text">四、删–删除DOM节点操作</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、remove-方法"><span class="toc-nav-text">1、remove()方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、empty-方法。"><span class="toc-nav-text">2、empty()方法。</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#五、改–修改DOM节点操作"><span class="toc-nav-text">五、改–修改DOM节点操作</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、复制节点-element-clone"><span class="toc-nav-text">1、复制节点$(element).clone()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、替换节点-element-repalcewith-、-element-repalceAll"><span class="toc-nav-text">2、替换节点$(element).repalcewith()、$(element).repalceAll()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-text">替换strong</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3、包裹节点-element-wrap-、-element-wrapAll-、-element-wrapInner"><span class="toc-nav-text">3、包裹节点$(element).wrap()、$(element).wrapAll()、$(element).wrapInner()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、属性操作attr-和removeAttr"><span class="toc-nav-text">1、属性操作attr()和removeAttr()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、样式操作addClass-、removeClass-、toggleClass-和hasClass"><span class="toc-nav-text">2、样式操作addClass()、removeClass()、toggleClass()和hasClass()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3、设置和获取HTML【html-】-文本【text-】和值【val-】"><span class="toc-nav-text">3、设置和获取HTML【html()】,文本【text()】和值【val()】</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4、遍历节点操作children-、next-、prev-、siblings-和closest"><span class="toc-nav-text">4、遍历节点操作children()、next()、prev()、siblings()和closest()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#5、CSS-Dom操作css-、offset-、position-、scrollTop-和scrollLeft"><span class="toc-nav-text">5、CSS-Dom操作css()、offset()、position()、scrollTop()和scrollLeft()</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/64922.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "JQuery中的DOM操作",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

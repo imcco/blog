@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Java technology blog.">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Lucene全文搜索解析 | Keis Note
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Keis Note</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Lucene全文搜索解析</h2>
+  <p class="post-date">2017-11-30</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><img src="http://ovi3ob9p4.bkt.clouddn.com/TIETU/CT0052.jpg" alt="image"></p>
+<p>一、创建查询对象的方式<br>对要搜索的信息创建Query查询对象，Lucene会根据Query查询对象生成最终的查询语法。类似关系数据库Sql语法一样，Lucene也有自己的查询语法，比如：“name:lucene”表示查询Field的name为“lucene”的文档信息。<br><a id="more"></a><br>可通过两种方法创建查询对象：</p>
+<p>使用Lucene提供Query子类<br>Query是一个抽象类，lucene提供了很多查询对象，比如TermQuery项精确查询，NumericRangeQuery数字范围查询等。</p>
+<p>如下代码：</p>
+<p>Query query = new TermQuery(new Term(“name”, “lucene”));<br>使用QueryParse解析查询表达式<br>QueryParser会将用户输入的查询表达式解析成Query对象实例。<br>如下代码：</p>
+<p>QueryParser queryParser = new QueryParser(“name”, new IKAnalyzer());<br>Query query = queryParser.parse(“name:lucene”);<br>二、通过Query子类搜索<br>2.1 TermQuery<br>TermQuery项查询，TermQuery不使用分析器，搜索关键词作为整体来匹配Field域中的词进行查询，比如订单号、分类ID号等。</p>
+<p>private void doSearch(Query query) {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">IndexReader reader = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// a) 指定索引库目录</span></span><br><span class="line">    Directory indexdirectory = FSDirectory.open(<span class="keyword">new</span> File(</span><br><span class="line">            <span class="string">"E:\\11-index\\0720"</span>));</span><br><span class="line">    <span class="comment">// b) 创建IndexReader对象</span></span><br><span class="line">    reader = DirectoryReader.open(indexdirectory);</span><br><span class="line">    <span class="comment">// c) 创建IndexSearcher对象</span></span><br><span class="line">    IndexSearcher searcher = <span class="keyword">new</span> IndexSearcher(reader);</span><br><span class="line">    <span class="comment">// d) 通过IndexSearcher对象执行查询索引库，返回TopDocs对象</span></span><br><span class="line">    <span class="comment">// 第一个参数：查询对象</span></span><br><span class="line">    <span class="comment">// 第二个参数：最大的n条记录</span></span><br><span class="line">    TopDocs topDocs = searcher.search(query, <span class="number">10</span>);</span><br><span class="line">    <span class="comment">// e) 提取TopDocs对象中的文档ID，如何找出对应的文档</span></span><br><span class="line">    ScoreDoc[] scoreDocs = topDocs.scoreDocs;</span><br><span class="line">    System.out.println(<span class="string">"总共查询出的结果总数为："</span> + topDocs.totalHits);</span><br><span class="line">    Document doc;</span><br><span class="line">    <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</span><br><span class="line">        <span class="comment">// 文档对象ID</span></span><br><span class="line">        <span class="keyword">int</span> docId = scoreDoc.doc;</span><br><span class="line">        doc = searcher.doc(docId);</span><br><span class="line">        <span class="comment">// f) 输出文档内容</span></span><br><span class="line">        System.out.println(doc.get(<span class="string">"filename"</span>));</span><br><span class="line">        System.out.println(doc.get(<span class="string">"path"</span>));</span><br><span class="line">        System.out.println(doc.get(<span class="string">"size"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (reader != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            reader.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>}</p>
+<p>@Test<br>public void testTermQuery() throws Exception {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1、 创建查询（Query对象）</span></span><br><span class="line">Query query = <span class="keyword">new</span> TermQuery(<span class="keyword">new</span> Term(<span class="string">"filename"</span>, <span class="string">"apache"</span>));</span><br><span class="line"><span class="comment">// 2、 执行搜索</span></span><br><span class="line">doSearch(query);</span><br></pre></td></tr></table></figure></p>
+<p>}<br>2.2 NumericRangeQuery<br>NumericRangeQuery，指定数字范围查询.</p>
+<p>@Test<br>public void testNumbericRangeQuery() throws Exception {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建查询</span></span><br><span class="line"><span class="comment">// 第一个参数：域名</span></span><br><span class="line"><span class="comment">// 第二个参数：最小值</span></span><br><span class="line"><span class="comment">// 第三个参数：最大值</span></span><br><span class="line"><span class="comment">// 第四个参数：是否包含最小值</span></span><br><span class="line"><span class="comment">// 第五个参数：是否包含最大值</span></span><br><span class="line">Query query = NumericRangeQuery.newLongRange(<span class="string">"size"</span>, <span class="number">1l</span>, <span class="number">100l</span>, <span class="keyword">true</span>,<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 2、 执行搜索</span></span><br><span class="line">doSearch(query);</span><br></pre></td></tr></table></figure></p>
+<p>}<br>2.3 BooleanQuery<br>BooleanQuery，布尔查询，实现组合条件查询。</p>
+<p>@Test<br>public void booleanQuery() throws Exception {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">BooleanQuery query = <span class="keyword">new</span> BooleanQuery();</span><br><span class="line">Query query1 = <span class="keyword">new</span> TermQuery(<span class="keyword">new</span> Term(<span class="string">"id"</span>, <span class="string">"3"</span>));</span><br><span class="line">Query query2 = NumericRangeQuery.newFloatRange(<span class="string">"price"</span>, <span class="number">10f</span>, <span class="number">200f</span>,</span><br><span class="line">        <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//MUST：查询条件必须满足，相当于AND</span></span><br><span class="line"><span class="comment">//SHOULD:查询条件可选，相当于OR</span></span><br><span class="line"><span class="comment">//MUST_NOT：查询条件不能满足，相当于NOT非</span></span><br><span class="line">query.add(query1, Occur.MUST);</span><br><span class="line">query.add(query2, Occur.SHOULD);</span><br><span class="line"></span><br><span class="line">System.out.println(query);</span><br><span class="line"></span><br><span class="line">search(query);</span><br></pre></td></tr></table></figure></p>
+<p>}<br>组合关系代表的意思如下:</p>
+<p>1、MUST和MUST表示“与”的关系，即“交集”。<br>2、MUST和MUST_NOT前者包含后者不包含。<br>3、MUST_NOT和MUST_NOT没意义<br>4、SHOULD与MUST表示MUST，SHOULD失去意义；<br>5、SHOUlD与MUST_NOT相当于MUST与MUST_NOT。<br>6、SHOULD与SHOULD表示“或”的概念。<br>三、通过QueryParser搜索<br>通过QueryParser也可以创建Query，QueryParser提供一个Parse方法，此方法可以直接根据查询语法来查询。Query对象执行的查询语法可通过System.out.println(query);查询。</p>
+<p>3.1 QueryParser<br>代码实现：</p>
+<p>@Test<br>public void testQueryParser() throws Exception {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建QueryParser</span></span><br><span class="line"><span class="comment">// 第一个参数：默认域名</span></span><br><span class="line"><span class="comment">// 第二个参数：分词器</span></span><br><span class="line">QueryParser queryParser = <span class="keyword">new</span> QueryParser(<span class="string">"name"</span>, <span class="keyword">new</span> IKAnalyzer());</span><br><span class="line"><span class="comment">// 指定查询语法 ，如果不指定域，就搜索默认的域</span></span><br><span class="line">Query query = queryParser.parse(<span class="string">"lucene"</span>);</span><br><span class="line">System.out.println(query);</span><br><span class="line"><span class="comment">// 2、 执行搜索</span></span><br><span class="line">doSearch(query);</span><br></pre></td></tr></table></figure></p>
+<p>}<br>查询语法：</p>
+<p>1、基础的查询语法，关键词查询：</p>
+<p>域名+“：”+搜索的关键字<br>例如：content:java<br>2、范围查询</p>
+<p>域名+“:”+[最小值 TO 最大值]<br>例如：size:[1 TO 1000]<br>注意：QueryParser不支持对数字范围的搜索，它支持字符串范围。<br>数字范围搜索建议使用NumericRangeQuery。<br>3、组合条件查询</p>
+<p>组合条件查询.PNG<br>1）+条件1 +条件2：两个条件之间是并且的关系and<br>例如：+filename:apache +content:apache</p>
+<p>2）+条件1 条件2：必须满足第一个条件，忽略第二个条件<br>例如：+filename:apache content:apache</p>
+<p>3）条件1 条件2：两个条件满足其一即可。<br>例如：filename:apache content:apache</p>
+<p>4）-条件1 条件2：必须不满足条件1，要满足条件2<br>例如：-filename:apache content:apache</p>
+<p>第二种写法：<br>条件1 AND 条件2<br>条件1 OR 条件2<br>条件1 NOT 条件2<br>3.2 MultiFieldQueryParser<br>通过MultiFieldQueryParser对多个域查询。</p>
+<p>@Test<br>public void testMultiFieldQueryParser() throws Exception {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以指定默认搜索的域是多个</span></span><br><span class="line">String[] fields = &#123; <span class="string">"name"</span>, <span class="string">"description"</span> &#125;;</span><br><span class="line"><span class="comment">// 创建一个MulitFiledQueryParser对象</span></span><br><span class="line">QueryParser parser = <span class="keyword">new</span> MultiFieldQueryParser(fields, <span class="keyword">new</span> IKAnalyzer());</span><br><span class="line"><span class="comment">// 指定查询语法 ，如果不指定域，就搜索默认的域</span></span><br><span class="line">Query query = parser.parse(<span class="string">"lucene"</span>);</span><br><span class="line"><span class="comment">//等同于name:lucene OR description:lucene</span></span><br><span class="line"><span class="comment">// Query query = parser.parse("name:lucene OR description:lucene");</span></span><br><span class="line"><span class="comment">// 2、 执行搜索</span></span><br><span class="line">doSearch(query);</span><br></pre></td></tr></table></figure></p>
+<p>}<br>四、TopDocs<br>Lucene搜索结果可通过TopDocs遍历，TopDocs类提供了少量的属性，如下：</p>
+<p>topdocs属性.PNG<br>注意：</p>
+<p>Search方法需要指定匹配记录数量n：indexSearcher.search(query, n)<br>TopDocs.totalHits：是匹配索引库中所有记录的数量<br>TopDocs.scoreDocs：匹配相关度高的前边记录数组，scoreDocs的长度小于等于search方法指定的参数n</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Lucene" >
+    <span class="tag-code">Lucene</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/blog/10596.html">
+        <span class="nav-arrow">← </span>
+        
+          Lucene实现文档进行全文检索功能
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/blog/40393.html">
+        
+          Lucene的Field域和索引维护
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="nav">none</ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://m.iskei.cn/blog/3536.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "imcco";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Lucene全文搜索解析",
+        owner: "imcco",
+        repo: "m.github.io",
+        oauth: {
+          client_id: "ee7ec372a862879e3f2c",
+          client_secret: "00a58ccb1a0555f87a87dc3a1b779ee8d12ded80"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://vuejs.io" target="_blank">vueJs</a>
+    <br>
+    Theme by <a href="https://github.com/imcco">Imcco</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>
