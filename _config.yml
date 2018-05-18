@@ -6,14 +6,14 @@
 title: Keis Note
 subtitle: Java developer's blog.
 description: Java technology blog.
-keywords: Java Note,¿ª·¢±Ê¼Ç
+keywords: Java Note
 author: Kee
 language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.iskei.cn
+url: http://m.iskei.cn
 root: /
 permalink: blog/:abbrlink.html
 permalink_defaults: 
@@ -91,11 +91,10 @@ sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
-  #baiduÑéÖ¤
 
     
 deploy:
   type: git
   repo:
-      github: git@github.com:imcco/imcco.github.io.git,master
+      github: git@github.com:imcco/m.github.io.git,master
       coding: git@git.coding.net:laukei/laukei.coding.me.git,master
